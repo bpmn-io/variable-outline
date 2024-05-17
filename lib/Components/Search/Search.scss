@@ -1,0 +1,36 @@
+@use '@carbon/react/scss/components/search';
+@use '@carbon/react/scss/components/checkbox';
+
+.bio-vo-search-container {
+  > * {
+    display: flex;
+    align-items: center;
+  }
+
+  > *+* {
+    height: 100%;
+    padding: 10px;
+    border-left: 1px solid var(--cds-border-strong);
+  }
+
+  .cds--search-input {
+    border-bottom: none
+  }
+
+  border-bottom: 1px solid var(--cds-border-strong);
+  display: flex;
+  align-items: center;
+  background-color: var(--cds-field);
+
+  .bio-vo-search {
+    flex-grow: 1;
+  }
+
+  .bio-vo-checkbox {
+    flex-grow: 0;
+
+    .bio-vo-tooltip-wrapper {
+      white-space: nowrap;
+    }
+  }
+}
