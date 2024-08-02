@@ -118,8 +118,8 @@ function ElementEntry(props) {
 
   const icon = getSVGComponent(element || bo);
 
-  return (
-    shouldShow && (
+  return <>
+    {shouldShow && (
       <TreeNode
         { ...treeNodeProps }
         key={ bo.id }
@@ -136,8 +136,8 @@ function ElementEntry(props) {
       >
         { children }
       </TreeNode>
-    )
-  );
+    )}
+  </>;
 }
 
 
