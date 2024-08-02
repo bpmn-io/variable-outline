@@ -50,21 +50,19 @@ export const Modeler = ({ modeler, setModeler, ...props }) => {
 
 
   return (
-    <>
-      <div className="modelerContainer">
-        <PanelGroup autoSaveId="modelerContainer" direction="horizontal">
-          <Panel>
-            <div className="modeler" ref={ modelerRef }></div>
-          </Panel>
-          <PanelResizeHandle>
-            <div className="VerticalResizeHandle"></div>
-          </PanelResizeHandle>
-          <Panel defaultSize={ 25 } minSize={ 10 }>
-            <div className="properties" ref={ propertiesPanel }></div>
-          </Panel>
-        </PanelGroup>
-      </div>
-    </>
+    <div className="modelerContainer">
+      <PanelGroup autoSaveId="modelerContainer" direction="horizontal">
+        <Panel>
+          <div className="modeler" ref={ modelerRef }></div>
+        </Panel>
+        <PanelResizeHandle>
+          <div className="VerticalResizeHandle"></div>
+        </PanelResizeHandle>
+        <Panel defaultSize={ 25 } minSize={ 10 }>
+          <div className="properties" ref={ propertiesPanel }></div>
+        </Panel>
+      </PanelGroup>
+    </div>
   );
 
 

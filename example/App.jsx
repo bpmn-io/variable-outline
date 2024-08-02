@@ -13,23 +13,21 @@ function App() {
   const [ content, setContent ] = useState(null);
 
   return (
-    <>
-      <Theme theme="g10" style={ { height: '100%' } }>
-        <DropZone setContent={ setContent }>
-          <PanelGroup autoSaveId="main" direction="vertical">
-            <Panel minSize={ 25 }>
-              <Modeler xml={ content } setModeler={ setModeler } modeler={ modeler } />
-            </Panel>
-            <PanelResizeHandle>
-              <div className="HorizontalResizeHandle"></div>
-            </PanelResizeHandle>
-            <Panel defaultSize={ 25 }>
-              {modeler && <BottomPanel injector={ modeler.get('injector') } />}
-            </Panel>
-          </PanelGroup>
-        </DropZone>
-      </Theme>
-    </>
+    <Theme theme="g10" style={ { height: '100%' } }>
+      <DropZone setContent={ setContent }>
+        <PanelGroup autoSaveId="main" direction="vertical">
+          <Panel minSize={ 25 }>
+            <Modeler xml={ content } setModeler={ setModeler } modeler={ modeler } />
+          </Panel>
+          <PanelResizeHandle>
+            <div className="HorizontalResizeHandle"></div>
+          </PanelResizeHandle>
+          <Panel defaultSize={ 25 }>
+            {modeler && <BottomPanel injector={ modeler.get('injector') } />}
+          </Panel>
+        </PanelGroup>
+      </DropZone>
+    </Theme>
   );
 }
 
