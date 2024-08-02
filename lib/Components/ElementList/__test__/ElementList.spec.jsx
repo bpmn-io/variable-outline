@@ -96,6 +96,31 @@ describe('selection', () => {
   }));
 
 
+  it('should scroll to element', inject(async (variableResolver, selection, canvas) => {
+
+    // given
+    const allVariables = await variableResolver.getVariables();
+    const processVariables = allVariables['Process_1'];
+    canvas.scroll({ dx: 10000, dy: 0 });
+
+    const { container } = render(<ElementList availableVariables={ processVariables } />, { wrapper });
+    const TaskLabel = container.querySelectorAll('.cds--tree-node__label')[1];
+
+    // assume
+    const initalViewbox = canvas.viewbox();
+    expect(initalViewbox.x).to.be.closeTo(-10000, 100);
+
+    // when
+    await act(() => {
+      TaskLabel.click();
+    });
+
+    // then
+    const finalViewbox = canvas.viewbox();
+    expect(finalViewbox.x).to.be.closeTo(0, 100);
+  }));
+
+
   // TODO: find a stable way to test shift key
   it.skip('should select multiple elements');
 

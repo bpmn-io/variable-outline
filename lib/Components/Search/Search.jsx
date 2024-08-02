@@ -39,6 +39,7 @@ export default () => {
       } />
     </div>
     <Tooltip
+      className="bio-vo-help"
       label="This panel provides information about the variables in your process. Elements that create or modify variables are shown on the left, and the variables associated with the selected element are shown on the right. You can select any element on the canvas to see what variables it uses or can use."
       align="bottom-end"
     >

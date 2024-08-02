@@ -60,6 +60,7 @@ function ElementEntry(props) {
     ...treeNodeProps
   } = props;
 
+  const canvas = useService('canvas');
   const selection = useService('selection');
   const elementRegistry = useService('elementRegistry');
 
@@ -80,6 +81,7 @@ function ElementEntry(props) {
       return;
     }
 
+    canvas.scrollToElement(element);
     selection.select(element, event.shiftKey);
   };
 
