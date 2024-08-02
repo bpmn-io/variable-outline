@@ -4,8 +4,8 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
-  isExpanded,
   isEventSubProcess,
+  isExpanded,
   isInterrupting
 } from 'bpmn-js/lib/util/DiUtil';
 
@@ -14,9 +14,7 @@ import useService from '../../../hooks/useService';
 import iconsByType from './svg';
 
 function getConcreteType(element) {
-  const {
-    type: elementType
-  } = element;
+  const elementType = element.type || element.$type;
 
   let type = getRawType(elementType);
 

@@ -45,3 +45,25 @@ it('should select on click', inject(async (elementRegistry, selection) => {
   // then
   expect(selection.get()).to.eql([ Task1 ]);
 }));
+
+
+it('should not select process', inject(async (elementRegistry, selection) => {
+
+  // given
+  const process = elementRegistry.get('Process_1');
+
+  const { container } = render(<Element element={ getBusinessObject(process) } />, { wrapper });
+
+  // assume
+  const button = container.querySelector('button');
+  expect(button).to.exist;
+  expect(button.innerText).to.eql('Process 1');
+
+  // when
+  await act(async () => {
+    button.click();
+  });
+
+  // then
+  expect(selection.get()).to.eql([ ]);
+}));

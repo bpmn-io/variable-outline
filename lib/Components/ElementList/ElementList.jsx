@@ -66,23 +66,34 @@ function ElementEntry(props) {
 
   const element = elementRegistry.get(bo.id);
 
-  if (!element) {
-    return null;
-  }
-
   const handleSelect = (event) => {
-    if (is(element, 'bpmn:Process')) {
+    let elementToSelect = element;
+
+    if (!elementToSelect && is(bo, 'bpmn:Process')) {
+
+      // Diagram is a collaboration, we can select the participant
+      const participant = findParticipant(bo);
+
+      if (!participant) {
+        return;
+      }
+
+      elementToSelect = elementRegistry.get(participant.id);
+    }
+
+    if (!elementToSelect || is(elementToSelect, 'bpmn:Process')) {
       return;
     }
+
     const multiSelect = event.shiftKey;
 
-    if (multiSelect && selection.isSelected(element)) {
-      selection.deselect(element);
+    if (multiSelect && selection.isSelected(elementToSelect)) {
+      selection.deselect(elementToSelect);
       return;
     }
 
-    canvas.scrollToElement(element);
-    selection.select(element, event.shiftKey);
+    canvas.scrollToElement(elementToSelect);
+    selection.select(elementToSelect, event.shiftKey);
   };
 
   const selected = selection.get();
@@ -101,11 +112,11 @@ function ElementEntry(props) {
       availableVariables={ availableVariables } />)
     .filter(Boolean); // filter out hidden entries. Important for parents visibility
 
-  const isSelected = selected.some(s => s.id === bo.id);
+  const isSelected = selected.some(s => (s.id === bo.id || s.businessObject?.processRef?.id === bo.id));
 
   const shouldShow = hasOwnVariables || (children && children.length) || isSelected || is(element, 'bpmn:Process');
 
-  const icon = getSVGComponent(element);
+  const icon = getSVGComponent(element || bo);
 
   return (
     shouldShow && (
@@ -119,12 +130,23 @@ function ElementEntry(props) {
           bo.name || bo.label || bo.id
         }
         onSelect={ handleSelect }
-        selected={ selected.map(s => s.id) }
-        active={ selected.map(s => s.id).includes(bo.id) ? bo.id : null }
+        selected={ isSelected ? [ bo.id ] : [] }
+        active={ isSelected ? bo.id : null }
         isExpanded={ true }
       >
         { children }
       </TreeNode>
     )
   );
+}
+
+
+// helper //////////////////////
+function findParticipant(processBo) {
+  const definition = processBo.$parent;
+  const collaboration = definition?.get('rootElements')?.find(root => is(root, 'bpmn:Collaboration'));
+
+  if (collaboration) {
+    return collaboration.get('participants').find(participant => participant.processRef === processBo);
+  }
 }

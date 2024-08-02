@@ -1,3 +1,4 @@
+import { is } from 'bpmn-js/lib/util/ModelUtil';
 import useService from '../../hooks/useService';
 
 import './Element.scss';
@@ -7,8 +8,14 @@ function Element({ element: bo }) {
   const selection = useService('selection');
   const elementRegisty = useService('elementRegistry');
 
-  const handleClick = (event) => {
-    selection.select(elementRegisty.get(bo.id));
+  const handleClick = () => {
+    const element = elementRegisty.get(bo.id);
+
+    if (!element || is(element, 'bpmn:Process')) {
+      return;
+    }
+
+    selection.select(element);
   };
 
   return <button
