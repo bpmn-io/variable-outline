@@ -6,6 +6,7 @@ import './Element.scss';
 function Element({ element: bo }) {
 
   const selection = useService('selection');
+  const canvas = useService('canvas');
   const elementRegisty = useService('elementRegistry');
 
   const handleClick = () => {
@@ -15,6 +16,7 @@ function Element({ element: bo }) {
       return;
     }
 
+    canvas.scrollToElement(element);
     selection.select(element);
   };
 

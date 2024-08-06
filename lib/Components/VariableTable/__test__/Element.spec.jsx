@@ -47,6 +47,31 @@ it('should select on click', inject(async (elementRegistry, selection) => {
 }));
 
 
+it('should scroll to element', inject(async (elementRegistry, canvas) => {
+
+  // given
+  const Task1 = elementRegistry.get('Task_1');
+  canvas.scroll({ dx: 10000, dy: 0 });
+
+  const { container } = render(<Element element={ getBusinessObject(Task1) } />, { wrapper });
+  const button = container.querySelector('button');
+
+  // assume
+  const initalViewbox = canvas.viewbox();
+  expect(initalViewbox.x).to.be.closeTo(-10000, 100);
+
+
+  // when
+  await act(async () => {
+    button.click();
+  });
+
+  // then
+  const finalViewbox = canvas.viewbox();
+  expect(finalViewbox.x).to.be.closeTo(0, 100);
+}));
+
+
 it('should not select process', inject(async (elementRegistry, selection) => {
 
   // given
