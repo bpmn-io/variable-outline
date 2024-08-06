@@ -1,0 +1,27 @@
+.modeler {
+  height: 100%;
+  width: 100%;
+}
+
+.modelerContainer {
+  height: 100%;
+}
+
+.modeler {
+  border-right: 1px solid #ccc;
+}
+
+.VerticalResizeHandle {
+  height: 100%;
+  border: 1px solid #ccc;
+}
+
+.properties {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: overlay;
+}
+
+.properties .bio-properties-panel-container {
+  height: 100%;
+}

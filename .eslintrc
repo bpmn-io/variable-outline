@@ -1,0 +1,12 @@
+{
+  "extends": ["plugin:bpmn-io/recommended", "plugin:bpmn-io/jsx"],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2022
+  },
+  "overrides": [
+    {
+      "files": ["**/*.jsx", "**/*.js"]
+    }
+  ]
+}

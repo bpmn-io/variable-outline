@@ -1,0 +1,14 @@
+@use '@carbon/react/scss/components/tooltip';
+@use '@carbon/react/scss/components/data-table';
+@use '@carbon/react/scss/components/data-table/sort';
+
+
+.bio-vo-variable-table {
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+
+  .bio-vo-origin {
+    display: 'flex';
+    align-items: 'center';
+  }
+}

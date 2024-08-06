@@ -1,0 +1,16 @@
+@use '@carbon/react/scss/components/treeview';
+
+.bio-vo-element-list {
+  // Prevents text selection on shift-click
+  user-select: none;
+
+  .bio-va-element-icon {
+    height: 1.5em;
+    width: 1.5em;
+    margin-right: 0.5em;
+  }
+
+  .cds--popover--bottom-start .cds--popover-content {
+    margin-left: calc(1.5 * var(--cds-popover-offset, 0px));
+  }
+}
