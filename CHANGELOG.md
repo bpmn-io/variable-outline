@@ -4,5 +4,9 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ## Unreleased
 
+## 1.0.0
+
+* initial release
+
 ___Note:__ Yet to be released changes appear here._
 
