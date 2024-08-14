@@ -1,7 +1,9 @@
 @use '@carbon/react/scss/components/search';
 @use '@carbon/react/scss/components/checkbox';
 
-.bio-vo-search-container {
+.bio-vo-tab-content .bio-vo-search-container {
+  line-height: 1;
+
   > * {
     display: flex;
     align-items: center;
