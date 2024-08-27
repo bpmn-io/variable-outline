@@ -4,6 +4,10 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ## Unreleased
 
+## 1.0.2
+
+* `FIX`: correct variables tooltip
+
 ## 1.0.1
 
 * `FIX`: make css selectors for search bar more specific
