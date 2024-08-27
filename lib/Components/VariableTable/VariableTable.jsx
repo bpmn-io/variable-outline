@@ -53,7 +53,7 @@ function Variables(
 
 
   return <div className="bio-vo-variable-table">
-    <Tooltip align="bottom-start" label="Elements that create or write variables">
+    <Tooltip align="bottom-start" label="Variables associated with the currently selected element">
       <div className="bio-vo-label bio-vo-tooltip-wrapper">Variables</div>
     </Tooltip>
     <DataTable rows={ rows } headers={ HEADERS } isSortable sortRow={ customSort }>
