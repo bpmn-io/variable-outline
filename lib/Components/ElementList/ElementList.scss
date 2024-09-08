@@ -12,5 +12,14 @@
 
   .cds--popover--bottom-start .cds--popover-content {
     margin-left: calc(1.5 * var(--cds-popover-offset, 0px));
+    inline-size: auto;
+  }
+  
+  .cds--popover-container {
+    width: 100%;
+  }
+
+  .cds--popover--bottom-start > .cds--popover > .cds--popover-caret {
+    inset-inline-start: 15%;
   }
 }
