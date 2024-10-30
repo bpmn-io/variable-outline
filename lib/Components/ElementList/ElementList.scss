@@ -13,4 +13,21 @@
   .cds--popover--bottom-start .cds--popover-content {
     margin-left: calc(1.5 * var(--cds-popover-offset, 0px));
   }
+
+
+.tree-node-elements, .cds--tree-node__label__details {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  }
+
+.cds--tree-leaf-node {
+  display: inherit; 
+  }
+
+.cds--tree-node__label svg {
+  flex-shrink: 0;
+  }
+
 }
