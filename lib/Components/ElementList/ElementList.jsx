@@ -127,7 +127,9 @@ function ElementEntry(props) {
         value={ bo.id }
         renderIcon={ icon }
         label={
-          bo.name || bo.label || bo.id
+          <span className="tree-node-elements">
+            {bo.name || bo.label || bo.id}
+          </span>
         }
         onSelect={ handleSelect }
         selected={ isSelected ? [ bo.id ] : [] }
