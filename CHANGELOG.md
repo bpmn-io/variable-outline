@@ -4,6 +4,11 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ## Unreleased
 
+
+## 1.0.3
+
+* `FIX`: shrink element names when they exceed container width. ([#5](https://github.com/bpmn-io/variable-outline/pull/5))
+
 ## 1.0.2
 
 * `FIX`: correct variables tooltip
