@@ -47,4 +47,9 @@
   display: inline-flex;
   align-items: center;
   cursor: pointer;
+ }
+
+.bio-vo-text-button:focus-visible {
+  outline: 2px solid var(--cds-focus, #0f62fe);
+  outline-offset: -1px;
 }
