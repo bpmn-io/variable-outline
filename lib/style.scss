@@ -10,7 +10,6 @@
   background: var(--cds-layer-01, #f4f4f4);
 }
 
-
 .bio-vo-tab-row {
   flex: 1 1 auto;
   height: 0px;
@@ -30,22 +29,22 @@
 }
 
 .bio-vo-tooltip-wrapper {
-    text-decoration: underline;
-    text-decoration-style: dotted;
-    text-underline-offset: 2px;
-    font: inherit;
-    display: flex;
-    justify-content: center;
-    width: fit-content;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+  font: inherit;
+  display: flex;
+  justify-content: center;
+  width: fit-content;
 }
 
  .bio-vo-label {
-  margin: 0.5em
+   margin: 0.5em
  } 
 
- .bio-vo-text-button {
+.bio-vo-text-button {
   all: unset;
   display: inline-flex;
   align-items: center;
   cursor: pointer;
- }
+}
