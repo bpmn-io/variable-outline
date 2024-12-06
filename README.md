@@ -1,5 +1,7 @@
 # @bpmn-io/variable-outline
 
+[![CI](https://github.com/bpmn-io/variable-outline/actions/workflows/CI.yml/badge.svg)](https://github.com/bpmn-io/variable-outline/actions/workflows/CI.yml)
+
 A React component to display variables in a BPMN diagram.
 
 ## Usage
