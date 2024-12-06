@@ -12,7 +12,9 @@ export default function Origin(props) {
   return <div className="bio-vo-origin">
     {
       firstTwoOrigins
-        .map(origin => <Element key={ origin.id } element={ origin } />)
+        .map((origin, index) => <>
+          { index ? ' | ' : null } <Element key={ origin.id } element={ origin } />
+        </>)
     }
     {additionalOrigins > 0 && <Tag type="gray">{`+${additionalOrigins}`}</Tag>}
   </div>;

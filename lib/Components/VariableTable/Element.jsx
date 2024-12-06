@@ -1,8 +1,6 @@
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 import useService from '../../hooks/useService';
 
-import './Element.scss';
-
 function Element({ element: bo }) {
 
   const selection = useService('selection');
