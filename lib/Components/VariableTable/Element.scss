@@ -1,6 +1,0 @@
-.bio-vo-element {
-  &:not(:first-child)::before {
-    content: '|';
-    margin: 5px;
-  }
-}
