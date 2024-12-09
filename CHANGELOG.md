@@ -4,6 +4,10 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ## Unreleased
 
+## 1.0.4
+
+* `FIX`: added focus indicators for table elements ([#6](https://github.com/bpmn-io/variable-outline/pull/6))
+* `FIX`: origin separator is not part of rendered element 
 
 ## 1.0.3
 
