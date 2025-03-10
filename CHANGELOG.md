@@ -4,6 +4,13 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ## Unreleased
 
+## 2.0.0
+
+* `CHORE`: remove explicit carbon styles, to be provided by the infrastructure ([#8](https://github.com/bpmn-io/variable-outline/pull/8))
+
+### Breaking Changes
+* This release no longer ships with Carbon styles.
+
 ## 1.0.4
 
 * `FIX`: added focus indicators for table elements ([#6](https://github.com/bpmn-io/variable-outline/pull/6))
