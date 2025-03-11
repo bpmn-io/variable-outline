@@ -22,6 +22,15 @@ export function MyComponent(props) {
 }
 ```
 
+### Using Carbon Styles
+
+Note: This library does not include @carbon/react styles. If you need them, you must import them into your existing SCSS file:
+
+```scss
+@use '@carbon/react/scss/zone';
+@use '@carbon/react/scss/reset';
+```
+
 ## Development
 
 Start a demo page with `npm run start`.
