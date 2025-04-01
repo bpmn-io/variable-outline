@@ -11,10 +11,14 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 ### Breaking Changes
 * This release no longer ships with Carbon styles.
 
+## 1.0.5
+
+* `FIX`: explicitly handle first two origins ([#9](https://github.com/bpmn-io/variable-outline/pull/9))
+
 ## 1.0.4
 
 * `FIX`: added focus indicators for table elements ([#6](https://github.com/bpmn-io/variable-outline/pull/6))
-* `FIX`: origin separator is not part of rendered element 
+* `FIX`: origin separator is not part of rendered element
 
 ## 1.0.3
 
