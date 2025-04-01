@@ -4,6 +4,10 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ## Unreleased
 
+## 1.0.5
+
+* `FIX`: explicitly handle first two origins ([#9](https://github.com/bpmn-io/variable-outline/pull/9))
+
 ## 1.0.4
 
 * `FIX`: added focus indicators for table elements ([#6](https://github.com/bpmn-io/variable-outline/pull/6))
