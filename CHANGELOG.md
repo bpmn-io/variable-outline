@@ -4,6 +4,10 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ## Unreleased
 
+## 2.0.1
+
+* `CHORE`: remove remaining carbon styles, to be provided by the infrastructure ([#10](https://github.com/bpmn-io/variable-outline/pull/10))
+
 ## 2.0.0
 
 * `CHORE`: remove explicit carbon styles, to be provided by the infrastructure ([#8](https://github.com/bpmn-io/variable-outline/pull/8))
