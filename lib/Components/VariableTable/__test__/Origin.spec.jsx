@@ -3,7 +3,7 @@ import { expect, it } from 'vitest';
 import { render } from '@testing-library/react';
 
 import Origin from '../Origin';
-import { InjectorContext } from '../../../Context/InjectorContex';
+import { InjectorContext } from '../../../Context/InjectorContext';
 
 
 const wrapper = ({ children }) => <InjectorContext.Provider value={ { get: () => {} } }>{children}</InjectorContext.Provider>;

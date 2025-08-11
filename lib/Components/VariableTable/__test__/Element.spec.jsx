@@ -10,7 +10,7 @@ import { bootstrapBpmnJS, inject } from 'bpmn-js/test/helper';
 import diagramXML from './diagram.xml?raw';
 
 import Element from '../Element';
-import { InjectorContext } from '../../../Context/InjectorContex';
+import { InjectorContext } from '../../../Context/InjectorContext';
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 function bootstrapModeler(diagram, options) {

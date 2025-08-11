@@ -10,7 +10,7 @@ import processXML from './diagram.xml?raw';
 import collaborationXML from './collaboration.xml?raw';
 
 import ElementList from '../ElementList';
-import { InjectorContext } from '../../../Context/InjectorContex';
+import { InjectorContext } from '../../../Context/InjectorContext';
 
 function bootstrapModeler(diagram, options) {
   return bootstrapBpmnJS(CamundaCloudModeler, diagram, options);

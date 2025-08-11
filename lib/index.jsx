@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import TabContent from './TabContent';
-import { InjectorContext } from './Context/InjectorContex';
+import { InjectorContext } from './Context/InjectorContext';
 import { FilterContext } from './Context/FilterContext';
 
 /**

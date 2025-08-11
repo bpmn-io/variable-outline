@@ -3,7 +3,7 @@ import VariableTable from '../VariableTable';
 import { FilterContext } from '../../../Context/FilterContext';
 import { render } from '@testing-library/react';
 import { act } from 'react';
-import { InjectorContext } from '../../../Context/InjectorContex';
+import { InjectorContext } from '../../../Context/InjectorContext';
 
 const wrapper = ({ children }) => <InjectorContext.Provider value={ { get: () => {} } }>
   <FilterContext.Provider value={ [ {}, () => {} ] }>
