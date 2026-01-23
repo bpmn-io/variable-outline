@@ -12,6 +12,8 @@ import Search from './Components/Search';
 
 export default function(props) {
 
+  console.log('Rendering <VariableOutline>');
+
   const { rawVariables, filteredVariables, availableVariables } = useVariables();
 
   return <div className="bio-vo-tab-content">

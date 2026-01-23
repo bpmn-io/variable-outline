@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import './Modeler.css';
 
+import ReactComponent from '../../lib';
+
 import defaultXml from './diagram.xml?raw';
 
 const connectors = import.meta.glob('./connectors/*.json', { eager: true });
@@ -48,12 +50,21 @@ export const Modeler = ({ modeler, setModeler, ...props }) => {
     }
   }, [ modeler, xml ]);
 
-
   return (
     <div className="modelerContainer">
       <PanelGroup autoSaveId="modelerContainer" direction="horizontal">
         <Panel>
           <div className="modeler" ref={ modelerRef }></div>
+        </Panel>
+        <PanelResizeHandle>
+          <div className="VerticalResizeHandle"></div>
+        </PanelResizeHandle>
+        <Panel defaultSize={ 25 } minSize={ 10 }>
+          <div className="variables">
+            {
+              modeler && <ReactComponent injector={ modeler.get('injector') } />
+            }
+          </div>
         </Panel>
         <PanelResizeHandle>
           <div className="VerticalResizeHandle"></div>
