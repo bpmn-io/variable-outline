@@ -18,7 +18,11 @@ export default function(props) {
 
   return <div className="bio-vo-tab-content">
     <Search />
-    <div className="bio-vo-tab-row">
+    {availableVariables.length > 0 ?
+      <Variables { ...props } variables={ availableVariables } /> :
+      <EmptySearch rawVariables={ rawVariables } />
+    }
+    {/* <div className="bio-vo-tab-row">
       <div className="bio-vo-tab-coloumn element-list">
         <ElementList
           availableVariables={ filteredVariables }
@@ -30,6 +34,6 @@ export default function(props) {
           <EmptySearch rawVariables={ rawVariables } />
         }
       </div>
-    </div>
+    </div> */}
   </div>;
 }

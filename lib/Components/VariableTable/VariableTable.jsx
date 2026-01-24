@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 
-import { DataTable, Tooltip } from '@carbon/react';
+import { Accordion, AccordionItem, DataTable, Tooltip } from '@carbon/react';
 
 import Element from './Element';
 import Variable from './Variable';
@@ -50,6 +50,17 @@ function Variables(
       }
     };
   });
+
+  return <Accordion>
+    {
+      rows.map(row => {
+        return <AccordionItem key={ row.id } title={ `${ row.name?.value } (${ row.type })` }>
+          <p>Value: <span className="mono">{ row.info || '-' }</span></p>
+          <p>Written in: <span className="mono">{ row.origin?.value?.map(moddleElement => moddleElement.id).join(', ') || '-' }</span></p>
+        </AccordionItem>;
+      })
+    }
+  </Accordion>;
 
 
   return <div className="bio-vo-variable-table">

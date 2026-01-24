@@ -9,15 +9,24 @@
   > *+* {
     height: 100%;
     padding: 0 10px;
-    border-left: 1px solid var(--cds-border-strong);
+    // border-left: 1px solid var(--cds-border-strong);
   }
 
   .cds--search-input {
-    border-bottom: none
+    border-bottom: none;
+    border-bottom: solid 1px var(--cds-border-strong);
   }
 
-  border-bottom: 1px solid var(--cds-border-strong);
+  .search-secondary {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  // border-bottom: 1px solid var(--cds-border-strong);
   display: flex;
+  flex-direction: column;
   align-items: center;
   background-color: var(--cds-field);
 

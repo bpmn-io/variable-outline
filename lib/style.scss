@@ -24,6 +24,15 @@
   max-width: 350px;
 }
 
+span.mono {
+  font-family: 'IBM Plex Mono', monospace !important;
+  background: #f4f4f4;
+  padding: 1px 2px !important;
+  display: inline-block;
+  font-size: 13px !important;
+  white-space: break-spaces !important;
+}
+
 .bio-vo-tooltip-wrapper {
   text-decoration: underline;
   text-decoration-style: dotted;
