@@ -59,7 +59,7 @@ export const Modeler = ({ modeler, setModeler, ...props }) => {
         <PanelResizeHandle>
           <div className="VerticalResizeHandle"></div>
         </PanelResizeHandle>
-        <Panel defaultSize={ 25 } minSize={ 10 }>
+        <Panel defaultSize={ 40 } minSize={ 10 }>
           <div className="variables">
             {
               modeler && <ReactComponent injector={ modeler.get('injector') } />
@@ -69,7 +69,7 @@ export const Modeler = ({ modeler, setModeler, ...props }) => {
         <PanelResizeHandle>
           <div className="VerticalResizeHandle"></div>
         </PanelResizeHandle>
-        <Panel defaultSize={ 25 } minSize={ 10 }>
+        <Panel defaultSize={ 20 } minSize={ 10 }>
           <div className="properties" ref={ propertiesPanel }></div>
         </Panel>
       </PanelGroup>
