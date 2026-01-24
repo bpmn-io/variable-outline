@@ -1,39 +1,18 @@
 .bio-vo-tab-content .bio-vo-search-container {
-  line-height: 1;
-
-  > * {
-    display: flex;
-    align-items: center;
-  }
-
-  > *+* {
-    height: 100%;
-    padding: 0 10px;
-    border-left: 1px solid var(--cds-border-strong);
-  }
+  padding: 6px 12px;
 
   .cds--search-input {
-    border-bottom: none
+    block-size: 30px;
+    border-block-end: none;
+    background-color: #f4f4f4;
   }
 
-  border-bottom: 1px solid var(--cds-border-strong);
-  display: flex;
-  align-items: center;
-  background-color: var(--cds-field);
+  .cds--search-close {
+    block-size: 30px;
+    border-block-end: none;
 
-  .bio-vo-search {
-    flex-grow: 1;
-  }
-
-  .bio-vo-checkbox {
-    flex-grow: 0;
-
-    .bio-vo-tooltip-wrapper {
-      white-space: nowrap;
+    &::before {
+      display: none;
     }
-  }
-
-  .bio-vo-help .cds--popover-content {
-    margin-right: calc(1.5 * var(--cds-popover-offset, 0px));
   }
 }
