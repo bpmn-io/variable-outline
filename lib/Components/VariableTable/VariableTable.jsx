@@ -8,6 +8,8 @@ import Variable from './Variable';
 import Origin from './Origin';
 
 import './VariableTable.scss';
+import useService from '../../hooks/useService';
+import { Db2Database } from '@carbon/icons-react';
 
 const HEADERS = [
   { header: 'Name', key: 'name' },
@@ -51,17 +53,66 @@ function Variables(
     };
   });
 
-  return <Accordion>
-    {
-      rows.map(row => {
-        return <AccordionItem key={ row.id } title={ `${ row.name?.value } (${ row.type })` }>
-          <p>Value: <span className="mono">{ row.info || '-' }</span></p>
-          <p>Written in: <span className="mono">{ row.origin?.value?.map(moddleElement => moddleElement.id).join(', ') || '-' }</span></p>
-        </AccordionItem>;
-      })
-    }
-  </Accordion>;
+  // divide into global and local, a variable is local if it's scope is the selected element, otherwise global
 
+  console.log('VARIABLE ROWS', rows);
+
+  const selection = useService('selection');
+  const selectedElements = selection.get();
+
+  const localRows = rows.filter(row => {
+    return selectedElements.some(el => el.id === row.scope.value.id);
+  });
+
+  const globalRows = rows.filter(row => {
+    return !selectedElements.some(el => el.id === row.scope.value.id);
+  });
+
+  const [globalOpen, setGlobalOpen] = useState(globalRows.length > 0);
+  const [localOpen, setLocalOpen] = useState(localRows.length > 0);
+
+  return <div className="accordion-container">
+    <div className="accordion-container-inner">
+      <Accordion className="accordion-category">
+        <AccordionItem title={ <div class="variables-category"><span><Db2Database/>Global variables</span><span>{globalRows.length}</span></div> } open={ globalOpen } onHeadingClick={() => setGlobalOpen(!globalOpen)}>
+        </AccordionItem>
+      </Accordion>
+      {
+        globalOpen && <Accordion>
+          {
+            globalRows.map(row => {
+              return <AccordionItem key={ row.id } title={ <div className="variable-header"><span className="variable-name">{row.name?.value}</span> <span className="variable-type-tag">{row.type}</span></div> } open={ false }>
+                <p>Value: <span className="mono">{ row.info || '-' }</span></p>
+                <p>Written in: <span className="mono">{ row.origin?.value?.map(moddleElement => moddleElement.id).join(', ') || '-' }</span></p>
+              </AccordionItem>;
+            })
+          }
+          {
+            globalRows.length === 0 && <p className="no-variables-found">No global variables found.</p>
+          }
+        </Accordion>
+      }
+      <Accordion className="accordion-category">
+        <AccordionItem title={ <div class="variables-category"><span><Db2Database/>Local variables</span><span>{localRows.length}</span></div> } open={ localOpen } onHeadingClick={() => setLocalOpen(!localOpen)}>
+        </AccordionItem>
+      </Accordion>
+      {
+        localOpen && <Accordion>
+            {
+              localRows.map(row => {
+                return <AccordionItem key={ row.id } title={ `${ row.name?.value } (${ row.type })` } open={ false }>
+                  <p>Value: <span className="mono">{ row.info || '-' }</span></p>
+                  <p>Written in: <span className="mono">{ row.origin?.value?.map(moddleElement => moddleElement.id).join(', ') || '-' }</span></p>
+                </AccordionItem>;
+              })
+            }
+            {
+              localRows.length === 0 && <p className="no-variables-found">No local variables found.</p>
+            }
+          </Accordion>
+      }
+    </div>
+  </div>;
 
   return <div className="bio-vo-variable-table">
     <Tooltip align="bottom-start" label="Variables associated with the currently selected element">
