@@ -89,6 +89,7 @@ span.mono {
 
 .no-variables-found {
   padding: 8px 16px;
+  font-size: 14px;
 }
 
 .accordion-category .cds--accordion__item {
@@ -100,6 +101,12 @@ span.mono {
 }
 
 .accordion-category .cds--accordion__item:last-child {
+    // border-block-end: none !important;
+}
+.cds--accordion:not(.accordion-category) .cds--accordion__item:first-child {
+    border-block-start: none !important;
+}
+.cds--accordion:not(.accordion-category) .cds--accordion__item:last-child {
     border-block-end: none !important;
 }
 
@@ -136,4 +143,12 @@ span.mono {
   display: flex;
   justify-content: space-between;
   padding-right: 16px;
+}
+
+.variable-highlight {
+  box-shadow: 3px 0 0 0 #0f62fe inset !important;
+
+  > button {
+    box-shadow: 3px 0 0 0 #0f62fe inset !important;
+  }
 }
