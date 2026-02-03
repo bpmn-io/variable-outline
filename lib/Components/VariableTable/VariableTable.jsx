@@ -102,7 +102,7 @@ function Variables(
         localOpen && <Accordion>
             {
               localRows.map(row => {
-                return <AccordionItem key={ row.id } title={ `${ row.name?.value } (${ row.type })` } open={ false }>
+                return <AccordionItem key={ row.id } title={ <div className="variable-header"><span className="variable-name">{row.name?.value}</span> <span className="variable-type-tag">{row.type}</span></div> } open={ false }>
                   <p>Value: <span className="mono">{ row.info || '-' }</span></p>
                   <p>Written in: <span className="mono">{ row.origin?.value?.map(moddleElement => moddleElement.id).join(', ') || '-' }</span></p>
                 </AccordionItem>;
