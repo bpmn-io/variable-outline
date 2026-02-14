@@ -6,27 +6,9 @@
   background: var(--cds-layer-01, #f4f4f4);
 }
 
-.bio-vo-tab-row {
-  flex: 1 1 auto;
-  height: 0px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-}
-
-.bio-vo-tab-coloumn {
-  flex: auto;
-  height: 100%;
-  overflow: auto;
-}
-
-.bio-vo-tab-coloumn.element-list {
-  max-width: 350px;
-}
-
 span.mono {
   font-family: 'IBM Plex Mono', monospace !important;
-  background: #f4f4f4;
+  background: var(--cds-layer-01, #f4f4f4);
   padding: 1px 2px !important;
   display: inline-block;
   font-size: 13px !important;
@@ -45,7 +27,7 @@ span.mono {
 
  .bio-vo-label {
    margin: 0.5em
- } 
+ }
 
 .bio-vo-text-button {
   all: unset;
@@ -61,10 +43,4 @@ span.mono {
 
 .variables {
   height: 100%;
-}
-
-.bio-vo-tab-content {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
 }
