@@ -7,6 +7,19 @@ import { preventEnterOrSpace } from '../../utils/preventEnterOrSpace';
 
 const MAX_VALUE_LENGTH = 40;
 
+function displayInfo(info, type) {
+  if (type === 'Null' || info === null) return 'null';
+  return info;
+}
+
+function hasInfo(info) {
+  return info !== null && info !== undefined && info !== '';
+}
+
+function hasDisplayableValue(info, type) {
+  return type === 'Null' || info === null || hasInfo(info);
+}
+
 function inferValueType(info) {
   if (!info) return 'unknown';
   const trimmed = info.trim();
@@ -18,6 +31,11 @@ function inferValueType(info) {
     (trimmed.startsWith('\'') && trimmed.endsWith('\''))
   ) return 'string';
   return 'string';
+}
+
+function resolveValueType(type, info) {
+  if (type) return type.toLowerCase();
+  return inferValueType(info);
 }
 
 const PREVIEW_KEYS = 2;
@@ -99,7 +117,7 @@ function CopyPathButton({ feelPath }) {
 function ValueNode({ entry, depth, defaultExpanded = false, feelPath, parentIsList, index }) {
   const [ expanded, setExpanded ] = useState(defaultExpanded);
   const hasChildren = entry.entries && entry.entries.length > 0;
-  const valueType = inferValueType(entry.info);
+  const valueType = resolveValueType(entry.type, entry.info);
 
   const nodePath = depth === 0
     ? feelPath
@@ -152,14 +170,14 @@ function ValueNode({ entry, depth, defaultExpanded = false, feelPath, parentIsLi
           }
         </span>
 
-        <span className="vd-key" title={ hasChildren && entry.info ? entry.info : undefined }>{ entry.name }</span>
+        <span className="vd-key" title={ hasChildren && hasInfo(entry.info) ? entry.info : undefined }>{ entry.name }</span>
 
-        { entry.info && !hasChildren && (
+        { hasDisplayableValue(entry.info, entry.type) && !hasChildren && (
           <span
             className={ `vd-value vd-value--${valueType}` }
-            title={ entry.info.length > MAX_VALUE_LENGTH ? entry.info : undefined }
+            title={ displayInfo(entry.info, entry.type).length > MAX_VALUE_LENGTH ? displayInfo(entry.info, entry.type) : undefined }
           >
-            { truncate(entry.info) }
+            { truncate(displayInfo(entry.info, entry.type)) }
           </span>
         ) }
 
@@ -188,37 +206,39 @@ function ValueNode({ entry, depth, defaultExpanded = false, feelPath, parentIsLi
   );
 }
 
-function PrimitiveValue({ info }) {
-  const valueType = inferValueType(info);
+function PrimitiveValue({ info, type }) {
+  const valueType = resolveValueType(type, info);
+  const display = displayInfo(info, type);
   return (
     <span
       className={ `vd-primitive vd-value--${valueType}` }
-      title={ info.length > MAX_VALUE_LENGTH ? info : undefined }
+      title={ display.length > MAX_VALUE_LENGTH ? display : undefined }
     >
-      { truncate(info) }
+      { truncate(display) }
     </span>
   );
 }
 
-export default function ValueDisplay({ info, entries, isList, variableName }) {
-  const hasInfo = !!info;
+export default function ValueDisplay({ info, type, entries, isList, variableName }) {
+  const infoPresent = hasDisplayableValue(info, type);
   const hasEntries = entries?.length > 0;
 
-  if (!hasInfo && !hasEntries) {
+  if (!infoPresent && !hasEntries) {
     return null;
   }
 
-  if (hasInfo && !hasEntries) {
+  if (infoPresent && !hasEntries) {
     return (
       <div className="vd-root">
-        <PrimitiveValue info={ info } />
+        <PrimitiveValue info={ info } type={ type } />
       </div>
     );
   }
 
   const rootEntry = {
     name: isList ? '[]' : '{}',
-    info: hasInfo ? info : undefined,
+    info: infoPresent ? info : undefined,
+    type: infoPresent ? type : undefined,
     entries,
     isList
   };

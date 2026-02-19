@@ -50,13 +50,13 @@ export default function VariableRow({ row, isSelectedOrigin, expanded, onToggle 
           >
             <span className="variable-detail-empty">Requires FEEL expression analysis</span>
           </CollapsibleDetailSection>
-          { (row.info || row.entries?.length > 0) && (
+          { (row.type || row.info || row.entries?.length > 0) && (
             <div className="variable-detail-section">
               <div className="variable-detail-label">
                 <Code className="variable-detail-label-icon" />
                 VALUE
               </div>
-              <ValueDisplay info={ row.info } entries={ row.entries } isList={ row.isList } variableName={ row.name } />
+              <ValueDisplay info={ row.info } type={ row.type } entries={ row.entries } isList={ row.isList } variableName={ row.name } />
             </div>
           ) }
         </div>
