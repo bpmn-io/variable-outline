@@ -22,7 +22,7 @@ export default function WrittenOnlyToggle() {
       type="button"
     >
       <Edit className="filter-toggle-icon" />
-      <span className="filter-toggle-label">Written variables only</span>
+      <span className="filter-toggle-label">Written by current selection</span>
     </button>
   );
 }

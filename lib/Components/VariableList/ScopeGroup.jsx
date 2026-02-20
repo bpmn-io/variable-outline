@@ -1,12 +1,16 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-import { ChevronRight, DataStructured, LocationCurrent } from '@carbon/icons-react';
+import { ChevronRight } from '@carbon/icons-react';
 
 import VariableRow from './VariableRow';
 import { preventEnterOrSpace } from '../../utils/preventEnterOrSpace';
+import { getSVGComponent } from '../ElementList/Icons';
+import useService from '../../hooks/useService';
 
-export default function ScopeGroup({ scopeName, rows, filter, expandedId, onToggle, defaultExpanded = true, isLocal = false }) {
+export default function ScopeGroup({ scopeName, scope, variables, filter, expandedId, onToggle, defaultExpanded = true, isLocal = false }) {
   const [ expanded, setExpanded ] = useState(defaultExpanded);
+
+  const elementRegistry = useService('elementRegistry');
 
   useEffect(() => {
     if (isLocal) {
@@ -15,6 +19,9 @@ export default function ScopeGroup({ scopeName, rows, filter, expandedId, onTogg
   }, [ isLocal ]);
 
   const toggleExpanded = () => setExpanded(!expanded);
+
+  const element = scope && elementRegistry ? elementRegistry.get(scope.id) : null;
+  const ScopeIcon = (element || scope) ? getSVGComponent(element || scope) : null;
 
   return (
     <div className={ `variable-scope-group${isLocal ? ' variable-scope-group--local' : ''}` }>
@@ -27,23 +34,24 @@ export default function ScopeGroup({ scopeName, rows, filter, expandedId, onTogg
         onKeyDown={ preventEnterOrSpace(toggleExpanded) }
       >
         <ChevronRight className={ `variable-section-chevron${!expanded ? '' : ' variable-section-chevron--expanded'}` } />
-        { isLocal ? <LocationCurrent className="variable-row-icon" /> : <DataStructured className="variable-row-icon" /> }
+
+        { ScopeIcon && <ScopeIcon className="variable-section-scope-icon" /> }
         <span className="variable-section-name">{ scopeName }</span>
-        <span className="variable-section-count">{ rows.length }</span>
+        <span className="variable-section-count">{ variables.length }</span>
       </div>
       { expanded && (
         <div className={ `variable-scope-rows${isLocal ? ' variable-scope-rows--local' : ''}` }>
-          { rows.map(row => {
+          { variables.map(variable => {
             const isSelectedOrigin = filter.selectedElements.some(id =>
-              row.origin?.some(o => o.id === id)
+              variable.origin?.some(o => o.id === id)
             );
             return (
               <VariableRow
-                key={ row.id }
-                row={ row }
+                key={ variable.id }
+                variable={ variable }
                 isSelectedOrigin={ isSelectedOrigin }
-                expanded={ expandedId === row.id }
-                onToggle={ () => onToggle(row.id) }
+                expanded={ expandedId === variable.id }
+                onToggle={ () => onToggle(variable.id) }
               />
             );
           }) }

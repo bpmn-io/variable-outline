@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useContext, useMemo } from 'react';
 
-import parseRows from '../../utils/parseRows';
+import parseVariables from '../../utils/parseRows';
 import useExpandable from '../../hooks/useExpandable';
 import useService from '../../hooks/useService';
 import ScopeGroup from './ScopeGroup';
@@ -9,35 +9,34 @@ import { FilterContext } from '../../Context/FilterContext';
 
 import '../outline-variables.scss';
 
-export default function VariableList({ variables }) {
-  const rows = parseRows(variables);
+export default function VariableList({ variables: rawVariables }) {
+  const variables = parseVariables(rawVariables);
   const [ filter ] = useContext(FilterContext);
   const selection = useService('selection');
   const [ expandedId, handleToggle ] = useExpandable();
 
-  const sortedRows = [ ...rows ].sort((a, b) => a.name.localeCompare(b.name));
+  const sortedVariables = [ ...variables ].sort((a, b) => a.name.localeCompare(b.name));
 
   const selectedElementIds = (selection.get() || []).map(el => el.id);
 
-  const variableGroupsByScope = useMemo(() => {
+  const groupsByScope = useMemo(() => {
     const groups = new Map();
 
-    for (const row of sortedRows) {
-      const scopeId = row.scope?.id || 'unknown';
+    for (const variable of sortedVariables) {
+      const scopeId = variable.scope?.id || 'unknown';
 
       if (!groups.has(scopeId)) {
         groups.set(scopeId, {
-          scope: row.scope,
+          scope: variable.scope,
           scopeId,
-          rows: []
+          variables: []
         });
       }
 
-      groups.get(scopeId).rows.push(row);
+      groups.get(scopeId).variables.push(variable);
     }
 
-    // Sort: process first, then in-between alphabetically, then local (selected) last
-    const variableGroupsByScope = Array.from(groups.values()).sort((a, b) => {
+    return Array.from(groups.values()).sort((a, b) => {
       const aIsProcess = a.scope?.$type === 'bpmn:Process';
       const bIsProcess = b.scope?.$type === 'bpmn:Process';
       const aIsLocal = selectedElementIds.includes(a.scopeId);
@@ -52,15 +51,13 @@ export default function VariableList({ variables }) {
       const bName = b.scope?.name || b.scopeId;
       return aName.localeCompare(bName);
     });
-
-    return variableGroupsByScope;
-  }, [ selectedElementIds, variables ]);
+  }, [ selectedElementIds, rawVariables ]);
 
   return (
     <div className="variable-list-container">
       <div className="variable-list-inner">
         {
-          variableGroupsByScope.map(group => {
+          groupsByScope.map(group => {
             const isProcess = group.scope?.$type === 'bpmn:Process';
             const isLocal = selectedElementIds.includes(group.scopeId);
 
@@ -69,11 +66,11 @@ export default function VariableList({ variables }) {
             const scopeName = group.scope?.name || group.scopeId;
 
             if (isProcess) {
-              displayName = 'Global variables';
+              displayName = 'Global parent scope variables';
             } else if (isLocal) {
-              displayName = `${scopeName} variables (local)`;
+              displayName = `${scopeName} local scope variables`;
             } else {
-              displayName = `${scopeName} variables`;
+              displayName = `${scopeName} parent scope variables`;
               defaultExpanded = false;
             }
 
@@ -81,7 +78,8 @@ export default function VariableList({ variables }) {
               <ScopeGroup
                 key={ group.scopeId }
                 scopeName={ displayName }
-                rows={ group.rows }
+                scope={ group.scope }
+                variables={ group.variables }
                 filter={ filter }
                 expandedId={ expandedId }
                 onToggle={ handleToggle }
