@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { EditorState } from '@codemirror/state';
 import { EditorView, drawSelection, keymap } from '@codemirror/view';
 import { json } from '@codemirror/lang-json';

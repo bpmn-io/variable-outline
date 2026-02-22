@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useContext, useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 
 import parseVariables from '../../utils/parseRows';
 import useExpandable from '../../hooks/useExpandable';

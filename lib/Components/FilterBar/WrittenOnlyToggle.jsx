@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Edit } from '@carbon/icons-react';
 
 import { FilterContext } from '../../Context/FilterContext';

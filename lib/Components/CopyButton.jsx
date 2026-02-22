@@ -1,7 +1,6 @@
 /* global clearTimeout, setTimeout, navigator */
 
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { Copy, Checkmark } from '@carbon/icons-react';
 import { preventEnterOrSpace } from '../utils/preventEnterOrSpace';
 
