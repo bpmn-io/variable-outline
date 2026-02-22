@@ -4,7 +4,7 @@ import { ChevronRight } from '@carbon/icons-react';
 
 import VariableRow from './VariableRow';
 import { preventEnterOrSpace } from '../../utils/preventEnterOrSpace';
-import { getSVGComponent } from '../ElementList/Icons';
+import { getSVGComponent } from './Icons';
 import useService from '../../hooks/useService';
 
 export default function ScopeGroup({ scopeName, scope, variables, filter, expandedId, onToggle, defaultExpanded = true, isLocal = false }) {

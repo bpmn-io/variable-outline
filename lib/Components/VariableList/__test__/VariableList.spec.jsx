@@ -15,102 +15,203 @@ function bootstrapModeler(diagram, options) {
   return bootstrapBpmnJS(CamundaCloudModeler, diagram, options);
 }
 
-const getVariableNames = (container) => (
-  Array.from(container.querySelectorAll('.variable-name')).map(node => node.textContent)
-);
+const getScopeVariables = (container) => {
+  return Array.from(container.querySelectorAll('.variable-scope-group')).map(group => ({
+    scopeName: group.querySelector('.variable-section-name')?.textContent,
+    variables: Array.from(group.querySelectorAll('.variable-name')).map(n => n.textContent),
+  }));
+};
 
-const createWrapper = (injector, filter) => ({ children }) => (
+const defaultFilter = {
+  search: '',
+  filterType: 'all',
+  selectedElements: [],
+  writtenOnly: false
+};
+
+const createWrapper = (injector) => ({ children }) => (
   <InjectorContext.Provider value={ injector }>
-    <FilterContext.Provider value={ [ filter, () => {} ] }>
+    <FilterContext.Provider value={ [ defaultFilter, () => {} ] }>
       { children }
     </FilterContext.Provider>
   </InjectorContext.Provider>
 );
 
+let wrapper;
+
 describe('VariableList', () => {
   beforeEach(bootstrapModeler(diagramXML));
 
-  it('renders variables sorted alphabetically', inject(async (variableResolver, selection, injector) => {
-    const filter = { search: '', filterType: 'all', selectedElements: [], writtenOnly: false };
+  beforeEach(inject((injector) => { wrapper = createWrapper(injector); }));
 
-    const { availableVariables } = await getVariables({ variableResolver, selection, filter });
+  describe('given no element is selected', () => {
 
-    const { container } = render(<Variables variables={ availableVariables } />, { wrapper: createWrapper(injector, filter) });
+    it('renders all output variables in a single global scope group, sorted alphabetically', inject(async (variableResolver, selection, injector) => {
 
-    const names = getVariableNames(container);
-    expect(names).to.eql([ 'Task1Variable', 'Task2Variable' ]);
-  }));
+      // when
+      const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+      const { container } = render(
+        <Variables variables={ availableVariables } />,
+        { wrapper }
+      );
 
-  it('shows additional variables when selection exists', inject(async (elementRegistry, variableResolver, selection, injector) => {
-    const task = elementRegistry.get('Task_1');
-    selection.select(task);
+      // then
+      expect(getScopeVariables(container)).to.eql([
+        {
+          scopeName: 'Global parent scope variables',
+          variables: [
+            'InnerSubprocessOutputVariable1',
+            'InnerSubprocessStartEventOutputVariable1',
+            'InnerSubprocessStartEventOutputVariable2',
+            'OuterSubprocessOutputVariable1',
+            'OuterSubprocessStartEventVariable1',
+            'ProcessStartEventOutputVariable1',
+            'ProcessStartEventOutputVariable2',
+            'ServiceTaskOutputVariable1',
+            'ServiceTaskOutputVariable2',
+          ],
+        }
+      ]);
+    }));
 
-    const filter = { search: '', filterType: 'all', selectedElements: [], writtenOnly: false };
+  });
 
-    const { availableVariables } = await getVariables({ variableResolver, selection, filter });
+  describe('given OuterSubprocess is selected', () => {
 
-    const { container } = render(<Variables variables={ availableVariables } />, { wrapper: createWrapper(injector, filter) });
+    it('shows global scope and OuterSubprocess local scope as separate groups', inject(async (elementRegistry, variableResolver, selection, injector) => {
 
-    // Variables are now grouped by scope: process-level variables first, then local scopes
-    const names = getVariableNames(container);
-    expect(names).to.eql([ 'Task1Variable', 'Task2Variable', 'localVariable' ]);
-  }));
+      // given
+      selection.select(elementRegistry.get('OuterSubprocess'));
 
-  it('expands a variable row on click to show details', inject(async (variableResolver, selection, injector) => {
-    const filter = { search: '', filterType: 'all', selectedElements: [], writtenOnly: false };
+      // when
+      const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+      const { container } = render(
+        <Variables variables={ availableVariables } />,
+        { wrapper }
+      );
 
-    const { availableVariables } = await getVariables({ variableResolver, selection, filter });
+      // then - global scope first, then OuterSubprocess local scope with input-mapped variables
+      expect(getScopeVariables(container)).to.eql([
+        {
+          scopeName: 'Global parent scope variables',
+          variables: [
+            'InnerSubprocessOutputVariable1',
+            'InnerSubprocessStartEventOutputVariable1',
+            'InnerSubprocessStartEventOutputVariable2',
+            'OuterSubprocessOutputVariable1',
+            'OuterSubprocessStartEventVariable1',
+            'ProcessStartEventOutputVariable1',
+            'ProcessStartEventOutputVariable2',
+            'ServiceTaskOutputVariable1',
+            'ServiceTaskOutputVariable2',
+          ],
+        },
+        {
+          scopeName: 'OuterSubprocess local scope variables',
+          variables: [ 'OuterSubprocessInputVariable1' ],
+        }
+      ]);
+    }));
 
-    const { container } = render(<Variables variables={ availableVariables } />, { wrapper: createWrapper(injector, filter) });
+  });
 
-    const firstRowHeader = container.querySelector('.variable-row-header');
+  describe('given ServiceTask is selected', () => {
 
-    act(() => {
-      fireEvent.click(firstRowHeader);
-    });
+    it('shows one scope group per ancestor scope plus a local scope group, ordered shallow-to-deep', inject(async (elementRegistry, variableResolver, selection, injector) => {
 
-    expect(container.querySelector('.variable-row-details')).to.exist;
-    expect(container.textContent).to.include('WRITTEN BY');
-    expect(container.textContent).to.include('Task 1');
-  }));
+      // given
+      selection.select(elementRegistry.get('ServiceTask'));
 
-  it('copies variable name and updates button state', inject(async (variableResolver, selection, injector) => {
-    const clipboardWrite = vi.fn(() => Promise.resolve());
-    Object.defineProperty(navigator, 'clipboard', {
-      value: { writeText: clipboardWrite },
-      configurable: true,
-    });
+      // when
+      const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+      const { container } = render(
+        <Variables variables={ availableVariables } />,
+        { wrapper }
+      );
 
-    const filter = { search: '', filterType: 'all', selectedElements: [], writtenOnly: false };
+      // then - global / OuterSubprocess parent / InnerSubprocess parent / ServiceTask local
+      expect(getScopeVariables(container)).to.eql([
+        {
+          scopeName: 'Global parent scope variables',
+          variables: [
+            'InnerSubprocessOutputVariable1',
+            'InnerSubprocessStartEventOutputVariable1',
+            'InnerSubprocessStartEventOutputVariable2',
+            'OuterSubprocessOutputVariable1',
+            'OuterSubprocessStartEventVariable1',
+            'ProcessStartEventOutputVariable1',
+            'ProcessStartEventOutputVariable2',
+            'ServiceTaskOutputVariable1',
+            'ServiceTaskOutputVariable2',
+          ],
+        },
+        {
+          scopeName: 'OuterSubprocess parent scope variables',
+          variables: [],
+        },
+        {
+          scopeName: 'InnerSubprocess parent scope variables',
+          variables: [],
+        },
+        {
+          scopeName: 'ServiceTask local scope variables',
+          variables: [ 'ServiceTaskInputVariable1', 'ServiceTaskInputVariable2' ],
+        }
+      ]);
+    }));
+  });
 
-    const { availableVariables } = await getVariables({ variableResolver, selection, filter });
+  describe('variable row interaction', () => {
 
-    const { container } = render(<Variables variables={ availableVariables } />, { wrapper: createWrapper(injector, filter) });
-    const copyButton = container.querySelector('.variable-copy-button');
-    const firstVariableName = container.querySelector('.variable-name').textContent;
+    it('expands a row on click to reveal WRITTEN BY details', inject(async (variableResolver, selection, injector) => {
 
-    await act(async () => {
-      fireEvent.click(copyButton);
-    });
+      // given
+      const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+      const { container } = render(
+        <Variables variables={ availableVariables } />,
+        { wrapper }
+      );
 
-    expect(clipboardWrite).toHaveBeenCalledWith(firstVariableName);
-    expect(copyButton.className).to.include('variable-copy-button--copied');
-    expect(copyButton.title).to.eql('Copied!');
-  }));
+      // when
+      act(() => {
+        fireEvent.click(container.querySelector('.variable-row-header'));
+      });
 
-  it('highlights variables used by selected element', inject(async (elementRegistry, variableResolver, selection, injector) => {
-    const task = elementRegistry.get('Task_2');
-    selection.select(task);
+      // then
+      expect(container.querySelector('.variable-row-details')).to.exist;
+      expect(container.textContent).to.include('WRITTEN BY');
+      expect(container.textContent).to.include('ProcessStartEvent');
+    }));
 
-    const filter = { search: '', filterType: 'all', selectedElements: [ 'Task_2' ], writtenOnly: false };
+    it('copies variable name to clipboard and updates button state', inject(async (variableResolver, selection, injector) => {
 
-    const { availableVariables } = await getVariables({ variableResolver, selection, filter });
+      // given
+      const clipboardWrite = vi.fn(() => Promise.resolve());
+      Object.defineProperty(navigator, 'clipboard', {
+        value: { writeText: clipboardWrite },
+        configurable: true,
+      });
 
-    const { container } = render(<Variables variables={ availableVariables } />, { wrapper: createWrapper(injector, filter) });
+      const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+      const { container } = render(
+        <Variables variables={ availableVariables } />,
+        { wrapper }
+      );
 
-    // Variables are now grouped by scope, so order reflects scope grouping
-    const highlighted = container.querySelectorAll('.variable-row--highlight .variable-name');
-    const highlightedNames = Array.from(highlighted).map(node => node.textContent);
-    expect(highlightedNames).to.eql([ 'Task2Variable', 'localVariable2' ]);
-  }));
+      const copyButton = container.querySelector('.variable-copy-button');
+      const firstVariableName = container.querySelector('.variable-name').textContent;
+
+      // when
+      await act(async () => {
+        fireEvent.click(copyButton);
+      });
+
+      // then
+      expect(clipboardWrite).toHaveBeenCalledWith(firstVariableName);
+      expect(copyButton.className).to.include('variable-copy-button--copied');
+      expect(copyButton.title).to.eql('Copied!');
+    }));
+
+  });
+
 });

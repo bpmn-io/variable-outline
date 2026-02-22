@@ -9,6 +9,16 @@ import { FilterContext } from '../../Context/FilterContext';
 
 import '../outline-variables.scss';
 
+function getScopeDepth(scope) {
+  let depth = 0;
+  let current = scope;
+  while (current && current.$parent) {
+    depth++;
+    current = current.$parent;
+  }
+  return depth;
+}
+
 export default function VariableList({ variables: rawVariables }) {
   const variables = parseVariables(rawVariables);
   const [ filter ] = useContext(FilterContext);
@@ -47,6 +57,15 @@ export default function VariableList({ variables: rawVariables }) {
       if (aIsLocal && !bIsLocal) return 1;
       if (!aIsLocal && bIsLocal) return -1;
 
+      // Intermediate scopes: sort by depth (shallower = outer = first)
+      const depthA = getScopeDepth(a.scope);
+      const depthB = getScopeDepth(b.scope);
+
+      if (depthA !== depthB) {
+        return depthA - depthB; // shallower (lower depth) sorts first
+      }
+
+      // Same depth (siblings): alphabetical fallback
       const aName = a.scope?.name || a.scopeId;
       const bName = b.scope?.name || b.scopeId;
       return aName.localeCompare(bName);
