@@ -114,6 +114,7 @@
   padding: 8px 12px 8px 24px;
   cursor: pointer;
   user-select: none;
+  background-color: var(--cds-layer-01, #ffffff);
 
   &:hover {
     background-color: var(--cds-layer-hover-01, #e8e8e8);
