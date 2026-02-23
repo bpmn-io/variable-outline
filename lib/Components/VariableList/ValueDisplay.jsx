@@ -41,7 +41,7 @@ function buildDoc(info, type, entries, isList) {
   return info != null ? String(info) : '';
 }
 
-function CodeMirrorJson({ doc, variableName }) {
+function ValueEditor({ doc, variableName, isJson }) {
   const ref = useRef(null);
   const [ view, setView ] = useState(null);
   const [ menuState, setMenuState ] = useState(null);
@@ -49,19 +49,24 @@ function CodeMirrorJson({ doc, variableName }) {
   useEffect(() => {
     if (!ref.current) return;
 
+    const baseExtensions = [
+      EditorState.readOnly.of(true),
+      EditorView.contentAttributes.of({ tabindex: '0' }),
+      EditorView.lineWrapping,
+      theme,
+    ];
+
+    const jsonExtensions = isJson ? [
+      json(),
+      foldGutter(),
+      foldPreview(),
+      jsonInteractiveControls(variableName, setMenuState),
+      keymap.of(foldKeymap),
+    ] : [];
+
     const state = EditorState.create({
       doc,
-      extensions: [
-        json(),
-        EditorState.readOnly.of(true),
-        EditorView.contentAttributes.of({ tabindex: '0' }),
-        EditorView.lineWrapping,
-        foldGutter(),
-        foldPreview(),
-        jsonInteractiveControls(variableName, setMenuState),
-        keymap.of(foldKeymap),
-        theme,
-      ]
+      extensions: [ ...baseExtensions, ...jsonExtensions ]
     });
 
     const editorView = new EditorView({
@@ -111,7 +116,11 @@ export default function ValueDisplay({ info, type, entries, isList, variableName
 
   return (
     <div className="vd-root">
-      <CodeMirrorJson doc={ doc } variableName={ variableName } />
+      <ValueEditor
+        doc={ doc }
+        variableName={ variableName }
+        isJson={ hasEntries }
+      />
     </div>
   );
 }
