@@ -1,11 +1,12 @@
 import { useRef, useEffect, useState } from 'react';
 import { EditorState } from '@codemirror/state';
-import { EditorView, drawSelection, keymap } from '@codemirror/view';
+import { EditorView, keymap } from '@codemirror/view';
 import { json } from '@codemirror/lang-json';
 import { foldGutter, foldKeymap } from '@codemirror/language';
 import theme from './CodeMirrorTheme';
-import { feelPathTooltip } from './feelPathTooltip';
 import { foldPreview } from './foldPreview';
+import { jsonInteractiveControls, closeMenuEffect, setActiveTokenEffect } from './jsonInteractiveControls';
+import { ContextMenu } from './ContextMenu';
 
 function entriesToObject(entries, isList) {
   if (isList) {
@@ -43,6 +44,7 @@ function buildDoc(info, type, entries, isList) {
 function CodeMirrorJson({ doc, variableName }) {
   const ref = useRef(null);
   const [ view, setView ] = useState(null);
+  const [ menuState, setMenuState ] = useState(null);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -54,29 +56,49 @@ function CodeMirrorJson({ doc, variableName }) {
         EditorState.readOnly.of(true),
         EditorView.contentAttributes.of({ tabindex: '0' }),
         EditorView.lineWrapping,
-        drawSelection(),
         foldGutter(),
         foldPreview(),
+        jsonInteractiveControls(variableName, setMenuState),
         keymap.of(foldKeymap),
         theme,
-        feelPathTooltip(variableName),
-      ],
+      ]
     });
 
-    const editorView = new EditorView({ state, parent: ref.current });
+    const editorView = new EditorView({
+      state,
+      parent: ref.current
+    });
+
     setView(editorView);
+
     return () => editorView.destroy();
-  }, []);
+  }, [ doc, variableName ]);
 
-  useEffect(() => {
-    if (!view) return;
-    const current = view.state.doc.toString();
-    if (doc !== current) {
-      view.dispatch({ changes: { from: 0, to: current.length, insert: doc } });
+  const handleCloseMenu = () => {
+    if (view) {
+      view.dispatch({
+        effects: [
+          closeMenuEffect.of(null),
+          setActiveTokenEffect.of(null)
+        ]
+      });
+      view.focus();
     }
-  }, [ view, doc ]);
+    setMenuState(null);
+  };
 
-  return <div ref={ ref } className="vd-codemirror" />;
+  return (
+    <div ref={ ref } className="vd-codemirror">
+      {menuState && view && (
+        <ContextMenu
+          menuState={ menuState }
+          view={ view }
+          rootVariableName={ variableName }
+          onClose={ handleCloseMenu }
+        />
+      )}
+    </div>
+  );
 }
 
 export default function ValueDisplay({ info, type, entries, isList, variableName }) {
@@ -93,4 +115,3 @@ export default function ValueDisplay({ info, type, entries, isList, variableName
     </div>
   );
 }
-
