@@ -5,8 +5,10 @@ import VariableRow from './VariableRow';
 import { preventEnterOrSpace } from '../../utils/preventEnterOrSpace';
 import { getSVGComponent } from './Icons';
 import useService from '../../hooks/useService';
+import useExpandable from '../../hooks/useExpandable';
 
-export default function ScopeGroup({ scopeName, scope, variables, filter, expandedId, onToggle, defaultExpanded = true, isLocal = false }) {
+export default function ScopeGroup({ scopeName, scope, variables, filter, defaultExpanded = true, isLocal = false }) {
+  const [ expandedIds, handleToggle ] = useExpandable();
   const [ expanded, setExpanded ] = useState(defaultExpanded);
 
   const elementRegistry = useService('elementRegistry');
@@ -49,8 +51,8 @@ export default function ScopeGroup({ scopeName, scope, variables, filter, expand
                 key={ variable.id }
                 variable={ variable }
                 isSelectedOrigin={ isSelectedOrigin }
-                expanded={ expandedId === variable.id }
-                onToggle={ () => onToggle(variable.id) }
+                expanded={ expandedIds.has(variable.id) }
+                onToggle={ () => handleToggle(variable.id) }
               />
             );
           }) }

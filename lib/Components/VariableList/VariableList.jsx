@@ -1,7 +1,6 @@
 import { useContext, useMemo } from 'react';
 
 import parseVariables from '../../utils/parseRows';
-import useExpandable from '../../hooks/useExpandable';
 import useService from '../../hooks/useService';
 import ScopeGroup from './ScopeGroup';
 import { FilterContext } from '../../Context/FilterContext';
@@ -22,8 +21,6 @@ export default function VariableList({ variables: rawVariables }) {
   const variables = parseVariables(rawVariables);
   const [ filter ] = useContext(FilterContext);
   const selection = useService('selection');
-  const [ expandedId, handleToggle ] = useExpandable();
-
   const sortedVariables = [ ...variables ].sort((a, b) => a.name.localeCompare(b.name));
 
   const selectedElementIds = (selection.get() || []).map(el => el.id);
@@ -99,8 +96,6 @@ export default function VariableList({ variables: rawVariables }) {
                 scope={ group.scope }
                 variables={ group.variables }
                 filter={ filter }
-                expandedId={ expandedId }
-                onToggle={ handleToggle }
                 defaultExpanded={ defaultExpanded }
                 isLocal={ isLocal }
               />
