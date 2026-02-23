@@ -15,6 +15,21 @@ export default function ScopeGroup({ scopeName, scope, variables, filter, defaul
   const element = elementRegistry.get(scope.id);
   const ScopeIcon = getSVGComponent(element);
 
+  const rows = variables.map(variable => {
+    const isSelectedOrigin = filter.selectedElements.some(id =>
+      variable.origin?.some(o => o.id === id)
+    );
+    return (
+      <VariableRow
+        key={ variable.id }
+        variable={ variable }
+        isSelectedOrigin={ isSelectedOrigin }
+        expanded={ expandedIds.has(variable.id) }
+        onToggle={ () => handleToggle(variable.id) }
+      />
+    );
+  });
+
   return (
     <div className={ `variable-scope-group${isLocal ? ' variable-scope-group--local' : ''}` }>
       <div
@@ -33,20 +48,7 @@ export default function ScopeGroup({ scopeName, scope, variables, filter, defaul
       </div>
       { expanded && (
         <div className={ `variable-scope-rows${isLocal ? ' variable-scope-rows--local' : ''}` }>
-          { variables.map(variable => {
-            const isSelectedOrigin = filter.selectedElements.some(id =>
-              variable.origin?.some(o => o.id === id)
-            );
-            return (
-              <VariableRow
-                key={ variable.id }
-                variable={ variable }
-                isSelectedOrigin={ isSelectedOrigin }
-                expanded={ expandedIds.has(variable.id) }
-                onToggle={ () => handleToggle(variable.id) }
-              />
-            );
-          }) }
+          { rows }
         </div>
       ) }
     </div>

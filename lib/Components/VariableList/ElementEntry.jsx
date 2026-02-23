@@ -3,7 +3,7 @@ import { is } from 'bpmn-js/lib/util/ModelUtil';
 import useService from '../../hooks/useService';
 import { FilterContext } from '../../Context/FilterContext';
 
-export default function ElementEntry({ element: bo }) {
+export default function ElementEntry({ element: bo, inline = false }) {
 
   const [ , setFilter ] = useContext(FilterContext);
   const selection = useService('selection');
@@ -32,7 +32,7 @@ export default function ElementEntry({ element: bo }) {
 
   return (
     <button
-      className={ `variable-element-entry${isSelected ? ' variable-element-entry--selected' : ''}` }
+      className={ `variable-element-entry${inline ? ' variable-element-entry--inline' : ''}${isSelected ? ' variable-element-entry--selected' : ''}` }
       onClick={ handleClick }
     >
       { bo.name || bo.label || bo.id }

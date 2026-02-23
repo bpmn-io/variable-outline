@@ -1,4 +1,4 @@
-import { ChevronRight, Code } from '@carbon/icons-react';
+import { ChevronRight, Code, Edit } from '@carbon/icons-react';
 
 import CopyButton from '../CopyButton';
 import ElementEntry from './ElementEntry';
@@ -48,14 +48,22 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
       </div>
       { expanded && (
         <div className="variable-row-details">
-          <CollapsibleDetailSection label={ writtenByLabel }>
-            { writers.map(o => (
-              <ElementEntry key={ o.id } element={ o } />
-            )) }
-          </CollapsibleDetailSection>
-          <CollapsibleDetailSection label="READ BY">
+          { writeCount === 1 ? (
+            <div className="variable-detail-section variable-detail-section--inline">
+              <Edit className="variable-detail-label-icon" />
+              <span className="variable-detail-label-text">WRITTEN BY</span>
+              <ElementEntry element={ writers[0] } inline />
+            </div>
+          ) : (
+            <CollapsibleDetailSection label={ writtenByLabel }>
+              { writers.map(o => (
+                <ElementEntry key={ o.id } element={ o } />
+              )) }
+            </CollapsibleDetailSection>
+          ) }
+          {false && <CollapsibleDetailSection label="READ BY">
             <span className="variable-detail-empty">Requires FEEL expression analysis</span>
-          </CollapsibleDetailSection>
+          </CollapsibleDetailSection>}
           { (variable.type || variable.info || variable.entries?.length > 0) && (
             <div className="variable-detail-section">
               <div className="variable-detail-label">
