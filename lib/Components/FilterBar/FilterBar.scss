@@ -6,7 +6,7 @@
   border-bottom: 1px solid var(--cds-border-subtle-01, #e0e0e0);
   flex-shrink: 0;
 
-  .filter-toggle:last-child {
+  .filter-toggle-button {
     margin-left: auto;
   }
 }
@@ -133,12 +133,29 @@
   text-align: center;
 }
 
-/* Toggle button */
+/* Toggle checkbox */
 .filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--cds-text-secondary, #6f6f6f);
+  white-space: nowrap;
+  user-select: none;
+  &:hover {
+    color: var(--cds-text-primary, #161616);
+  }
+  &--active {
+    color: var(--cds-text-primary, #161616);
+  }
+}
+
+.filter-toggle-button {
   all: unset;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   padding: 4px 8px;
   font-size: 12px;
   border: 1px solid var(--cds-border-subtle-01, #e0e0e0);
@@ -159,12 +176,6 @@
     outline: 2px solid var(--cds-focus, #0f62fe);
     outline-offset: -2px;
   }
-
-  &--active {
-    border-color: var(--cds-focus, #0f62fe);
-    color: var(--cds-text-primary, #161616);
-    background-color: rgba(15, 98, 254, 0.06);
-  }
 }
 
 .filter-toggle-icon {
@@ -176,3 +187,4 @@
 .filter-toggle-label {
   white-space: nowrap;
 }
+

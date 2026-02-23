@@ -11,7 +11,7 @@ export default function CollapseAllButton() {
 
   return (
     <button
-      className="filter-toggle"
+      className="filter-toggle-button"
       onClick={ allCollapsed ? expandAll : collapseAll }
       title={ label }
       type="button"
