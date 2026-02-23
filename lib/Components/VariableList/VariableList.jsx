@@ -78,14 +78,17 @@ export default function VariableList({ variables: rawVariables }) {
 
             let displayName;
             let defaultExpanded = true;
+            let scopeType = 'parent';
             const scopeName = group.scope?.name || group.scopeId;
 
             if (isProcess) {
-              displayName = 'Global parent scope variables';
+              displayName = scopeName;
+              scopeType = 'root';
             } else if (isLocal) {
-              displayName = `${scopeName} local scope variables`;
+              displayName = scopeName;
+              scopeType = 'local';
             } else {
-              displayName = `${scopeName} parent scope variables`;
+              displayName = scopeName;
               defaultExpanded = false;
             }
 
@@ -98,6 +101,7 @@ export default function VariableList({ variables: rawVariables }) {
                 filter={ filter }
                 defaultExpanded={ defaultExpanded }
                 isLocal={ isLocal }
+                scopeType={ scopeType }
               />
             );
           })

@@ -1,4 +1,5 @@
 import { ChevronRight } from '@carbon/icons-react';
+import { Tag } from '@carbon/react';
 
 import VariableRow from './VariableRow';
 import { preventEnterOrSpace } from '../../utils/preventEnterOrSpace';
@@ -7,7 +8,7 @@ import useService from '../../hooks/useService';
 import useExpandable from '../../hooks/useExpandable';
 import useScopeExpand from '../../hooks/useScopeExpand';
 
-export default function ScopeGroup({ scopeName, scope, variables, filter, defaultExpanded = true, isLocal = false }) {
+export default function ScopeGroup({ scopeName, scope, variables, filter, defaultExpanded = true, isLocal = false, scopeType = 'parent' }) {
   const [ expandedIds, handleToggle ] = useExpandable();
   const [ expanded, toggleExpanded ] = useScopeExpand(scope.id, defaultExpanded);
 
@@ -44,6 +45,13 @@ export default function ScopeGroup({ scopeName, scope, variables, filter, defaul
 
         { ScopeIcon && <ScopeIcon className="variable-section-scope-icon" /> }
         <span className="variable-section-name">{ scopeName }</span>
+        <Tag
+          className="variable-scope-chip"
+          type={ scopeType === 'local' ? 'blue' : 'outline' }
+          size="sm"
+        >
+          { scopeType === 'root' ? 'Root' : scopeType === 'local' ? 'Local' : 'Parent' }
+        </Tag>
         <span className="variable-section-count">{ variables.length }</span>
       </div>
       { expanded && (

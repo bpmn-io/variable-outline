@@ -6,7 +6,7 @@ export default function CollapsibleDetailSection({
   icon: Icon,
   label,
   badge,
-  defaultExpanded = true,
+  defaultExpanded = false,
   children
 }) {
   const [ expanded, setExpanded ] = useState(defaultExpanded);

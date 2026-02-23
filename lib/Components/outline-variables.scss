@@ -14,12 +14,6 @@
 
 /* Scope groups */
 .variable-scope-group {
-  border-bottom: 1px solid var(--cds-border-subtle-01, #e0e0e0);
-
-  &:last-child {
-    border-bottom: none;
-  }
-
   .bio-va-element-icon {
     height: 20px;
     width: 20px;
@@ -35,34 +29,21 @@
   align-items: center;
   gap: 6px;
   padding: 10px 12px;
-  background-color: var(--cds-layer-01, #f4f4f4);
   font-size: 14px;
   font-weight: 600;
   user-select: none;
   cursor: pointer;
   transition: background-color 0.15s ease;
-
-  &:hover {
-    background-color: var(--cds-layer-hover-01, #e8e8e8);
-  }
+  background-color: var(--cds-layer-01, #ffffff);
 
   &:focus-visible {
     outline: 2px solid var(--cds-focus, #0f62fe);
     outline-offset: -2px;
   }
 
-  &--collapsed {
-    border-bottom: none;
-  }
-
-  &--expanded {
-    background-color: var(--cds-layer-hover-01, #e8e8e8);
-  }
-
   &--local {
-    .variable-row-icon {
-      color: var(--cds-border-interactive, #0f62fe);
-    }
+    background-color: var(--cds-layer-hover-01, #e8e8e8);
+    border-left: 3px solid var(--cds-border-interactive, #0f62fe);
   }
 
   .variable-row-icon {
@@ -101,21 +82,31 @@
 }
 
 .variable-section-count {
-  margin-left: auto;
   color: var(--cds-text-secondary, #6f6f6f);
   font-weight: 400;
   font-size: 12px;
 }
 
-.variable-scope-rows {
-  border-top: 1px solid var(--cds-border-subtle-00, #e8e8e8);
+/* Scope type chip (Carbon Tag override) */
+/* outline variant (Root/Parent) — no background, just border */
+.variable-scope-chip.cds--tag--outline {
+  background-color: transparent !important;
+  border: 1px solid var(--cds-border-strong-01, #8d8d8d);
+  color: var(--cds-text-secondary, #6f6f6f);
+}
+
+/* blue variant (Local) — outline style with blue border + text, no fill */
+.variable-scope-chip.cds--tag--blue {
+  background-color: transparent !important;
+  border: 1px solid var(--cds-link-primary, #0f62fe);
+  color: var(--cds-link-primary, #0f62fe) !important;
+
+  .cds--tag__label {
+    color: var(--cds-link-primary, #0f62fe);
+  }
 }
 
 /* Variable row */
-.variable-row {
-  border-bottom: 1px solid var(--cds-border-subtle-00, #e8e8e8);
-}
-
 .variable-row-header {
   display: flex;
   align-items: center;
@@ -123,7 +114,6 @@
   padding: 8px 12px 8px 24px;
   cursor: pointer;
   user-select: none;
-  background-color: var(--cds-layer-01, #f4f4f4);
 
   &:hover {
     background-color: var(--cds-layer-hover-01, #e8e8e8);
@@ -199,32 +189,14 @@
 }
 
 .variable-access-tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1px;
-  border-radius: 9999px;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 4px;
   flex-shrink: 0;
-  color: var(--cds-interactive, #0062ff);
-  border: 1px solid rgba(0, 119, 255, 0.3);
+  margin-left: 6px;
 
-  .variable-access-icon {
-    width: 10px;
-    height: 10px;
-  }
-
-  .variable-access-count {
-    font-size: 10px;
-    font-weight: 600;
-    line-height: 1;
-  }
-
-  &--write {
-    color: var(--cds-link-primary, #0043ce);
-    border-color: rgba(0, 67, 206, 0.3);
+  // Carbon Tag label — make it inline-flex so icon + text sit side by side
+  .cds--tag__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
   }
 }
 
@@ -541,14 +513,14 @@
   font-size: 16px;
   line-height: 1;
   border-radius: 2px;
-  
-  &:hover, &--active { 
-    color: var(--cds-icon-primary, #161616); 
-    background: var(--cds-layer-hover-01, #e8e8e8); 
+
+  &:hover, &--active {
+    color: var(--cds-icon-primary, #161616);
+    background: var(--cds-layer-hover-01, #e8e8e8);
   }
-  
-  &:focus-visible { 
-    outline: 2px solid var(--cds-focus, #0f62fe); 
+
+  &:focus-visible {
+    outline: 2px solid var(--cds-focus, #0f62fe);
   }
 }
 
@@ -573,21 +545,21 @@
   cursor: pointer;
   color: var(--cds-text-primary, #161616);
   box-sizing: border-box;
-  
-  &:hover { 
-    background: var(--cds-layer-hover-01, #e8e8e8); 
+
+  &:hover {
+    background: var(--cds-layer-hover-01, #e8e8e8);
   }
-  
-  &:focus { 
-    background: var(--cds-layer-hover-01, #e8e8e8); 
-    outline: none; 
+
+  &:focus {
+    background: var(--cds-layer-hover-01, #e8e8e8);
+    outline: none;
   }
 }
 
 .vd-foldable-key {
   cursor: pointer;
   border-radius: 2px;
-  
+
   &:hover {
     background: var(--cds-layer-hover-01, #e8e8e8);
   }

@@ -1,4 +1,5 @@
 import { ChevronRight, Code, Edit } from '@carbon/icons-react';
+import { Tag } from '@carbon/react';
 
 import CopyButton from '../CopyButton';
 import ElementEntry from './ElementEntry';
@@ -17,7 +18,9 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
     ? `Written by ${singleWriterName}`
     : `Written by ${writeCount} elements`;
 
-  const writtenByLabel = writtenByTitle.toLocaleUpperCase();
+  const writtenByAccessLabel = singleWriterName
+    ? `By ${singleWriterName}`
+    : `By ${writeCount} Elements`;
 
   return (
     <div className={ `variable-row${isSelectedOrigin ? ' variable-row--highlight' : ''}${expanded ? ' variable-row--expanded' : ''}` }>
@@ -35,12 +38,15 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
             <span className="variable-name">{ variable.name }</span>
 
             {!expanded && (
-              <span
-                className="variable-access-tag variable-access-tag--write"
+              <Tag
+                className="variable-access-tag"
+                type="blue"
+                size="sm"
                 title={ writtenByTitle }
               >
-                <span className="variable-access-count">{ writtenByLabel }</span>
-              </span>
+                <Edit size={ 12 } />
+                { writtenByAccessLabel }
+              </Tag>
             )}
           </div>
         </div>
@@ -55,7 +61,7 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
               <ElementEntry element={ writers[0] } inline />
             </div>
           ) : (
-            <CollapsibleDetailSection label={ writtenByLabel }>
+            <CollapsibleDetailSection label={ writtenByTitle }>
               { writers.map(o => (
                 <ElementEntry key={ o.id } element={ o } />
               )) }
