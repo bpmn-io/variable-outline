@@ -58,7 +58,7 @@ describe('VariableList', () => {
       // then
       expect(getScopeVariables(container)).to.eql([
         {
-          scopeName: 'Global parent scope variables',
+          scopeName: 'TestDiagram',
           variables: [
             'InnerSubprocessOutputVariable1',
             'InnerSubprocessStartEventOutputVariable1',
@@ -93,7 +93,7 @@ describe('VariableList', () => {
       // then - global scope first, then OuterSubprocess local scope with input-mapped variables
       expect(getScopeVariables(container)).to.eql([
         {
-          scopeName: 'Global parent scope variables',
+          scopeName: 'TestDiagram',
           variables: [
             'InnerSubprocessOutputVariable1',
             'InnerSubprocessStartEventOutputVariable1',
@@ -107,7 +107,7 @@ describe('VariableList', () => {
           ],
         },
         {
-          scopeName: 'OuterSubprocess local scope variables',
+          scopeName: 'OuterSubprocess',
           variables: [ 'OuterSubprocessInputVariable1' ],
         }
       ]);
@@ -132,7 +132,7 @@ describe('VariableList', () => {
       // then - global / OuterSubprocess parent / InnerSubprocess parent / ServiceTask local
       expect(getScopeVariables(container)).to.eql([
         {
-          scopeName: 'Global parent scope variables',
+          scopeName: 'TestDiagram',
           variables: [
             'InnerSubprocessOutputVariable1',
             'InnerSubprocessStartEventOutputVariable1',
@@ -146,15 +146,15 @@ describe('VariableList', () => {
           ],
         },
         {
-          scopeName: 'OuterSubprocess parent scope variables',
+          scopeName: 'OuterSubprocess',
           variables: [],
         },
         {
-          scopeName: 'InnerSubprocess parent scope variables',
+          scopeName: 'InnerSubprocess',
           variables: [],
         },
         {
-          scopeName: 'ServiceTask local scope variables',
+          scopeName: 'ServiceTask',
           variables: [ 'ServiceTaskInputVariable1', 'ServiceTaskInputVariable2' ],
         }
       ]);
