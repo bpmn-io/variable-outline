@@ -1,20 +1,23 @@
 import { useContext } from 'react';
-import { CollapseAll } from '@carbon/icons-react';
+import { CollapseAll, ExpandAll } from '@carbon/icons-react';
 
 import { ScopeExpandContext } from '../../Context/ScopeExpandContext';
 
 export default function CollapseAllButton() {
-  const { collapseAll } = useContext(ScopeExpandContext);
+  const { allCollapsed, collapseAll, expandAll } = useContext(ScopeExpandContext);
+
+  const Icon = allCollapsed ? ExpandAll : CollapseAll;
+  const label = allCollapsed ? 'Expand all' : 'Collapse all';
 
   return (
     <button
       className="filter-toggle"
-      onClick={ collapseAll }
-      title="Collapse all scope groups"
+      onClick={ allCollapsed ? expandAll : collapseAll }
+      title={ label }
       type="button"
     >
-      <CollapseAll className="filter-toggle-icon" />
-      <span className="filter-toggle-label">Collapse all</span>
+      <Icon className="filter-toggle-icon" />
+      <span className="filter-toggle-label">{ label }</span>
     </button>
   );
 }
