@@ -76,19 +76,14 @@ export default function VariableList({ variables: rawVariables }) {
             const isProcess = group.scope?.$type === 'bpmn:Process';
             const isLocal = selectedElementIds.includes(group.scopeId);
 
-            let displayName;
+            const displayName = group.scope?.name || group.scopeId;
             let defaultExpanded = true;
             let scopeType = 'parent';
-            const scopeName = group.scope?.name || group.scopeId;
-
             if (isProcess) {
-              displayName = scopeName;
               scopeType = 'root';
             } else if (isLocal) {
-              displayName = scopeName;
               scopeType = 'local';
             } else {
-              displayName = scopeName;
               defaultExpanded = false;
             }
 

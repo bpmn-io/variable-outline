@@ -3,12 +3,11 @@ import { ChevronRight } from '@carbon/icons-react';
 import { preventEnterOrSpace } from '../../utils/preventEnterOrSpace';
 
 export default function CollapsibleDetailSection({
-  icon: Icon,
   label,
-  badge,
   defaultExpanded = false,
   children
 }) {
+
   const [ expanded, setExpanded ] = useState(defaultExpanded);
 
   const toggleExpanded = () => setExpanded(!expanded);
@@ -23,9 +22,7 @@ export default function CollapsibleDetailSection({
         onKeyDown={ preventEnterOrSpace(toggleExpanded) }
       >
         <ChevronRight className={ `variable-detail-chevron${!expanded ? '' : ' variable-detail-chevron--expanded'}` } />
-        { Icon && <Icon className="variable-detail-label-icon" /> }
         { label }
-        { badge }
       </div>
       { expanded && (
         <div className="variable-detail-content">

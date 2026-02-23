@@ -67,9 +67,7 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
               )) }
             </CollapsibleDetailSection>
           ) }
-          {false && <CollapsibleDetailSection label="READ BY">
-            <span className="variable-detail-empty">Requires FEEL expression analysis</span>
-          </CollapsibleDetailSection>}
+
           { (variable.type || variable.info || variable.entries?.length > 0) && (
             <div className="variable-detail-section">
               <div className="variable-detail-label">
