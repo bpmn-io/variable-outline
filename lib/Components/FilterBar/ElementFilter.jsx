@@ -64,9 +64,11 @@ export default function ElementFilter({ variables }) {
     setFilter(prev => ({ ...prev, selectedElements: [] }));
   };
 
-  const label = selectedElements.length > 0
-    ? `${selectedElements.length} element${selectedElements.length > 1 ? 's' : ''}`
-    : 'All elements';
+  const label = selectedElements.length === 1
+    ? elements.find(el => el.id === selectedElements[0])?.name || selectedElements[0]
+    : selectedElements.length > 1
+      ? `${selectedElements.length} elements`
+      : 'All elements';
 
   return (
     <div className="filter-dropdown" ref={ ref }>
