@@ -5,6 +5,10 @@
   padding: 6px 12px;
   border-bottom: 1px solid var(--cds-border-subtle-01, #e0e0e0);
   flex-shrink: 0;
+
+  .filter-toggle:last-child {
+    margin-left: auto;
+  }
 }
 
 /* Shared dropdown styles */

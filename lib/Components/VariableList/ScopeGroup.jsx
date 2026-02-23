@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { ChevronRight } from '@carbon/icons-react';
 
 import VariableRow from './VariableRow';
@@ -6,23 +5,15 @@ import { preventEnterOrSpace } from '../../utils/preventEnterOrSpace';
 import { getSVGComponent } from './Icons';
 import useService from '../../hooks/useService';
 import useExpandable from '../../hooks/useExpandable';
+import useScopeExpand from '../../hooks/useScopeExpand';
 
 export default function ScopeGroup({ scopeName, scope, variables, filter, defaultExpanded = true, isLocal = false }) {
   const [ expandedIds, handleToggle ] = useExpandable();
-  const [ expanded, setExpanded ] = useState(defaultExpanded);
+  const [ expanded, toggleExpanded ] = useScopeExpand(scope.id, defaultExpanded);
 
   const elementRegistry = useService('elementRegistry');
-
-  useEffect(() => {
-    if (isLocal) {
-      setExpanded(true);
-    }
-  }, [ isLocal ]);
-
-  const toggleExpanded = () => setExpanded(!expanded);
-
-  const element = scope && elementRegistry ? elementRegistry.get(scope.id) : null;
-  const ScopeIcon = (element || scope) ? getSVGComponent(element || scope) : null;
+  const element = elementRegistry.get(scope.id);
+  const ScopeIcon = getSVGComponent(element);
 
   return (
     <div className={ `variable-scope-group${isLocal ? ' variable-scope-group--local' : ''}` }>

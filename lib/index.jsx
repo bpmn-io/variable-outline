@@ -3,6 +3,7 @@ import { useState } from 'react';
 import TabContent from './TabContent';
 import { InjectorContext } from './Context/InjectorContext';
 import { FilterContext } from './Context/FilterContext';
+import { ScopeExpandProvider } from './Context/ScopeExpandContext';
 
 /**
  *
@@ -26,7 +27,9 @@ export default function(props) {
   return (
     <InjectorContext.Provider value={ injector }>
       <FilterContext.Provider value={ search }>
-        <TabContent />
+        <ScopeExpandProvider>
+          <TabContent />
+        </ScopeExpandProvider>
       </FilterContext.Provider>
     </InjectorContext.Provider>
   );
