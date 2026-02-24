@@ -1,5 +1,5 @@
 import { ChevronRight, Code, Edit } from '@carbon/icons-react';
-import { Tag } from '@carbon/react';
+import { DefinitionTooltip } from '@carbon/react';
 
 import CopyButton from '../CopyButton';
 import ElementEntry from './ElementEntry';
@@ -18,9 +18,9 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
     ? `Written by ${singleWriterName}`
     : `Written by ${writeCount} elements`;
 
-  const writtenByAccessLabel = singleWriterName
-    ? `By ${singleWriterName}`
-    : `By ${writeCount} Elements`;
+  const writtenByLabel = singleWriterName
+    ? singleWriterName
+    : `${writeCount} elements`;
 
   return (
     <div className={ `variable-row${isSelectedOrigin ? ' variable-row--highlight' : ''}${expanded ? ' variable-row--expanded' : ''}` }>
@@ -38,15 +38,23 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
             <span className="variable-name">{ variable.name }</span>
 
             {!expanded && (
-              <Tag
-                className="variable-access-tag"
-                type="blue"
-                size="sm"
-                title={ writtenByTitle }
+              <DefinitionTooltip
+                definition={
+                  <div className="variable-written-by-tooltip-content">
+                    <p>This variable has been written by</p>
+                    <ul>
+                      { writers.map(o => (
+                        <li key={ o.id }>{ o.name || o.id }</li>
+                      )) }
+                    </ul>
+                  </div>
+                }
+                openOnHover
+                align="bottom-start"
+                triggerClassName="variable-written-by"
               >
-                <Edit size={ 12 } />
-                { writtenByAccessLabel }
-              </Tag>
+                <><Edit size={ 12 } />{ writtenByLabel }</>
+              </DefinitionTooltip>
             )}
           </div>
         </div>

@@ -189,15 +189,24 @@
   white-space: nowrap;
 }
 
-.variable-access-tag {
+.variable-written-by {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   flex-shrink: 0;
-  margin-left: 6px;
+  color: var(--cds-text-secondary, #6f6f6f);
+  font-weight: 400;
+  font-size: 12px;
+}
 
-  // Carbon Tag label — make it inline-flex so icon + text sit side by side
-  .cds--tag__label {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
+.variable-written-by-tooltip-content {
+  p {
+    margin: 0 0 4px;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 14px;
   }
 }
 
