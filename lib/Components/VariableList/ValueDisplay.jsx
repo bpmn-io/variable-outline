@@ -110,7 +110,7 @@ export default function ValueDisplay({ info, type, entries, isList, variableName
   const hasEntries = entries?.length > 0;
   const infoPresent = type === 'Null' || info === null || (info !== null && info !== undefined && info !== '');
 
-  if (!infoPresent && !hasEntries) return null;
+  if (!infoPresent && !hasEntries) return '-';
 
   const doc = buildDoc(info, type, entries, isList);
 

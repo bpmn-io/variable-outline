@@ -49,11 +49,13 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
                     </ul>
                   </div>
                 }
+                className="variable-written-by-wrapper"
                 openOnHover
-                align="bottom-start"
                 triggerClassName="variable-written-by"
               >
-                <><Edit size={ 12 } />{ writtenByLabel }</>
+                <Edit size={ 12 } />
+
+                <span className="variable-written-by-label">{ writtenByLabel }</span>
               </DefinitionTooltip>
             )}
           </div>

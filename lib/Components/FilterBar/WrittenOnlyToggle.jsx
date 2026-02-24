@@ -23,7 +23,7 @@ export default function WrittenOnlyToggle() {
         onChange={ handleToggle }
         className="filter-dropdown-checkbox"
       />
-      Written by current selection
+      Written by selection
     </label>
   );
 
