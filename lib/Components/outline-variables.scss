@@ -164,7 +164,6 @@
   align-items: center;
   gap: 6px;
   min-width: 0;
-  overflow: hidden;
 }
 
 .variable-name {
@@ -195,10 +194,10 @@
 
 .variable-written-by-wrapper {
   min-width: 0;
-  overflow: hidden;
 }
 
 .variable-written-by {
+  all: unset;
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -207,6 +206,10 @@
   color: var(--cds-text-secondary, #6f6f6f);
   font-weight: 400;
   font-size: 12px;
+  cursor: default;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
 
   svg {
     flex-shrink: 0;
