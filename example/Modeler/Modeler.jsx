@@ -1,4 +1,4 @@
-import BpmnJS from 'camunda-bpmn-js/dist/camunda-cloud-modeler.development';
+import BpmnJS from 'camunda-bpmn-js/lib/camunda-cloud/Modeler';
 import 'camunda-bpmn-js/dist/assets/camunda-cloud-modeler.css';
 import { useEffect, useRef } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
