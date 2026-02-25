@@ -17,7 +17,6 @@ export default function CollapseAllButton() {
       type="button"
     >
       <Icon className="filter-toggle-icon" />
-      <span className="filter-toggle-label">{ label }</span>
     </button>
   );
 }

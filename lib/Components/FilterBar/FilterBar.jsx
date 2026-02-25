@@ -9,8 +9,10 @@ export default function FilterBar({ variables }) {
   return (
     <div className="bio-vo-filter-bar">
       <ElementFilter variables={ variables } />
-      <WrittenOnlyToggle />
-      <CollapseAllButton />
+      <div className="bio-vo-filter-bar-actions">
+        <WrittenOnlyToggle />
+        <CollapseAllButton />
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-
+import { Toggle } from '@carbon/react';
 import { FilterContext } from '../../Context/FilterContext';
 
 export default function WrittenOnlyToggle() {
@@ -13,18 +13,17 @@ export default function WrittenOnlyToggle() {
   };
 
   return (
-    <label
-      className={ `filter-toggle${writtenOnly ? ' filter-toggle--active' : ''}` }
-      title="Hide variables that are available, but not used"
-    >
-      <input
-        type="checkbox"
-        checked={ writtenOnly }
-        onChange={ handleToggle }
-        className="filter-dropdown-checkbox"
+    <div className="bio-vo-written-only-toggle">
+      <Toggle
+        id="written-only-toggle"
+        size="sm"
+        labelText="Written by selection"
+        hideLabel
+        toggled={ writtenOnly }
+        onToggle={ handleToggle }
+        aria-label="Written by current selection"
       />
-      Written by selection
-    </label>
+    </div>
   );
 
 }
