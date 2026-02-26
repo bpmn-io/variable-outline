@@ -4,6 +4,13 @@
   display: flex;
   flex-direction: column;
   background: var(--cds-layer-01, #f4f4f4);
+
+  --text-size-base: 14px;
+  --text-size-small: 12px;
+  --text-line-height: 21px;
+  --line-height-condensed: 17px;
+  --font-family: 'IBM Plex Sans', system-ui, Arial, sans-serif;
+  --font-family-monospace: 'IBM Plex Mono', monospace;
 }
 
 span.mono {

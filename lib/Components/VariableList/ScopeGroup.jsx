@@ -32,9 +32,9 @@ export default function ScopeGroup({ scopeName, scope, variables, filter, defaul
   });
 
   return (
-    <div className={ `variable-scope-group${isLocal ? ' variable-scope-group--local' : ''}` }>
+    <div className={ `variable-scope-group${expanded ? ' variable-scope-group--expanded' : ''}${isLocal ? ' variable-scope-group--local' : ''}` }>
       <div
-        className={ `variable-section-header${!expanded ? ' variable-section-header--collapsed' : ' variable-section-header--expanded'}${isLocal ? ' variable-section-header--local' : ''}` }
+        className={ `variable-section-header${expanded ? ' variable-section-header--expanded' : ' variable-section-header--collapsed'}${isLocal ? ' variable-section-header--local' : ''}` }
         onClick={ toggleExpanded }
         role="button"
         tabIndex={ 0 }
@@ -54,6 +54,7 @@ export default function ScopeGroup({ scopeName, scope, variables, filter, defaul
         </Tag>
         <span className="variable-section-count">{ variables.length }</span>
       </div>
+
       { expanded && (
         <div className={ `variable-scope-rows${isLocal ? ' variable-scope-rows--local' : ''}` }>
           { rows }
