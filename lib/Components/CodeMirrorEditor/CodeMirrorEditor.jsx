@@ -18,7 +18,7 @@ export default function CodeMirrorEditor({ doc, variableName, isJson }) {
 
     const baseExtensions = [
       EditorState.readOnly.of(true),
-      EditorView.contentAttributes.of({ tabindex: '0' }),
+      EditorView.contentAttributes.of({ tabindex: '0', 'aria-label': `Value of ${ variableName }` }),
       EditorView.lineWrapping,
       theme,
     ];
