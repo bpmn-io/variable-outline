@@ -69,12 +69,12 @@ export function getSVGComponent(element) {
   const templateIcon = getBusinessObject(element).get(iconProperty);
 
   if (templateIcon) {
-    return () => <img className="bio-va-element-icon" src={ templateIcon } />;
+    return () => <img className="bio-va-element-icon" src={ templateIcon } alt="" aria-hidden="true" />;
   }
 
   const Icon = iconsByType[concreteType];
 
-  return () => <Icon className="bio-va-element-icon" />;
+  return () => <Icon className="bio-va-element-icon" aria-hidden="true" />;
 }
 
 
