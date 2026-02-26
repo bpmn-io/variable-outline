@@ -59,8 +59,7 @@ export default function ElementFilter({ variables }) {
     setFilter(prev => ({ ...prev, selectedElements: updated }));
   };
 
-  const handleClearAll = (e) => {
-    e.stopPropagation();
+  const handleClearAll = () => {
     setFilter(prev => ({ ...prev, selectedElements: [] }));
   };
 
@@ -80,12 +79,18 @@ export default function ElementFilter({ variables }) {
         type="button"
       >
         <span className="filter-dropdown-label">{ label }</span>
-        { selectedElements.length > 0 ? (
-          <Close className="filter-dropdown-icon" onClick={ handleClearAll } />
-        ) : (
-          <ChevronDown className="filter-dropdown-icon" />
-        ) }
+        <ChevronDown className="filter-dropdown-icon" />
       </button>
+      { selectedElements.length > 0 && (
+        <button
+          type="button"
+          className="filter-dropdown-clear"
+          onClick={ handleClearAll }
+          aria-label="Clear element filter"
+        >
+          <Close className="filter-dropdown-icon" aria-hidden="true" />
+        </button>
+      ) }
       { open && (
         <div className="filter-dropdown-menu" role="listbox" aria-multiselectable="true">
           { elements.length > 0 ? elements.map(el => (
