@@ -5,7 +5,7 @@ import CopyButton from '../CopyButton';
 import ElementEntry from './ElementEntry';
 import ValueDisplay from './ValueDisplay';
 import CollapsibleDetailSection from './CollapsibleDetailSection';
-import { preventEnterOrSpace } from '../../utils/preventEnterOrSpace';
+
 
 export default function VariableRow({ variable, isSelectedOrigin, expanded, onToggle }) {
   const writers = variable.origin;
@@ -27,40 +27,42 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
       <div
         className="variable-row-header"
         onClick={ onToggle }
-        role="button"
-        tabIndex={ 0 }
-        aria-expanded={ expanded }
-        onKeyDown={ preventEnterOrSpace(onToggle) }
       >
-        <ChevronRight className={ `variable-row-chevron${expanded ? ' variable-row-chevron--expanded' : ''}` } />
-        <div className="variable-row-content">
-          <div className="variable-row-info">
-            <span className="variable-name">{ variable.name }</span>
-
-            {!expanded && (
-              <Tooltip
-                label={
-                  <div className="variable-written-by-tooltip-content">
-                    <p>This variable has been written by</p>
-                    <ul>
-                      { writers.map(o => (
-                        <li key={ o.id }>{ o.name || o.id }</li>
-                      )) }
-                    </ul>
-                  </div>
-                }
-                align="bottom"
-                autoAlign
-                className="variable-written-by-wrapper"
-              >
-                <button type="button" className="variable-written-by" tabIndex={ -1 }>
-                  <Edit size={ 12 } />
-                  <span className="variable-written-by-label">{ writtenByLabel }</span>
-                </button>
-              </Tooltip>
-            )}
+        <button
+          className="variable-row-toggle"
+          type="button"
+          aria-expanded={ expanded }
+        >
+          <ChevronRight className={ `variable-row-chevron${expanded ? ' variable-row-chevron--expanded' : ''}` } />
+          <div className="variable-row-content">
+            <div className="variable-row-info">
+              <span className="variable-name">{ variable.name }</span>
+            </div>
           </div>
-        </div>
+        </button>
+
+        {!expanded && (
+          <Tooltip
+            label={
+              <div className="variable-written-by-tooltip-content">
+                <p>This variable has been written by</p>
+                <ul>
+                  { writers.map(o => (
+                    <li key={ o.id }>{ o.name || o.id }</li>
+                  )) }
+                </ul>
+              </div>
+            }
+            align="bottom"
+            autoAlign
+            className="variable-written-by-wrapper"
+          >
+            <button type="button" className="variable-written-by" tabIndex={ -1 }>
+              <Edit size={ 12 } />
+              <span className="variable-written-by-label">{ writtenByLabel }</span>
+            </button>
+          </Tooltip>
+        )}
         <CopyButton text={ variable.name } />
       </div>
       { expanded && (
