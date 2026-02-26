@@ -1,3 +1,4 @@
+
 .bio-vo-tab-content {
   height: 100%;
   max-height: 100%;
@@ -13,14 +14,11 @@
   --font-family-monospace: 'IBM Plex Mono', monospace;
 }
 
-span.mono {
-  font-family: 'IBM Plex Mono', monospace !important;
-  background: var(--cds-layer-01, #f4f4f4);
-  padding: 1px 2px !important;
-  display: inline-block;
-  font-size: 13px !important;
-  white-space: break-spaces !important;
+
+.variables {
+  height: 100%;
 }
+
 
 .bio-vo-tooltip-wrapper {
   text-decoration: underline;
@@ -32,22 +30,30 @@ span.mono {
   width: fit-content;
 }
 
- .bio-vo-label {
-   margin: 0.5em
- }
+
+.bio-vo-label {
+  margin: 0.5em
+}
+
 
 .bio-vo-text-button {
   all: unset;
   display: inline-flex;
   align-items: center;
   cursor: pointer;
- }
 
-.bio-vo-text-button:focus-visible {
-  outline: 2px solid var(--cds-focus, #0f62fe);
-  outline-offset: -1px;
+  &:focus-visible {
+    outline: 2px solid var(--cds-focus, #0f62fe);
+    outline-offset: -1px;
+  }
 }
 
-.variables {
-  height: 100%;
+
+span.mono {
+  font-family: 'IBM Plex Mono', monospace !important;
+  background: var(--cds-layer-01, #f4f4f4);
+  padding: 1px 2px !important;
+  display: inline-block;
+  font-size: 13px !important;
+  white-space: break-spaces !important;
 }
