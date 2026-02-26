@@ -1,5 +1,4 @@
 import { ChevronRight, Code, Edit } from '@carbon/icons-react';
-import { Tooltip } from '@carbon/react';
 
 import CopyButton from '../CopyButton';
 import ElementEntry from './ElementEntry';
@@ -17,11 +16,6 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
   const writtenByTitle = singleWriterName
     ? `Written by ${singleWriterName}`
     : `Written by ${writeCount} elements`;
-
-  const writtenByLabel = singleWriterName
-    ? singleWriterName
-    : `${writeCount} elements`;
-
   return (
     <div className={ `variable-row${isSelectedOrigin ? ' variable-row--highlight' : ''}${expanded ? ' variable-row--expanded' : ''}` }>
       <div
@@ -41,28 +35,6 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
           </div>
         </button>
 
-        {!expanded && (
-          <Tooltip
-            label={
-              <div className="variable-written-by-tooltip-content">
-                <p>This variable has been written by</p>
-                <ul>
-                  { writers.map(o => (
-                    <li key={ o.id }>{ o.name || o.id }</li>
-                  )) }
-                </ul>
-              </div>
-            }
-            align="bottom"
-            autoAlign
-            className="variable-written-by-wrapper"
-          >
-            <button type="button" className="variable-written-by" tabIndex={ -1 }>
-              <Edit size={ 12 } />
-              <span className="variable-written-by-label">{ writtenByLabel }</span>
-            </button>
-          </Tooltip>
-        )}
         <CopyButton text={ variable.name } />
       </div>
       { expanded && (

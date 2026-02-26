@@ -242,47 +242,6 @@
   white-space: nowrap;
 }
 
-.variable-written-by-wrapper {
-  min-width: 0;
-}
-
-.variable-written-by {
-  all: unset;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  max-width: 100%;
-  overflow: hidden;
-  color: var(--cds-text-secondary, #6f6f6f);
-  font-weight: 400;
-  font-size: var(--text-size-small);
-  cursor: default;
-  text-decoration: underline;
-  text-decoration-style: dotted;
-  text-underline-offset: 2px;
-
-  svg {
-    flex-shrink: 0;
-  }
-
-  .variable-written-by-label {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
-.variable-written-by-tooltip-content {
-
-  p {
-    margin: 0 0 4px;
-  }
-
-  ul {
-    margin: 0;
-    padding-left: 14px;
-  }
-}
 
 .variable-copy-button {
   all: unset;
