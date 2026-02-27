@@ -1,4 +1,5 @@
 import { ChevronRight, Code, Edit } from '@carbon/icons-react';
+import { Tooltip } from '@carbon/react';
 
 import CopyButton from '../CopyButton';
 import ElementEntry from './ElementEntry';
@@ -57,7 +58,9 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
             <div className="variable-detail-section">
               <div className="variable-detail-label">
                 <Code className="variable-detail-label-icon" />
-                Value
+                <Tooltip className="bio-vo-tooltip-wrapper" label="This is a merged representation." align="bottom" autoAlign>
+                  <span>Value</span>
+                </Tooltip>
               </div>
               <ValueDisplay
                 info={ variable.info }
