@@ -426,27 +426,6 @@
   }
 }
 
-.variable-entry {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 10px;
-  background-color: var(--cds-layer-01, #f4f4f4);
-  margin-bottom: 2px;
-
-  .variable-entry-name {
-    font-family: var(--font-family);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--cds-text-primary, #161616);
-  }
-}
-
-.no-variables-found {
-  padding: 8px 16px;
-  font-size: 14px;
-  color: var(--cds-text-secondary, #6f6f6f);
-}
 
 .vd-root {
   color: var(--cds-text-primary, #161616);

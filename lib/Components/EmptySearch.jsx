@@ -7,10 +7,9 @@ export default function({ rawVariables }) {
   const DESCRIPTION = rawVariables.length ? 'Check your query or select a different scope.' : 'Add Variables to your process through mappings, forms or example data.';
 
   return (
-    <div className="bio-vo-empty-search" style={ {
-      margin: '30px'
-    } }>
+    <div className="bio-vo-empty-search">
       <h3>{TITLE}</h3>
+
       <p>
         {DESCRIPTION}
       </p>
