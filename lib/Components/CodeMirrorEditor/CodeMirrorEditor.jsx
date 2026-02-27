@@ -7,6 +7,7 @@ import theme from './CodeMirrorTheme';
 import { foldPreview } from './foldPreview';
 import { jsonInteractiveControls, closeMenuEffect, setActiveTokenEffect } from './jsonInteractiveControls';
 import { ContextMenu } from './ContextMenu';
+import { primitiveHighlight } from './primitiveHighlight';
 
 export default function CodeMirrorEditor({ doc, variableName, isJson }) {
   const ref = useRef(null);
@@ -23,17 +24,17 @@ export default function CodeMirrorEditor({ doc, variableName, isJson }) {
       theme,
     ];
 
-    const jsonExtensions = isJson ? [
+    const languageExtensions = isJson ? [
       json(),
       foldGutter(),
       foldPreview(),
       jsonInteractiveControls(variableName, setMenuState),
       keymap.of(foldKeymap),
-    ] : [];
+    ] : [ primitiveHighlight() ];
 
     const state = EditorState.create({
       doc,
-      extensions: [ ...baseExtensions, ...jsonExtensions ]
+      extensions: [ ...baseExtensions, ...languageExtensions ]
     });
 
     const editorView = new EditorView({
