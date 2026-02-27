@@ -25,7 +25,7 @@ export default function CopyButton({ text }) {
 
   return (
     <button
-      className={ `variable-copy-button${copied ? ' variable-copy-button--copied' : ''}` }
+      className="variable-copy-button"
       title={ copied ? 'Copied!' : 'Copy to insert' }
       onClick={ handleCopy }
     >
@@ -33,7 +33,6 @@ export default function CopyButton({ text }) {
         ? <Checkmark className="variable-copy-icon" />
         : <Copy className="variable-copy-icon" />
       }
-      { copied && <span className="variable-copy-tooltip">Copied!</span> }
     </button>
   );
 }
