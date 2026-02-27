@@ -26,6 +26,13 @@
 }
 
 .variable-section-header {
+  appearance: none;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  width: 100%;
   position: sticky;
   top: 0;
   z-index: 2;
@@ -327,6 +334,13 @@
   margin-bottom: 6px;
 
   &--collapsible {
+    appearance: none;
+    border: none;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    width: 100%;
     cursor: pointer;
     user-select: none;
     padding: 4px 0;

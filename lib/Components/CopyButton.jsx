@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Copy, Checkmark } from '@carbon/icons-react';
-import { preventEnterOrSpace } from '../utils/preventEnterOrSpace';
+
 
 export default function CopyButton({ text }) {
   const [ copied, setCopied ] = useState(false);
@@ -28,7 +28,6 @@ export default function CopyButton({ text }) {
       className={ `variable-copy-button${copied ? ' variable-copy-button--copied' : ''}` }
       title={ copied ? 'Copied!' : 'Copy to insert' }
       onClick={ handleCopy }
-      onKeyDown={ preventEnterOrSpace(handleCopy) }
     >
       { copied
         ? <Checkmark className="variable-copy-icon" />

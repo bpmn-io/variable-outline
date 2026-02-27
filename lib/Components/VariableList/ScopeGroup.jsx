@@ -2,7 +2,6 @@ import { ChevronRight } from '@carbon/icons-react';
 import { Tag } from '@carbon/react';
 
 import VariableRow from './VariableRow';
-import { preventEnterOrSpace } from '../../utils/preventEnterOrSpace';
 import { getSVGComponent } from './Icons';
 import useService from '../../hooks/useService';
 import useExpandable from '../../hooks/useExpandable';
@@ -33,13 +32,11 @@ export default function ScopeGroup({ scopeName, scope, variables, filter, defaul
 
   return (
     <div className={ `variable-scope-group${expanded ? ' variable-scope-group--expanded' : ''}${isLocal ? ' variable-scope-group--local' : ''}` }>
-      <div
+      <button
+        type="button"
         className={ `variable-section-header${expanded ? ' variable-section-header--expanded' : ' variable-section-header--collapsed'}${isLocal ? ' variable-section-header--local' : ''}` }
         onClick={ toggleExpanded }
-        role="button"
-        tabIndex={ 0 }
         aria-expanded={ expanded }
-        onKeyDown={ preventEnterOrSpace(toggleExpanded) }
       >
         <ChevronRight className={ `variable-section-chevron${!expanded ? '' : ' variable-section-chevron--expanded'}` } />
 
@@ -53,7 +50,7 @@ export default function ScopeGroup({ scopeName, scope, variables, filter, defaul
           { scopeType === 'root' ? 'Root' : scopeType === 'local' ? 'Local' : 'Parent' }
         </Tag>
         <span className="variable-section-count">{ variables.length }</span>
-      </div>
+      </button>
 
       { expanded && (
         <div className={ `variable-scope-rows${isLocal ? ' variable-scope-rows--local' : ''}` }>

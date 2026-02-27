@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { ChevronRight } from '@carbon/icons-react';
-import { preventEnterOrSpace } from '../../utils/preventEnterOrSpace';
 
 export default function CollapsibleDetailSection({
   label,
@@ -14,16 +13,14 @@ export default function CollapsibleDetailSection({
 
   return (
     <div className={ `variable-detail-section${!expanded ? ' variable-detail-section--collapsed' : ''}` }>
-      <div
+      <button
+        type="button"
         className="variable-detail-label variable-detail-label--collapsible"
         onClick={ toggleExpanded }
-        role="button"
-        tabIndex={ 0 }
-        onKeyDown={ preventEnterOrSpace(toggleExpanded) }
       >
         <ChevronRight className={ `variable-detail-chevron${!expanded ? '' : ' variable-detail-chevron--expanded'}` } />
         { label }
-      </div>
+      </button>
       { expanded && (
         <div className="variable-detail-content">
           { children }
