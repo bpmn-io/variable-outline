@@ -44,7 +44,7 @@ export default function CodeMirrorEditor({ doc, variableName, isJson }) {
     setView(editorView);
 
     return () => editorView.destroy();
-  }, [ doc, variableName ]);
+  }, [ doc, variableName, isJson ]);
 
   const handleCloseMenu = () => {
     if (view) {
