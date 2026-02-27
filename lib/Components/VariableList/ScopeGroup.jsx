@@ -13,7 +13,7 @@ export default function ScopeGroup({ scopeName, scope, variables, filter, defaul
 
   const elementRegistry = useService('elementRegistry');
   const element = elementRegistry.get(scope.id);
-  const ScopeIcon = getSVGComponent(element);
+  const ScopeIcon = element ? getSVGComponent(element) : null;
 
   const rows = variables.map(variable => {
     const isSelectedOrigin = filter.selectedElements.some(id =>
