@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import { EditorState } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
 import { json } from '@codemirror/lang-json';
-import { foldGutter, foldKeymap } from '@codemirror/language';
+import { foldGutter, foldKeymap, foldAll } from '@codemirror/language';
 import theme from './CodeMirrorTheme';
 import { foldPreview } from './foldPreview';
 import { jsonInteractiveControls, closeMenuEffect, setActiveTokenEffect } from './jsonInteractiveControls';
@@ -40,6 +40,10 @@ export default function CodeMirrorEditor({ doc, variableName, isJson }) {
       state,
       parent: ref.current
     });
+
+    if (isJson) {
+      foldAll(editorView);
+    }
 
     setView(editorView);
 
