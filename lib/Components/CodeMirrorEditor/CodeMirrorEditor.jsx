@@ -8,6 +8,7 @@ import { foldPreview } from './foldPreview';
 import { jsonInteractiveControls, closeMenuEffect, setActiveTokenEffect } from './jsonInteractiveControls';
 import { ContextMenu } from './ContextMenu';
 import { primitiveHighlight } from './primitiveHighlight';
+import { feelExpressionIcon, feelPrimitiveIcon } from './feelExpressionIcon';
 
 export default function CodeMirrorEditor({ doc, variableName, isJson }) {
   const ref = useRef(null);
@@ -29,8 +30,9 @@ export default function CodeMirrorEditor({ doc, variableName, isJson }) {
       foldGutter(),
       foldPreview(),
       jsonInteractiveControls(variableName, setMenuState),
+      feelExpressionIcon(),
       keymap.of(foldKeymap),
-    ] : [ primitiveHighlight() ];
+    ] : [ primitiveHighlight(), feelPrimitiveIcon() ];
 
     const state = EditorState.create({
       doc,

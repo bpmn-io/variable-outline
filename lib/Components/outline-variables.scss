@@ -219,7 +219,7 @@
 }
 
 .variable-row-details {
-  padding: 4px 12px 12px 10px;
+  padding: 4px 12px 4px 10px;
   font-size: 13px;
   margin-top: 10px;
   margin-left: 30px;
@@ -471,6 +471,19 @@
 
   &:hover {
     background-color: var(--cds-layer-hover-01, #e8e8e8);
+  }
+}
+
+.vd-feel-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 4px;
+  color: var(--cds-text-secondary, #525252);
+  vertical-align: middle;
+
+  svg {
+    width: 12px;
+    height: 12px;
   }
 }
 
