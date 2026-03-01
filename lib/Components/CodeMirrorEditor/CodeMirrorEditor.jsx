@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { EditorState } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
 import { json } from '@codemirror/lang-json';
@@ -53,7 +53,7 @@ export default function CodeMirrorEditor({ doc, variableName, isJson }) {
     return () => editorView.destroy();
   }, [ doc, variableName, isJson ]);
 
-  const handleCloseMenu = () => {
+  const handleCloseMenu = useCallback(() => {
     if (view) {
       view.dispatch({
         effects: [
@@ -64,7 +64,7 @@ export default function CodeMirrorEditor({ doc, variableName, isJson }) {
       view.focus();
     }
     setMenuState(null);
-  };
+  }, [ view ]);
 
   return (
     <div ref={ ref } className="vd-codemirror">
