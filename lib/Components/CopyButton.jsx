@@ -25,7 +25,7 @@ export default function CopyButton({ text }) {
 
   return (
     <button
-      className="variable-copy-button"
+      className={ `variable-copy-button${ copied ? ' variable-copy-button--copied' : '' }` }
       title={ copied ? 'Copied!' : 'Copy to insert' }
       onClick={ handleCopy }
     >
