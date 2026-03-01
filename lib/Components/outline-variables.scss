@@ -540,15 +540,19 @@
 .vd-menu-btn {
   all: unset;
   position: absolute;
-  right: 0;
+  right: 2px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  padding: 0 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
   color: var(--cds-icon-secondary, #525252);
   font-size: 16px;
   line-height: 1;
-  border-radius: 2px;
+  border-radius: 4px;
 
   &:hover, &--active {
     color: var(--cds-icon-primary, #161616);
@@ -567,7 +571,7 @@
   border: 1px solid var(--cds-border-subtle-01, #e0e0e0);
   border-radius: 4px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  padding: 4px 0;
+  padding: 8px 0;
   min-width: 140px;
   font-family: inherit;
   font-size: 13px;
