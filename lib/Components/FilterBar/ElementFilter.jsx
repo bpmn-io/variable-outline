@@ -79,7 +79,7 @@ export default function ElementFilter({ variables }) {
         className={ `filter-dropdown-trigger${selectedElements.length > 0 ? ' filter-dropdown-trigger--active' : ''}` }
         onClick={ () => setOpen(!open) }
         aria-expanded={ open }
-        aria-haspopup="listbox"
+        aria-haspopup="true"
         type="button"
       >
         <span className="filter-dropdown-label">{ label }</span>
@@ -96,14 +96,14 @@ export default function ElementFilter({ variables }) {
         </button>
       ) }
       { open && (
-        <div className="filter-dropdown-menu" role="listbox" aria-label="Filter by element" aria-multiselectable="true">
+        <div className="filter-dropdown-menu" role="menu" aria-label="Filter by element">
           { elements.length > 0 ? elements.map(el => (
             <button
               key={ el.id }
               type="button"
               className={ `filter-dropdown-option${selectedElements.includes(el.id) ? ' filter-dropdown-option--selected' : ''}` }
-              role="option"
-              aria-selected={ selectedElements.includes(el.id) }
+              role="menuitemcheckbox"
+              aria-checked={ selectedElements.includes(el.id) }
               onClick={ () => handleToggleElement(el.id) }
             >
               <span className="filter-dropdown-checkbox" aria-hidden="true" />
