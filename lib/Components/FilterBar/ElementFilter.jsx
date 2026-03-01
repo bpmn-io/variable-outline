@@ -6,13 +6,15 @@ import useService from '../../hooks/useService';
 import useClickOutside from '../../hooks/useClickOutside';
 import { getName } from '../../utils/elementUtil';
 
+const EMPTY = [];
+
 export default function ElementFilter({ variables }) {
   const [ filter, setFilter ] = useContext(FilterContext);
   const elementRegistry = useService('elementRegistry');
   const [ open, setOpen ] = useState(false);
   const ref = useClickOutside(() => setOpen(false), open);
 
-  const selectedElements = filter.selectedElements || [];
+  const selectedElements = filter.selectedElements || EMPTY;
 
   const elements = useMemo(() => {
     const elementMap = new Map();
