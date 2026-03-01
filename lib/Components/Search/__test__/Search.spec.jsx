@@ -16,8 +16,6 @@ const DEFAULT_FILTER = {
 let setSpy = vi.fn();
 let setFilter;
 
-
-
 it('should render search input', function() {
 
   // given
@@ -73,7 +71,7 @@ it('should react to external changes', async () => {
 
 // helpers /////////////////////////
 
-const wrapper = ({ children }) => {
+function wrapper({ children }) {
   const [ filter, _setFilter ] = useState(DEFAULT_FILTER);
 
   setFilter = _setFilter;
@@ -82,4 +80,5 @@ const wrapper = ({ children }) => {
     setSpy(e);
     setFilter(e);
   } ] }>{children}</FilterContext.Provider>;
-};
+}
+
