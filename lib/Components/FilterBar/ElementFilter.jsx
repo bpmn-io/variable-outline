@@ -61,12 +61,6 @@ export default function ElementFilter({ variables }) {
     });
   }, [ setFilter ]);
 
-  const handleOptionKeyDown = useCallback((e, elementId) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleToggleElement(elementId);
-    }
-  }, [ handleToggleElement ]);
 
   const handleClearAll = () => {
     setFilter(prev => ({ ...prev, selectedElements: [] }));
@@ -103,19 +97,18 @@ export default function ElementFilter({ variables }) {
       { open && (
         <div className="filter-dropdown-menu" role="listbox" aria-label="Filter by element" aria-multiselectable="true">
           { elements.length > 0 ? elements.map(el => (
-            <div
+            <button
               key={ el.id }
+              type="button"
               className={ `filter-dropdown-option${selectedElements.includes(el.id) ? ' filter-dropdown-option--selected' : ''}` }
               role="option"
               aria-selected={ selectedElements.includes(el.id) }
-              tabIndex={ 0 }
               onClick={ () => handleToggleElement(el.id) }
-              onKeyDown={ (e) => handleOptionKeyDown(e, el.id) }
             >
               <span className="filter-dropdown-checkbox" aria-hidden="true" />
               <span className="filter-dropdown-option-label">{ el.name }</span>
               <span className="filter-dropdown-option-badge">{ el.variableCount }</span>
-            </div>
+            </button>
           )) : (
             <div className="filter-dropdown-empty">No elements found</div>
           ) }
