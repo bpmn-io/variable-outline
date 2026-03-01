@@ -26,6 +26,20 @@ async function waitForEditor(container) {
   return container.querySelector('.cm-editor');
 }
 
+async function unfoldEditor(editor) {
+  const placeholder = await waitFor(() => {
+    const placeholder = editor.querySelector('.vd-fold-placeholder');
+    expect(placeholder).to.exist;
+
+    return placeholder;
+  });
+
+  fireEvent.click(placeholder);
+  await waitFor(() => {
+    expect(editor.querySelectorAll('.cm-line').length).to.be.above(1);
+  });
+}
+
 function renderValueDisplay(overrides = {}) {
   return render(
     <ValueDisplay
@@ -57,7 +71,15 @@ describe('ValueDisplay', () => {
       // given
       const { container } = renderValueDisplay();
       const editor = await waitForEditor(container);
-      const menuButton = editor.querySelector('.vd-menu-btn');
+      await unfoldEditor(editor);
+
+      const menuButton = await waitFor(() => {
+        const menuButton = editor.querySelector('.vd-menu-btn');
+
+        expect(menuButton).to.exist;
+
+        return menuButton;
+      });
 
       // when
       fireEvent.click(menuButton);
@@ -92,10 +114,13 @@ describe('ValueDisplay', () => {
       // when
       const { container } = renderValueDisplay();
       const editor = await waitForEditor(container);
+      await unfoldEditor(editor);
 
       // then
-      const foldableKeys = editor.querySelectorAll('.vd-foldable-key');
-      expect(foldableKeys.length).to.be.above(0);
+      await waitFor(() => {
+        const foldableKeys = editor.querySelectorAll('.vd-foldable-key');
+        expect(foldableKeys.length).to.be.above(0);
+      });
     });
 
     it('should fold nested value when clicking its property key', async () => {
@@ -103,7 +128,15 @@ describe('ValueDisplay', () => {
       // given
       const { container } = renderValueDisplay();
       const editor = await waitForEditor(container);
-      const foldableKey = editor.querySelector('.vd-foldable-key');
+      await unfoldEditor(editor);
+
+      const foldableKey = await waitFor(() => {
+        const foldableKey = editor.querySelector('.vd-foldable-key');
+
+        expect(foldableKey).to.exist;
+
+        return foldableKey;
+      });
 
       // when
       mouseDownCenter(foldableKey);
@@ -119,14 +152,7 @@ describe('ValueDisplay', () => {
       // given
       const { container } = renderValueDisplay();
       const editor = await waitForEditor(container);
-      const foldableKey = editor.querySelector('.vd-foldable-key');
-      mouseDownCenter(foldableKey);
-
-      let placeholder;
-      await waitFor(() => {
-        placeholder = editor.querySelector('.vd-fold-placeholder');
-        expect(placeholder).to.exist;
-      });
+      const placeholder = editor.querySelector('.vd-fold-placeholder');
 
       // when
       fireEvent.click(placeholder);
@@ -136,5 +162,6 @@ describe('ValueDisplay', () => {
         expect(editor.querySelector('.vd-fold-placeholder')).to.not.exist;
       });
     });
+
   });
 });
