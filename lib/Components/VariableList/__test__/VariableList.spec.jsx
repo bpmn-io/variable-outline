@@ -11,8 +11,6 @@ import Variables from '../VariableList';
 import { FilterContext } from '../../../Context/FilterContext';
 import { InjectorContext } from '../../../Context/InjectorContext';
 
-
-
 const defaultFilter = {
   search: '',
   filterType: 'all',
@@ -67,10 +65,11 @@ describe('VariableList', () => {
       selection.select(elementRegistry.get('OuterSubprocess'));
 
       // when
-      const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+      const filter = { ...defaultFilter, selectedElements: [ 'OuterSubprocess' ] };
+      const { availableVariables } = await getVariables({ variableResolver, selection, filter });
       const { container } = render(
         <Variables variables={ availableVariables } />,
-        { wrapper }
+        { wrapper: createWrapper(injector, filter) }
       );
 
       // then - global scope first, then OuterSubprocess local scope with input-mapped variables
@@ -106,10 +105,11 @@ describe('VariableList', () => {
       selection.select(elementRegistry.get('ServiceTask'));
 
       // when
-      const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+      const filter = { ...defaultFilter, selectedElements: [ 'ServiceTask' ] };
+      const { availableVariables } = await getVariables({ variableResolver, selection, filter });
       const { container } = render(
         <Variables variables={ availableVariables } />,
-        { wrapper }
+        { wrapper: createWrapper(injector, filter) }
       );
 
       // then - global / OuterSubprocess parent / InnerSubprocess parent / ServiceTask local
@@ -213,9 +213,9 @@ const getScopeVariables = (container) => {
   }));
 };
 
-const createWrapper = (injector) => ({ children }) => (
+const createWrapper = (injector, filter = defaultFilter) => ({ children }) => (
   <InjectorContext.Provider value={ injector }>
-    <FilterContext.Provider value={ [ defaultFilter, () => {} ] }>
+    <FilterContext.Provider value={ [ filter, () => {} ] }>
       { children }
     </FilterContext.Provider>
   </InjectorContext.Provider>

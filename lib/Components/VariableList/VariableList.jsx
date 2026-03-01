@@ -1,7 +1,6 @@
 import { useContext, useMemo } from 'react';
 
 import parseVariables from '../../utils/parseRows';
-import useService from '../../hooks/useService';
 import ScopeGroup from './ScopeGroup';
 import { FilterContext } from '../../Context/FilterContext';
 
@@ -20,10 +19,8 @@ function getScopeDepth(scope) {
 export default function VariableList({ variables: rawVariables }) {
   const variables = parseVariables(rawVariables);
   const [ filter ] = useContext(FilterContext);
-  const selection = useService('selection');
+  const selectedElementIds = filter.selectedElements;
   const sortedVariables = [ ...variables ].sort((a, b) => a.name.localeCompare(b.name));
-
-  const selectedElementIds = (selection.get() || []).map(el => el.id);
 
   const groupsByScope = useMemo(() => {
     const groups = new Map();
