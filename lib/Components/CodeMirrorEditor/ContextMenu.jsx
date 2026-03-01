@@ -8,6 +8,8 @@ export function ContextMenu({ menuState, view, rootVariableName, onClose }) {
   const firstItemRef = useRef(null);
 
   useEffect(() => {
+    if (!menuState) return;
+
     if (firstItemRef.current) {
       firstItemRef.current.focus();
     }
@@ -42,7 +44,7 @@ export function ContextMenu({ menuState, view, rootVariableName, onClose }) {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [ onClose ]);
+  }, [ menuState, onClose ]);
 
   if (!menuState) return null;
 
