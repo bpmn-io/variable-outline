@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 import useService from '../../hooks/useService';
+import { getName } from '../../utils/elementUtil';
 import { FilterContext } from '../../Context/FilterContext';
 
 export default function ElementEntry({ element: bo, inline = false }) {
@@ -35,7 +36,7 @@ export default function ElementEntry({ element: bo, inline = false }) {
       className={ `variable-element-entry${inline ? ' variable-element-entry--inline' : ''}${isSelected ? ' variable-element-entry--selected' : ''}` }
       onClick={ handleClick }
     >
-      { bo.name || bo.label || bo.id }
+      { getName(bo) }
     </button>
   );
 }

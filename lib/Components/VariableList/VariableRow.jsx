@@ -5,6 +5,7 @@ import CopyButton from '../CopyButton';
 import ElementEntry from './ElementEntry';
 import ValueDisplay from './ValueDisplay';
 import CollapsibleDetailSection from './CollapsibleDetailSection';
+import { getName } from '../../utils/elementUtil';
 
 
 export default function VariableRow({ variable, isSelectedOrigin, expanded, onToggle }) {
@@ -12,7 +13,7 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
   const writeCount = writers.length;
 
   const singleWriterName = writeCount === 1
-    ? (writers[0].name || writers[0].id)
+    ? getName(writers[0])
     : null;
   const writtenByTitle = singleWriterName
     ? `Written by ${singleWriterName}`

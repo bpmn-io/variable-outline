@@ -4,6 +4,7 @@ import { ChevronDown, Close } from '@carbon/icons-react';
 import { FilterContext } from '../../Context/FilterContext';
 import useService from '../../hooks/useService';
 import useClickOutside from '../../hooks/useClickOutside';
+import { getName } from '../../utils/elementUtil';
 
 export default function ElementFilter({ variables }) {
   const [ filter, setFilter ] = useContext(FilterContext);
@@ -22,7 +23,7 @@ export default function ElementFilter({ variables }) {
           const element = elementRegistry.get(origin.id);
           elementMap.set(origin.id, {
             id: origin.id,
-            name: origin.name || origin.id,
+            name: getName(origin),
             variableCount: 0,
             element
           });
@@ -37,7 +38,7 @@ export default function ElementFilter({ variables }) {
         if (element) {
           elementMap.set(id, {
             id,
-            name: element.businessObject?.name || id,
+            name: getName(element.businessObject) || id,
             variableCount: 0,
             element
           });
