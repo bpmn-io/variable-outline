@@ -19,47 +19,6 @@ const NESTED_ENTRIES = [
   },
 ];
 
-async function waitForEditor(container) {
-  await waitFor(() => {
-    expect(container.querySelector('.cm-editor')).to.exist;
-  });
-  return container.querySelector('.cm-editor');
-}
-
-async function unfoldEditor(editor) {
-  const placeholder = await waitFor(() => {
-    const placeholder = editor.querySelector('.vd-fold-placeholder');
-    expect(placeholder).to.exist;
-
-    return placeholder;
-  });
-
-  fireEvent.click(placeholder);
-  await waitFor(() => {
-    expect(editor.querySelectorAll('.cm-line').length).to.be.above(1);
-  });
-}
-
-function renderValueDisplay(overrides = {}) {
-  return render(
-    <ValueDisplay
-      info={ null }
-      type={ null }
-      isList={ false }
-      variableName="testVar"
-      entries={ NESTED_ENTRIES }
-      { ...overrides }
-    />
-  );
-}
-
-function mouseDownCenter(element) {
-  const rect = element.getBoundingClientRect();
-  fireEvent.mouseDown(element, {
-    clientX: rect.left + rect.width / 2,
-    clientY: rect.top + rect.height / 2,
-  });
-}
 
 
 describe('ValueDisplay', () => {
@@ -165,3 +124,48 @@ describe('ValueDisplay', () => {
 
   });
 });
+
+
+// helpers /////////////////////////
+
+async function waitForEditor(container) {
+  await waitFor(() => {
+    expect(container.querySelector('.cm-editor')).to.exist;
+  });
+  return container.querySelector('.cm-editor');
+}
+
+async function unfoldEditor(editor) {
+  const placeholder = await waitFor(() => {
+    const placeholder = editor.querySelector('.vd-fold-placeholder');
+    expect(placeholder).to.exist;
+
+    return placeholder;
+  });
+
+  fireEvent.click(placeholder);
+  await waitFor(() => {
+    expect(editor.querySelectorAll('.cm-line').length).to.be.above(1);
+  });
+}
+
+function renderValueDisplay(overrides = {}) {
+  return render(
+    <ValueDisplay
+      info={ null }
+      type={ null }
+      isList={ false }
+      variableName="testVar"
+      entries={ NESTED_ENTRIES }
+      { ...overrides }
+    />
+  );
+}
+
+function mouseDownCenter(element) {
+  const rect = element.getBoundingClientRect();
+  fireEvent.mouseDown(element, {
+    clientX: rect.left + rect.width / 2,
+    clientY: rect.top + rect.height / 2,
+  });
+}

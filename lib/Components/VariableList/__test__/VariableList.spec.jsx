@@ -11,16 +11,7 @@ import Variables from '../VariableList';
 import { FilterContext } from '../../../Context/FilterContext';
 import { InjectorContext } from '../../../Context/InjectorContext';
 
-function bootstrapModeler(diagram, options) {
-  return bootstrapBpmnJS(CamundaCloudModeler, diagram, options);
-}
 
-const getScopeVariables = (container) => {
-  return Array.from(container.querySelectorAll('.variable-scope-group')).map(group => ({
-    scopeName: group.querySelector('.variable-section-name')?.textContent,
-    variables: Array.from(group.querySelectorAll('.variable-name')).map(n => n.textContent),
-  }));
-};
 
 const defaultFilter = {
   search: '',
@@ -28,14 +19,6 @@ const defaultFilter = {
   selectedElements: [],
   writtenOnly: false
 };
-
-const createWrapper = (injector) => ({ children }) => (
-  <InjectorContext.Provider value={ injector }>
-    <FilterContext.Provider value={ [ defaultFilter, () => {} ] }>
-      { children }
-    </FilterContext.Provider>
-  </InjectorContext.Provider>
-);
 
 let wrapper;
 
@@ -215,3 +198,25 @@ describe('VariableList', () => {
   });
 
 });
+
+
+// helpers /////////////////////////
+
+function bootstrapModeler(diagram, options) {
+  return bootstrapBpmnJS(CamundaCloudModeler, diagram, options);
+}
+
+const getScopeVariables = (container) => {
+  return Array.from(container.querySelectorAll('.variable-scope-group')).map(group => ({
+    scopeName: group.querySelector('.variable-section-name')?.textContent,
+    variables: Array.from(group.querySelectorAll('.variable-name')).map(n => n.textContent),
+  }));
+};
+
+const createWrapper = (injector) => ({ children }) => (
+  <InjectorContext.Provider value={ injector }>
+    <FilterContext.Provider value={ [ defaultFilter, () => {} ] }>
+      { children }
+    </FilterContext.Provider>
+  </InjectorContext.Provider>
+);

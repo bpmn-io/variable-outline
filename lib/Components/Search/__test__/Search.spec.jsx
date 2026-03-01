@@ -16,16 +16,6 @@ const DEFAULT_FILTER = {
 let setSpy = vi.fn();
 let setFilter;
 
-const wrapper = ({ children }) => {
-  const [ filter, _setFilter ] = useState(DEFAULT_FILTER);
-
-  setFilter = _setFilter;
-
-  return <FilterContext.Provider value={ [ filter, e => {
-    setSpy(e);
-    setFilter(e);
-  } ] }>{children}</FilterContext.Provider>;
-};
 
 
 it('should render search input', function() {
@@ -79,3 +69,17 @@ it('should react to external changes', async () => {
   // then
   expect(container.querySelector('input').value).to.eql('MySearch');
 });
+
+
+// helpers /////////////////////////
+
+const wrapper = ({ children }) => {
+  const [ filter, _setFilter ] = useState(DEFAULT_FILTER);
+
+  setFilter = _setFilter;
+
+  return <FilterContext.Provider value={ [ filter, e => {
+    setSpy(e);
+    setFilter(e);
+  } ] }>{children}</FilterContext.Provider>;
+};
