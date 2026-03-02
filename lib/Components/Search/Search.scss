@@ -5,7 +5,7 @@
   gap: 6px;
   padding: 8px 12px;
   background-color: var(--bio-vo-bg);
-  border-bottom: 1px solid var(--cds-border-subtle-01, #e0e0e0);
+  border-bottom: 1px solid var(--cds-border-subtle, #e0e0e0);
   top: 0;
 
   .bio-vo-search {
@@ -57,7 +57,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: var(--cds-layer-hover-01, #e8e8e8);
+        background-color: var(--cds-layer-hover, #e8e8e8);
         color: var(--cds-icon-primary, #161616);
       }
     }

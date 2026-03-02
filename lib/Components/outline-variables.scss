@@ -16,7 +16,7 @@
 .variable-scope-group {
 
   &--expanded {
-    border-bottom: 1px solid var(--cds-border-subtle-01, #c6c6c6);
+    border-bottom: 1px solid var(--cds-border-subtle, #e0e0e0);
   }
 
   .bio-va-element-icon {
@@ -46,14 +46,14 @@
   cursor: pointer;
   transition: background-color 0.15s ease;
   background-color: var(--bio-vo-bg);
-  box-shadow: inset 0 -1px 0 0 var(--cds-border-subtle-01, #c6c6c6);
+  box-shadow: inset 0 -1px 0 0 var(--cds-border-subtle, #e0e0e0);
 
   &:focus-visible {
     outline: 2px solid var(--cds-focus, #0f62fe);
     outline-offset: -2px;
   }
   &:hover {
-    background-color: var(--cds-layer-hover-01, #e8e8e8);
+    background-color: var(--cds-layer-hover, #e8e8e8);
   }
 
 
@@ -62,7 +62,7 @@
   }
 
   &--local {
-    background-color: var(--cds-layer-hover-01, #e8e8e8);
+    background-color: var(--cds-layer-hover, #e8e8e8);
     border-left: 3px solid var(--cds-border-interactive, #0f62fe);
   }
 
@@ -129,14 +129,13 @@
 }
 
 .variable-row {
-
   &:last-child .variable-row-header {
     border-bottom: none;
   }
 
   &--expanded {
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--cds-border-subtle-01, #c6c6c6);
+    border-bottom: 1px solid var(--cds-border-subtle, #e0e0e0);
   }
 }
 
@@ -145,18 +144,17 @@
   align-items: center;
   gap: 8px;
   padding: 10px 12px 10px 24px;
-  border-bottom: 1px solid var(--cds-border-subtle-01, #c6c6c6);
+  border-bottom: 1px solid var(--cds-border-subtle, #e0e0e0);
   cursor: pointer;
   user-select: none;
   background-color: var(--bio-vo-bg);
 
   &:hover {
-    background-color: var(--cds-layer-hover-01, #e8e8e8);
+    background-color: var(--cds-layer-hover, #e8e8e8);
     .variable-copy-button {
       opacity: 1;
     }
   }
-
 
   .variable-row--expanded & {
     position: sticky;
@@ -224,7 +222,7 @@
   margin-top: 10px;
   margin-left: 30px;
   background-color: var(--bio-vo-bg);
-  border-left: 2px solid var(--cds-border-subtle-01, #e0e0e0);
+  border-left: 2px solid var(--cds-border-subtle, #e0e0e0);
 }
 
 .variable-name {
@@ -273,7 +271,7 @@
   flex-shrink: 0;
 
   &:hover {
-    background-color: var(--cds-layer-hover-01, #e0e0e0);
+    background-color: var(--cds-layer-hover, #e0e0e0);
   }
 
   &:focus-visible {
@@ -394,7 +392,7 @@
   border-left: 3px solid transparent;
 
   &:hover {
-    background-color: var(--cds-layer-hover-01, #e0e0e0);
+    background-color: var(--cds-layer-hover, #e0e0e0);
   }
 
   &:focus-visible {
@@ -457,7 +455,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: var(--cds-layer-hover-01, #e8e8e8);
+    background-color: var(--cds-layer-hover, #e8e8e8);
   }
 }
 
@@ -482,7 +480,7 @@
   font-family: "IBM Plex Mono", "Roboto Mono", monospace;
   font-size: 11px;
   background: var(--bio-vo-bg);
-  border: 1px solid var(--cds-border-subtle-01, #e0e0e0);
+  border: 1px solid var(--cds-border-subtle, #e0e0e0);
   border-radius: 2px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
   white-space: nowrap;
@@ -496,7 +494,7 @@
 }
 
 .vd-feel-tooltip-sep {
-  color: var(--cds-border-subtle-01, #e0e0e0);
+  color: var(--cds-border-subtle, #e0e0e0);
   user-select: none;
 }
 
@@ -511,7 +509,7 @@
   transition: background-color 0.1s ease;
 
   &:hover {
-    background-color: var(--cds-layer-hover-01, #e8e8e8);
+    background-color: var(--cds-layer-hover, #e8e8e8);
   }
 
   &:focus-visible {
@@ -543,7 +541,7 @@
 
   &:hover, &--active {
     color: var(--cds-icon-primary, #161616);
-    background: var(--cds-layer-hover-01, #e8e8e8);
+    background: var(--cds-layer-hover, #e8e8e8);
   }
 
   &:focus-visible {
@@ -555,7 +553,7 @@
   position: fixed;
   z-index: 9999;
   background: var(--bio-vo-bg);
-  border: 1px solid var(--cds-border-subtle-01, #e0e0e0);
+  border: 1px solid var(--cds-border-subtle, #e0e0e0);
   border-radius: 4px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   padding: 8px 0;
@@ -574,11 +572,11 @@
   box-sizing: border-box;
 
   &:hover {
-    background: var(--cds-layer-hover-01, #e8e8e8);
+    background: var(--cds-layer-hover, #e8e8e8);
   }
 
   &:focus {
-    background: var(--cds-layer-hover-01, #e8e8e8);
+    background: var(--cds-layer-hover, #e8e8e8);
     outline: none;
   }
 }
@@ -588,7 +586,7 @@
   border-radius: 2px;
 
   &:hover {
-    background: var(--cds-layer-hover-01, #e8e8e8);
+    background: var(--cds-layer-hover, #e8e8e8);
   }
 }
 
