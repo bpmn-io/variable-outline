@@ -1,7 +1,9 @@
 
 .bio-vo-tab-content {
-  --bio-vo-bg: #ffffff;
+  --color-white: white;
+  --bio-vo-bg: var(--color-white);
   --text-size-small: 12px;
+  --text-size-base: 14px;
 
   height: 100%;
   max-height: 100%;

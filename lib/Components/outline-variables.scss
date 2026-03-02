@@ -550,33 +550,42 @@
 }
 
 .vd-context-menu {
+  --bio-vo-context-menu-background-color: #ffffff;
+  --bio-vo-context-menu-item-hover-background-color: hsl(225, 10%, 95%);
+  --bio-vo-context-menu-separator-background-color: hsl(225, 10%, 75%);
+  --bio-vo-context-menu-shadow-color-1: hsl(225, 10%, 85%);
+  --bio-vo-context-menu-shadow-color-2: hsl(225, 10%, 75%);
+  --text-size-small: 12px;
+  --text-size-base: 14px;
+
   position: fixed;
   z-index: 9999;
-  background: var(--bio-vo-bg);
-  border: 1px solid var(--cds-border-subtle, #e0e0e0);
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  background-color: var(--bio-vo-context-menu-background-color);
+  box-shadow:
+    0 1px 4px 0 var(--bio-vo-context-menu-shadow-color-1),
+    0 2px 16px 0 var(--bio-vo-context-menu-shadow-color-2);
   padding: 8px 0;
   min-width: 140px;
   font-family: inherit;
-  font-size: 13px;
+  font-size: var(--text-size-small);
 }
 
 .vd-context-menu-item {
   all: unset;
   display: block;
   width: 100%;
-  padding: 6px 12px;
+  padding: 4px 12px;
   cursor: pointer;
   color: var(--cds-text-primary, #161616);
   box-sizing: border-box;
+  font-size: var(--text-size-base);
 
   &:hover {
-    background: var(--cds-layer-hover, #e8e8e8);
+    background-color: var(--bio-vo-context-menu-item-hover-background-color);
   }
 
   &:focus {
-    background: var(--cds-layer-hover, #e8e8e8);
+    background-color: var(--bio-vo-context-menu-item-hover-background-color);
     outline: none;
   }
 }
