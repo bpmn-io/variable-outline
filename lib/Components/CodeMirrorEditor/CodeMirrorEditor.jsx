@@ -1,70 +1,15 @@
-import { useRef, useEffect, useState, useCallback } from 'react';
-import { EditorState } from '@codemirror/state';
-import { EditorView, keymap } from '@codemirror/view';
-import { json } from '@codemirror/lang-json';
-import { foldGutter, foldKeymap, foldAll } from '@codemirror/language';
-import theme from './CodeMirrorTheme';
-import { foldPreview } from './foldPreview';
-import { jsonInteractiveControls, closeMenuEffect, setActiveTokenEffect } from './jsonInteractiveControls';
+import { useState } from 'react';
+import useCodeMirror from '../../hooks/useCodeMirror';
 import { ContextMenu } from './ContextMenu';
-import { primitiveHighlight } from './primitiveHighlight';
-import { feelExpressionIcon, feelPrimitiveIcon } from './feelExpressionIcon';
 
 export default function CodeMirrorEditor({ doc, variableName, isJson }) {
-  const ref = useRef(null);
-  const [ view, setView ] = useState(null);
   const [ menuState, setMenuState ] = useState(null);
-
-  useEffect(() => {
-    if (!ref.current) return;
-
-    const baseExtensions = [
-      EditorState.readOnly.of(true),
-      EditorView.contentAttributes.of({ tabindex: '0', 'aria-label': `Value of ${ variableName }` }),
-      EditorView.lineWrapping,
-      theme,
-    ];
-
-    const languageExtensions = isJson ? [
-      json(),
-      foldGutter(),
-      foldPreview(),
-      jsonInteractiveControls(variableName, setMenuState),
-      feelExpressionIcon(),
-      keymap.of(foldKeymap),
-    ] : [ primitiveHighlight(), feelPrimitiveIcon() ];
-
-    const state = EditorState.create({
-      doc,
-      extensions: [ ...baseExtensions, ...languageExtensions ]
-    });
-
-    const editorView = new EditorView({
-      state,
-      parent: ref.current
-    });
-
-    if (isJson) {
-      foldAll(editorView);
-    }
-
-    setView(editorView);
-
-    return () => editorView.destroy();
-  }, [ doc, variableName, isJson ]);
-
-  const handleCloseMenu = useCallback(() => {
-    if (view) {
-      view.dispatch({
-        effects: [
-          closeMenuEffect.of(null),
-          setActiveTokenEffect.of(null)
-        ]
-      });
-      view.focus();
-    }
-    setMenuState(null);
-  }, [ view ]);
+  const { ref, view, closeMenu } = useCodeMirror({
+    doc,
+    variableName,
+    isJson,
+    onMenuStateChange: setMenuState
+  });
 
   return (
     <div ref={ ref } className="vd-codemirror">
@@ -73,7 +18,7 @@ export default function CodeMirrorEditor({ doc, variableName, isJson }) {
           menuState={ menuState }
           view={ view }
           rootVariableName={ variableName }
-          onClose={ handleCloseMenu }
+          onClose={ closeMenu }
         />
       )}
     </div>
