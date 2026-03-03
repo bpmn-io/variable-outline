@@ -1,6 +1,7 @@
 import { ChevronRight, Edit } from '@carbon/icons-react';
 import { Tooltip } from '@carbon/react';
 
+import CopyButton from '../CopyButton';
 import ElementEntry from './ElementEntry';
 import CollapsibleDetailSection from './CollapsibleDetailSection';
 import { getName } from '../../utils/elementUtil';
@@ -41,6 +42,8 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
             </div>
           </div>
         </button>
+
+        <CopyButton text={ variable.name } />
       </div>
       { expanded && (
         <div className="variable-row-details">
