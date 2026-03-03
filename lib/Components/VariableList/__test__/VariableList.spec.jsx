@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+/* global navigator */
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
 import { act } from 'react';
 import CamundaCloudModeler from 'camunda-bpmn-js/dist/camunda-cloud-modeler.development.js';
@@ -166,6 +167,35 @@ describe('VariableList', () => {
       expect(container.querySelector('.variable-row-details')).to.exist;
       expect(container.textContent).to.include('Written by');
       expect(container.textContent).to.include('ProcessStartEvent');
+    }));
+
+    it('copies variable name to clipboard and updates button state', inject(async (variableResolver, selection, injector) => {
+
+      // given
+      const clipboardWrite = vi.fn(() => Promise.resolve());
+      Object.defineProperty(navigator, 'clipboard', {
+        value: { writeText: clipboardWrite },
+        configurable: true,
+      });
+
+      const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+      const { container } = render(
+        <Variables variables={ availableVariables } />,
+        { wrapper }
+      );
+
+      const copyButton = container.querySelector('.variable-copy-button');
+      const firstVariableName = container.querySelector('.variable-name').textContent;
+
+      // when
+      await act(async () => {
+        fireEvent.click(copyButton);
+      });
+
+      // then
+      expect(clipboardWrite).toHaveBeenCalledWith(firstVariableName);
+      expect(copyButton.className).to.include('variable-copy-button--copied');
+      expect(copyButton.title).to.eql('Copied!');
     }));
 
   });
