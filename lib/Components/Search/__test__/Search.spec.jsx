@@ -10,6 +10,7 @@ const DEFAULT_FILTER = {
   search: '',
   filterType: 'all',
   selectedElements: [],
+  writtenOnly: false
 };
 
 let setSpy = vi.fn();
@@ -44,6 +45,7 @@ it('should set search term', async () => {
     search: 'MySearch',
     filterType: 'all',
     selectedElements: [],
+    writtenOnly: false
   });
 });
 

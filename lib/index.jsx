@@ -21,6 +21,7 @@ export default function(props) {
     search: '',
     filterType: 'all',
     selectedElements: [],
+    writtenOnly: false
   });
 
   return (

@@ -15,6 +15,7 @@ const defaultFilter = {
   search: '',
   filterType: 'all',
   selectedElements: [],
+  writtenOnly: false
 };
 
 let wrapper;
@@ -92,9 +93,11 @@ describe('VariableList', () => {
           variables: [ 'OuterSubprocessInputVariable1' ],
         }
       ]);
+
     }));
 
   });
+
 
   describe('given ServiceTask is selected', () => {
 
