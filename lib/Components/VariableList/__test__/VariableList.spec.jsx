@@ -76,15 +76,7 @@ describe('VariableList', () => {
         {
           scopeName: 'TestDiagram',
           variables: [
-            'InnerSubprocessOutputVariable1',
-            'InnerSubprocessStartEventOutputVariable1',
-            'InnerSubprocessStartEventOutputVariable2',
             'OuterSubprocessOutputVariable1',
-            'OuterSubprocessStartEventVariable1',
-            'ProcessStartEventOutputVariable1',
-            'ProcessStartEventOutputVariable2',
-            'ServiceTaskOutputVariable1',
-            'ServiceTaskOutputVariable2',
           ],
         },
         {
@@ -116,24 +108,9 @@ describe('VariableList', () => {
         {
           scopeName: 'TestDiagram',
           variables: [
-            'InnerSubprocessOutputVariable1',
-            'InnerSubprocessStartEventOutputVariable1',
-            'InnerSubprocessStartEventOutputVariable2',
-            'OuterSubprocessOutputVariable1',
-            'OuterSubprocessStartEventVariable1',
-            'ProcessStartEventOutputVariable1',
-            'ProcessStartEventOutputVariable2',
             'ServiceTaskOutputVariable1',
             'ServiceTaskOutputVariable2',
           ],
-        },
-        {
-          scopeName: 'OuterSubprocess',
-          variables: [],
-        },
-        {
-          scopeName: 'InnerSubprocess',
-          variables: [],
         },
         {
           scopeName: 'ServiceTask',
