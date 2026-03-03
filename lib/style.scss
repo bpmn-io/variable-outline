@@ -1,28 +1,23 @@
+
 .bio-vo-tab-content {
+  --color-white: white;
+  --bio-vo-bg: var(--color-white);
+  --text-size-small: 12px;
+  --text-size-base: 14px;
+
   height: 100%;
   max-height: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--cds-layer-01, #f4f4f4);
+  background: var(--bio-vo-bg);
+
 }
 
-.bio-vo-tab-row {
-  flex: 1 1 auto;
-  height: 0px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-}
 
-.bio-vo-tab-coloumn {
-  flex: auto;
+.variables {
   height: 100%;
-  overflow: auto;
 }
 
-.bio-vo-tab-coloumn.element-list {
-  max-width: 350px;
-}
 
 .bio-vo-tooltip-wrapper {
   text-decoration: underline;
@@ -34,18 +29,30 @@
   width: fit-content;
 }
 
- .bio-vo-label {
-   margin: 0.5em
- } 
+
+.bio-vo-label {
+  margin: 0.5em
+}
+
 
 .bio-vo-text-button {
   all: unset;
   display: inline-flex;
   align-items: center;
   cursor: pointer;
- }
 
-.bio-vo-text-button:focus-visible {
-  outline: 2px solid var(--cds-focus, #0f62fe);
-  outline-offset: -1px;
+  &:focus-visible {
+    outline: 2px solid var(--cds-focus, #0f62fe);
+    outline-offset: -1px;
+  }
+}
+
+
+span.mono {
+  font-family: 'IBM Plex Mono', monospace !important;
+  background: var(--bio-vo-bg);
+  padding: 1px 2px !important;
+  display: inline-block;
+  font-size: 13px !important;
+  white-space: break-spaces !important;
 }

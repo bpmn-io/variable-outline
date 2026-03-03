@@ -4,6 +4,8 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ## Unreleased
 
+* `FEAT`: make layout vertical for variables ([#16](https://github.com/bpmn-io/variable-outline/pull/16))
+
 ## 2.0.1
 
 * `CHORE`: remove remaining carbon styles, to be provided by the infrastructure ([#10](https://github.com/bpmn-io/variable-outline/pull/10))
