@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_10qbgm8" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.44.0-dev" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
+  <bpmn:process id="TestDiagram" isExecutable="true">
+    <bpmn:startEvent id="ProcessStartEvent" name="ProcessStartEvent">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=&#34;ProcessStartEventOutputVariable1Value&#34;" target="ProcessStartEventOutputVariable1" />
+          <zeebe:output source="=&#34;ProcessStartEventOutputVariable2Value&#34;" target="ProcessStartEventOutputVariable2" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_1me8a8v</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:subProcess id="OuterSubprocess" name="OuterSubprocess">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="OuterSubprocessInputVariable1Value" target="OuterSubprocessInputVariable1" />
+          <zeebe:output source="=OuterSubprocessOutputVariable1Value" target="OuterSubprocessOutputVariable1" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1me8a8v</bpmn:incoming>
+      <bpmn:startEvent id="OuterSubprocessStartEvent" name="OuterSubprocessStartEvent">
+        <bpmn:extensionElements>
+          <zeebe:ioMapping>
+            <zeebe:output source="=&#34;OuterSubprocessStartEventVariable1Value&#34;" target="OuterSubprocessStartEventVariable1" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+        <bpmn:outgoing>Flow_0cis9yj</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:subProcess id="InnerSubprocess" name="InnerSubprocess">
+        <bpmn:extensionElements>
+          <zeebe:ioMapping>
+            <zeebe:input source="=&#34;InnerSubprocessInputVariable1Value&#34;" target="InnerSubprocessInputVariable1" />
+            <zeebe:output source="=&#34;InnerSubprocessOutputVariable1Value&#34;" target="InnerSubprocessOutputVariable1" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_0cis9yj</bpmn:incoming>
+        <bpmn:startEvent id="InnerSubprocessStartEvent" name="InnerSubprocessStartEvent">
+          <bpmn:extensionElements>
+            <zeebe:ioMapping>
+              <zeebe:output source="=&#34;InnerSubprocessStartEventOutputVariable1Value&#34;" target="InnerSubprocessStartEventOutputVariable1" />
+              <zeebe:output source="=&#34;InnerSubprocessStartEventOutputVariable2Value&#34;" target="InnerSubprocessStartEventOutputVariable2" />
+            </zeebe:ioMapping>
+          </bpmn:extensionElements>
+          <bpmn:outgoing>Flow_0cu69l7</bpmn:outgoing>
+        </bpmn:startEvent>
+        <bpmn:sequenceFlow id="Flow_0cu69l7" sourceRef="InnerSubprocessStartEvent" targetRef="ServiceTask" />
+        <bpmn:serviceTask id="ServiceTask" name="ServiceTask">
+          <bpmn:extensionElements>
+            <zeebe:taskDefinition type="test" />
+            <zeebe:ioMapping>
+              <zeebe:input source="=&#34;ServiceTaskInputVariable1Value&#34;" target="ServiceTaskInputVariable1" />
+              <zeebe:input source="=&#34;ServiceTaskInputVariable2Value&#34;" target="ServiceTaskInputVariable2" />
+              <zeebe:output source="=&#34;ServiceTaskOutputVariable1Value&#34;" target="ServiceTaskOutputVariable1" />
+              <zeebe:output source="=&#34;ServiceTaskOutputVariable2Value&#34;" target="ServiceTaskOutputVariable2" />
+            </zeebe:ioMapping>
+          </bpmn:extensionElements>
+          <bpmn:incoming>Flow_0cu69l7</bpmn:incoming>
+        </bpmn:serviceTask>
+      </bpmn:subProcess>
+      <bpmn:sequenceFlow id="Flow_0cis9yj" sourceRef="OuterSubprocessStartEvent" targetRef="InnerSubprocess" />
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="Flow_1me8a8v" sourceRef="ProcessStartEvent" targetRef="OuterSubprocess" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TestDiagram">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="ProcessStartEvent">
+        <dc:Bounds x="152" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="126" y="245" width="89" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1iaktc5_di" bpmnElement="OuterSubprocess" isExpanded="true">
+        <dc:Bounds x="245" y="80" width="585" height="290" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_107u9pz_di" bpmnElement="OuterSubprocessStartEvent">
+        <dc:Bounds x="292" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="267" y="245" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_141i9i0_di" bpmnElement="InnerSubprocess" isExpanded="true">
+        <dc:Bounds x="385" y="120" width="350" height="200" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_19whm25_di" bpmnElement="InnerSubprocessStartEvent">
+        <dc:Bounds x="422" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="398" y="245" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0bhubxi_di" bpmnElement="ServiceTask">
+        <dc:Bounds x="510" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0cu69l7_di" bpmnElement="Flow_0cu69l7">
+        <di:waypoint x="458" y="220" />
+        <di:waypoint x="510" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cis9yj_di" bpmnElement="Flow_0cis9yj">
+        <di:waypoint x="328" y="220" />
+        <di:waypoint x="385" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1me8a8v_di" bpmnElement="Flow_1me8a8v">
+        <di:waypoint x="188" y="220" />
+        <di:waypoint x="245" y="220" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
