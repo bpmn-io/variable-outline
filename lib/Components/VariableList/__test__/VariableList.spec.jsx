@@ -15,6 +15,7 @@ const defaultFilter = {
   search: '',
   filterType: 'all',
   selectedElements: [],
+  writtenOnly: false
 };
 
 let wrapper;
@@ -76,7 +77,15 @@ describe('VariableList', () => {
         {
           scopeName: 'TestDiagram',
           variables: [
+            'InnerSubprocessOutputVariable1',
+            'InnerSubprocessStartEventOutputVariable1',
+            'InnerSubprocessStartEventOutputVariable2',
             'OuterSubprocessOutputVariable1',
+            'OuterSubprocessStartEventVariable1',
+            'ProcessStartEventOutputVariable1',
+            'ProcessStartEventOutputVariable2',
+            'ServiceTaskOutputVariable1',
+            'ServiceTaskOutputVariable2',
           ],
         },
         {
@@ -84,9 +93,11 @@ describe('VariableList', () => {
           variables: [ 'OuterSubprocessInputVariable1' ],
         }
       ]);
+
     }));
 
   });
+
 
   describe('given ServiceTask is selected', () => {
 
@@ -108,9 +119,24 @@ describe('VariableList', () => {
         {
           scopeName: 'TestDiagram',
           variables: [
+            'InnerSubprocessOutputVariable1',
+            'InnerSubprocessStartEventOutputVariable1',
+            'InnerSubprocessStartEventOutputVariable2',
+            'OuterSubprocessOutputVariable1',
+            'OuterSubprocessStartEventVariable1',
+            'ProcessStartEventOutputVariable1',
+            'ProcessStartEventOutputVariable2',
             'ServiceTaskOutputVariable1',
             'ServiceTaskOutputVariable2',
           ],
+        },
+        {
+          scopeName: 'OuterSubprocess',
+          variables: [],
+        },
+        {
+          scopeName: 'InnerSubprocess',
+          variables: [],
         },
         {
           scopeName: 'ServiceTask',

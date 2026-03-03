@@ -4,16 +4,33 @@
   align-items: center;
   gap: 12px;
   padding: 6px 12px;
-  border-bottom: 1px solid var(--cds-border-strong, #8d8d8d);
+  border-bottom: 1px solid var(--cds-border-strong, #e0e0e0);
   flex-shrink: 0;
-}
 
-.bio-vo-filter-bar-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex: 1 1 auto;
-  min-width: fit-content;
+  .bio-vo-filter-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1 1 auto;
+    min-width: fit-content;
+
+    .filter-toggle-button {
+      margin-left: auto;
+    }
+  }
+
+  .bio-vo-written-only-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .bio-vo-written-only-label {
+    font-size: var(--text-size-small);
+    color: var(--cds-text-secondary, #6f6f6f);
+    white-space: nowrap;
+    user-select: none;
+  }
 }
 
 .filter-dropdown {
@@ -191,4 +208,60 @@
   font-size: var(--text-size-small);
   color: var(--cds-text-placeholder, #a8a8a8);
   text-align: center;
+}
+
+.filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-size-small);
+  cursor: pointer;
+  color: var(--cds-text-secondary, #6f6f6f);
+  white-space: nowrap;
+  user-select: none;
+
+  &:hover {
+    color: var(--cds-text-primary, #161616);
+  }
+
+  &--active {
+    color: var(--cds-text-primary, #161616);
+  }
+}
+
+.filter-toggle-button {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-size: var(--text-size-small);
+  border: 1px solid var(--cds-border-strong, #8d8d8d);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--cds-text-primary, #161616);
+  background-color: var(--bio-vo-bg);
+  transition: background-color 0.1s ease, border-color 0.1s ease;
+  white-space: nowrap;
+  box-sizing: border-box;
+  height: 28px;
+
+  &:hover {
+    background-color: var(--cds-layer-hover, #e8e8e8);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--cds-focus, #0f62fe);
+    outline-offset: -2px;
+  }
+}
+
+.filter-toggle-icon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.filter-toggle-label {
+  white-space: nowrap;
 }

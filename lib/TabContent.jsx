@@ -1,16 +1,18 @@
 
 import Variables from './Components/VariableList';
-import FilterBar from './Components/FilterBar/FilterBar';
+import FilterBar from './Components/FilterBar';
 
 import './style.scss';
 import EmptySearch from './Components/EmptySearch';
 
 import { useVariables } from './hooks/useVariables';
 import Search from './Components/Search';
+import useCanvasSync from './hooks/useCanvasSync';
 
 export default function(props) {
 
   const { rawVariables, availableVariables } = useVariables();
+  useCanvasSync();
 
   return <div className="bio-vo-tab-content">
     <Search />

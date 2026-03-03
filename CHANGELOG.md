@@ -8,6 +8,7 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 * `FEAT`: restyle search bar ([#18](https://github.com/bpmn-io/variable-outline/pull/18))
 * `FEAT`: add elements filter ([#19](https://github.com/bpmn-io/variable-outline/pull/19))
 * `FEAT`: add bi-directional sync between canvas selection and elements filters ([#20](https://github.com/bpmn-io/variable-outline/pull/20))
+* `FEAT`: add written by selection filter ([#21](https://github.com/bpmn-io/variable-outline/pull/21))
 
 ## 2.0.1
 
