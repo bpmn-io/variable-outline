@@ -1,6 +1,6 @@
 import { TreeView, TreeNode, Tooltip } from '@carbon/react';
 import useService from '../../hooks/useService';
-import { getSVGComponent } from './Icons';
+import { getSVGComponent } from '../BpmnIcon';
 
 import './ElementList.scss';
 import { useEffect, useState } from 'react';

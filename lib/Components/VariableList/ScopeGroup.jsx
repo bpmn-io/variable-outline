@@ -2,7 +2,7 @@ import { ChevronRight } from '@carbon/icons-react';
 import { Tag } from '@carbon/react';
 
 import VariableRow from './VariableRow';
-import { getSVGComponent } from '../ElementList/Icons';
+import { getSVGComponent } from '../BpmnIcon';
 import useService from '../../hooks/useService';
 import useExpandable from '../../hooks/useExpandable';
 import useScopeExpand from '../../hooks/useScopeExpand';
