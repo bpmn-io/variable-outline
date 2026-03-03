@@ -38,7 +38,7 @@ describe('lib/components/VariableList', () => {
       );
 
       // then
-      expect(getScopeVariables(container)).to.eql([
+      expect(getVariablesByScope(container)).to.eql([
         {
           scopeName: 'TestDiagram',
           variables: [
@@ -74,7 +74,7 @@ describe('lib/components/VariableList', () => {
       );
 
       // then - global scope first, then OuterSubprocess local scope with input-mapped variables
-      expect(getScopeVariables(container)).to.eql([
+      expect(getVariablesByScope(container)).to.eql([
         {
           scopeName: 'TestDiagram',
           variables: [
@@ -115,8 +115,62 @@ describe('lib/components/VariableList', () => {
         { wrapper: createWrapper(injector, filter) }
       );
 
+      const collapsedHeaders = container.querySelectorAll('.variable-section-header--collapsed');
+
+      await act(() => {
+        collapsedHeaders.forEach(header => fireEvent.click(header));
+      });
+
+      const variablesByScope = getVariablesByScope(container);
+
       // then - global / OuterSubprocess parent / InnerSubprocess parent / ServiceTask local
-      expect(getScopeVariables(container)).to.eql([
+      expect(variablesByScope).to.eql([
+        {
+          scopeName: 'TestDiagram',
+          variables: [
+            'InnerSubprocessOutputVariable1',
+            'InnerSubprocessStartEventOutputVariable1',
+            'InnerSubprocessStartEventOutputVariable2',
+            'OuterSubprocessOutputVariable1',
+            'OuterSubprocessStartEventVariable1',
+            'ProcessStartEventOutputVariable1',
+            'ProcessStartEventOutputVariable2',
+            'ServiceTaskOutputVariable1',
+            'ServiceTaskOutputVariable2',
+          ],
+        },
+        {
+          scopeName: 'OuterSubprocess',
+          variables: [ 'OuterSubprocessInputVariable1' ],
+        },
+        {
+          scopeName: 'InnerSubprocess',
+          variables: [ 'InnerSubprocessInputVariable1' ],
+        },
+        {
+          scopeName: 'ServiceTask',
+          variables: [ 'ServiceTaskInputVariable1', 'ServiceTaskInputVariable2' ],
+        }
+      ]);
+    }));
+
+    it('does not show variables for collapsed parent scope groups', inject(async (elementRegistry, variableResolver, selection, injector) => {
+
+      // given
+      selection.select(elementRegistry.get('ServiceTask'));
+
+      // when
+      const filter = { ...defaultFilter, selectedElements: [ 'ServiceTask' ] };
+      const { availableVariables } = await getVariables({ variableResolver, selection, filter });
+      const { container } = render(
+        <Variables variables={ availableVariables } />,
+        { wrapper: createWrapper(injector, filter) }
+      );
+
+      const variablesByScope = getVariablesByScope(container);
+
+      // then - collapsed parent scopes show no variables
+      expect(variablesByScope).to.eql([
         {
           scopeName: 'TestDiagram',
           variables: [
@@ -159,7 +213,7 @@ describe('lib/components/VariableList', () => {
       );
 
       // when
-      act(() => {
+      await act(() => {
         fireEvent.click(container.querySelector('.variable-row-header'));
       });
 
@@ -210,7 +264,7 @@ function bootstrapModeler(diagram, options) {
   return bootstrapBpmnJS(CamundaCloudModeler, diagram, options);
 }
 
-const getScopeVariables = (container) => {
+const getVariablesByScope = (container) => {
   return Array.from(container.querySelectorAll('.variable-scope-group')).map(group => ({
     scopeName: group.querySelector('.variable-section-name')?.textContent,
     variables: Array.from(group.querySelectorAll('.variable-name')).map(n => n.textContent),
