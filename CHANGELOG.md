@@ -5,6 +5,7 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 ## Unreleased
 
 * `FEAT`: make layout vertical for variables ([#16](https://github.com/bpmn-io/variable-outline/pull/16))
+* `FEAT`: restyle search bar ([#18](https://github.com/bpmn-io/variable-outline/pull/18))
 
 ## 2.0.1
 

@@ -1,7 +1,6 @@
 import { expect, it, vi } from 'vitest';
-import { userEvent } from '@vitest/browser/context';
 
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { act, useState } from 'react';
 import { FilterContext } from '../../../Context/FilterContext';
 import Search from '../Search';
@@ -9,32 +8,22 @@ import Search from '../Search';
 
 const DEFAULT_FILTER = {
   search: '',
-  filterType: 'all'
+  filterType: 'all',
+  selectedElements: [],
 };
 
 let setSpy = vi.fn();
 let setFilter;
 
-const wrapper = ({ children }) => {
-  const [ filter, _setFilter ] = useState(DEFAULT_FILTER);
-
-  setFilter = _setFilter;
-
-  return <FilterContext.Provider value={ [ filter, e => {
-    setSpy(e);
-    setFilter(e);
-  } ] }>{children}</FilterContext.Provider>;
-};
-
-
-it('should render search and checkbox', function() {
+it('should render search input', function() {
 
   // given
   const { container } = render(<Search />, { wrapper });
 
   // then
-  expect(container.querySelector('input[type="inline"]')).to.exist;
-  expect(container.querySelector('input[type="checkbox"]')).to.exist;
+  const searchInput = container.querySelector('input');
+  expect(searchInput).to.exist;
+
 });
 
 
@@ -44,40 +33,19 @@ it('should set search term', async () => {
   const { container } = render(<Search />, { wrapper });
 
   // when
-  const searchInput = container.querySelector('input[type="inline"]');
+  const searchInput = container.querySelector('input');
 
   await act(async () => {
-    await userEvent.fill(searchInput, 'MySearch');
+    fireEvent.change(searchInput, { target: { value: 'MySearch' } });
   });
 
   // then
   expect(setSpy).lastCalledWith({
     search: 'MySearch',
-    filterType: 'all'
+    filterType: 'all',
+    selectedElements: [],
   });
 });
-
-
-it('should set filter type', async () => {
-
-  // given
-  const { container } = render(<Search />, { wrapper });
-
-  // when
-  const writtenOnly = container.querySelector('input[type="checkbox"]');
-
-  await act(async () => {
-    await userEvent.click(writtenOnly);
-  });
-
-  // then
-  expect(setSpy).lastCalledWith({
-    search: '',
-    filterType: 'origin'
-  });
-
-});
-
 
 it('should react to external changes', async () => {
 
@@ -88,11 +56,25 @@ it('should react to external changes', async () => {
   await act(async () => {
     setFilter({
       search: 'MySearch',
-      filterType: 'origin'
+      filterType: 'all',
+      selectedElements: [],
     });
   });
 
   // then
-  expect(container.querySelector('input[type="inline"]').value).to.eql('MySearch');
-  expect(container.querySelector('input[type="checkbox"]').checked).to.be.true;
+  expect(container.querySelector('input').value).to.eql('MySearch');
 });
+
+
+// helpers /////////////////////////
+
+function wrapper({ children }) {
+  const [ filter, _setFilter ] = useState(DEFAULT_FILTER);
+
+  setFilter = _setFilter;
+
+  return <FilterContext.Provider value={ [ filter, e => {
+    setSpy(e);
+    setFilter(e);
+  } ] }>{children}</FilterContext.Provider>;
+}

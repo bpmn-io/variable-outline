@@ -1,39 +1,69 @@
+
 .bio-vo-tab-content .bio-vo-search-container {
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background-color: var(--bio-vo-bg);
+  border-bottom: 1px solid var(--cds-border-subtle, #e0e0e0);
+  top: 0;
 
-  > * {
-    display: flex;
-    align-items: center;
-  }
-
-  > *+* {
-    height: 100%;
-    padding: 0 10px;
-    border-left: 1px solid var(--cds-border-strong);
+  .bio-vo-search {
+    flex: 1;
+    min-width: 0;
   }
 
   .cds--search-input {
-    border-bottom: none
-  }
+    block-size: 32px;
+    border: 1px solid var(--input-border-color, hsl(225, 10%, 75%));
+    border-radius: 2px;
+    background-color: var(--input-background-color, hsl(225, 10%, 97%));
+    font-size: var(--text-size-base, 14px);
 
-  border-bottom: 1px solid var(--cds-border-strong);
-  display: flex;
-  align-items: center;
-  background-color: var(--cds-field);
+    &::placeholder {
+      color: var(--placeholder-color, hsl(225, 10%, 35%));
+    }
 
-  .bio-vo-search {
-    flex-grow: 1;
-  }
-
-  .bio-vo-checkbox {
-    flex-grow: 0;
-
-    .bio-vo-tooltip-wrapper {
-      white-space: nowrap;
+    &:focus {
+      border-color: var(--input-focus-border-color, hsl(205, 100%, 50%));
+      background-color: var(--input-focus-background-color, hsl(205, 100%, 95%));
+      outline: none;
     }
   }
 
-  .bio-vo-help .cds--popover-content {
-    margin-right: calc(1.5 * var(--cds-popover-offset, 0px));
+  .cds--search-close {
+    block-size: 32px;
+    border-block-end: none;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .bio-vo-help {
+    flex-shrink: 0;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      block-size: 32px;
+      inline-size: 32px;
+      padding: 0;
+      background: none;
+      border: none;
+      border-radius: 4px;
+      color: var(--cds-icon-secondary, #525252);
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--cds-layer-hover, #e8e8e8);
+        color: var(--cds-icon-primary, #161616);
+      }
+    }
+
+    .cds--tooltip-content {
+      max-inline-size: 280px;
+    }
   }
 }
