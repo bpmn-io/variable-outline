@@ -22,6 +22,11 @@
   overflow-x: overlay;
 }
 
+.variableOutline {
+  height: 100%;
+  overflow-y: auto;
+}
+
 .properties .bio-properties-panel-container {
   height: 100%;
 }

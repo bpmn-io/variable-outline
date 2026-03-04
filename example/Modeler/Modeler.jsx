@@ -3,6 +3,7 @@ import 'camunda-bpmn-js/dist/assets/camunda-cloud-modeler.css';
 import { useEffect, useRef } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import './Modeler.css';
+import VariableOutline from '../../lib';
 
 import defaultXml from './diagram.xml?raw';
 
@@ -54,6 +55,14 @@ export const Modeler = ({ modeler, setModeler, ...props }) => {
       <PanelGroup autoSaveId="modelerContainer" direction="horizontal">
         <Panel>
           <div className="modeler" ref={ modelerRef }></div>
+        </Panel>
+        <PanelResizeHandle>
+          <div className="VerticalResizeHandle"></div>
+        </PanelResizeHandle>
+        <Panel defaultSize={ 15 } minSize={ 10 }>
+          <div className="variableOutline">
+            {modeler && <VariableOutline injector={ modeler.get('injector') } />}
+          </div>
         </Panel>
         <PanelResizeHandle>
           <div className="VerticalResizeHandle"></div>
