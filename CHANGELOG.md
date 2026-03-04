@@ -6,6 +6,7 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 * `FEAT`: make layout vertical for variables ([#16](https://github.com/bpmn-io/variable-outline/pull/16))
 * `FEAT`: restyle search bar ([#18](https://github.com/bpmn-io/variable-outline/pull/18))
+* `FEAT`: show variables for elements in canvas selection ([#20](https://github.com/bpmn-io/variable-outline/pull/20))
 
 ## 2.0.1
 
