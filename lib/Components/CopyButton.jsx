@@ -7,10 +7,15 @@ export default function CopyButton({ text }) {
   return (
     <button
       className={ `variable-copy-button${ copied ? ' variable-copy-button--copied' : '' }` }
-      title={ copied ? 'Copied!' : 'Copy to insert' }
-      aria-label={ copied ? 'Copied!' : 'Copy to insert' }
+      type="button"
+      title="Copy variable name"
+      aria-label="Copy variable name"
       onClick={ copy }
     >
+      <span aria-live="polite" style={ { display: 'none' } }>
+        { copied ? 'Copied to clipboard!' : '' }
+      </span>
+
       { copied
         ? <Checkmark className="variable-copy-icon" />
         : <Copy className="variable-copy-icon" />
