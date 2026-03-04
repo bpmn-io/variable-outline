@@ -1,5 +1,6 @@
 
 import Variables from './Components/VariableList';
+import FilterBar from './Components/FilterBar';
 
 import './style.scss';
 import EmptySearch from './Components/EmptySearch';
@@ -14,6 +15,7 @@ export default function(props) {
 
   return <div className="bio-vo-tab-content">
     <Search />
+    <FilterBar />
     {availableVariables.length > 0 ?
       <Variables { ...props } variables={ availableVariables } /> :
       <EmptySearch rawVariables={ rawVariables } />

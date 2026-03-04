@@ -8,8 +8,8 @@ import Search from '../Search';
 
 const DEFAULT_FILTER = {
   search: '',
-  filterType: 'all',
   selectedElements: [],
+  writtenOnly: false
 };
 
 let setSpy = vi.fn();
@@ -42,8 +42,8 @@ it('should set search term', async () => {
   // then
   expect(setSpy).lastCalledWith({
     search: 'MySearch',
-    filterType: 'all',
     selectedElements: [],
+    writtenOnly: false
   });
 });
 
@@ -56,7 +56,6 @@ it('should react to external changes', async () => {
   await act(async () => {
     setFilter({
       search: 'MySearch',
-      filterType: 'all',
       selectedElements: [],
     });
   });

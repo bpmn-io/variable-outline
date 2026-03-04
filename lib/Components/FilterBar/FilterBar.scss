@@ -1,0 +1,23 @@
+.bio-vo-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--cds-border-strong, #e0e0e0);
+  flex-shrink: 0;
+
+  .bio-vo-filter-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1 1 auto;
+    min-width: fit-content;
+  }
+
+  .bio-vo-written-only-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
