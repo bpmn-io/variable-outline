@@ -429,3 +429,178 @@
 }
 
 
+.vd-root {
+  color: var(--cds-text-primary, #161616);
+}
+
+.vd-codemirror {
+  width: 100%;
+
+  .cm-content {
+    caret-color: transparent;
+  }
+
+  .cm-line {
+    position: relative;
+    padding-right: 24px;
+  }
+}
+
+.vd-fold-placeholder {
+  display: inline;
+  padding: 0 4px;
+  border-radius: 2px;
+  color: var(--cds-text-helper, #a8a8a8);
+  background-color: var(--bio-vo-bg);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--cds-layer-hover, #e8e8e8);
+  }
+}
+
+.vd-feel-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 4px;
+  color: var(--cds-text-secondary, #525252);
+  vertical-align: middle;
+
+  svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.vd-feel-tooltip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-family: "IBM Plex Mono", "Roboto Mono", monospace;
+  font-size: 11px;
+  background: var(--bio-vo-bg);
+  border: 1px solid var(--cds-border-subtle, #e0e0e0);
+  border-radius: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+  white-space: nowrap;
+}
+
+.vd-feel-tooltip-path {
+  color: var(--cds-text-primary, #161616);
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vd-feel-tooltip-sep {
+  color: var(--cds-border-subtle, #e0e0e0);
+  user-select: none;
+}
+
+.vd-feel-tooltip-copy {
+  all: unset;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-size: 11px;
+  font-family: inherit;
+  color: var(--cds-interactive, #0062ff);
+  transition: background-color 0.1s ease;
+
+  &:hover {
+    background-color: var(--cds-layer-hover, #e8e8e8);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--cds-focus, #0f62fe);
+    outline-offset: -1px;
+  }
+
+  &--copied {
+    color: var(--cds-support-success, #198038);
+  }
+}
+
+.vd-menu-btn {
+  all: unset;
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: var(--cds-icon-secondary, #525252);
+  font-size: 16px;
+  line-height: 1;
+  border-radius: 4px;
+
+  &:hover, &--active {
+    color: var(--cds-icon-primary, #161616);
+    background: var(--cds-layer-hover, #e8e8e8);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--cds-focus, #0f62fe);
+  }
+}
+
+.vd-context-menu {
+  --bio-vo-context-menu-background-color: #ffffff;
+  --bio-vo-context-menu-item-hover-background-color: hsl(225, 10%, 95%);
+  --bio-vo-context-menu-separator-background-color: hsl(225, 10%, 75%);
+  --bio-vo-context-menu-shadow-color-1: hsl(225, 10%, 85%);
+  --bio-vo-context-menu-shadow-color-2: hsl(225, 10%, 75%);
+  --text-size-small: 12px;
+  --text-size-base: 14px;
+
+  position: fixed;
+  z-index: 9999;
+  background-color: var(--bio-vo-context-menu-background-color);
+  box-shadow:
+    0 1px 4px 0 var(--bio-vo-context-menu-shadow-color-1),
+    0 2px 16px 0 var(--bio-vo-context-menu-shadow-color-2);
+  padding: 8px 0;
+  min-width: 140px;
+  font-family: inherit;
+  font-size: var(--text-size-small);
+}
+
+.vd-context-menu-item {
+  all: unset;
+  display: block;
+  width: 100%;
+  padding: 4px 12px;
+  cursor: pointer;
+  color: var(--cds-text-primary, #161616);
+  box-sizing: border-box;
+  font-size: var(--text-size-base);
+
+  &:hover {
+    background-color: var(--bio-vo-context-menu-item-hover-background-color);
+  }
+
+  &:focus {
+    background-color: var(--bio-vo-context-menu-item-hover-background-color);
+    outline: none;
+  }
+}
+
+.vd-foldable-key {
+  cursor: pointer;
+  border-radius: 2px;
+
+  &:hover {
+    background: var(--cds-layer-hover, #e8e8e8);
+  }
+}
+
+.vd-active-token {
+  background: var(--cds-highlight, #e5f6ff);
+  border-radius: 2px;
+  outline: 1px solid var(--cds-focus, #0f62fe);
+}
