@@ -13,7 +13,6 @@ import { ScopeExpandProvider } from '../../../Context/ScopeExpandContext';
 
 const defaultFilter = {
   search: '',
-  filterType: 'all',
   selectedElements: [],
   writtenOnly: false
 };

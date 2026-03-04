@@ -19,7 +19,6 @@ export default function(props) {
 
   const search = useState({
     search: '',
-    filterType: 'all',
     selectedElements: [],
     writtenOnly: false
   });
