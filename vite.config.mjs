@@ -3,6 +3,8 @@ import { resolve } from 'path';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 
+import { playwright } from '@vitest/browser-playwright';
+
 import pkg from './package.json';
 
 // https://vitejs.dev/config/
@@ -25,11 +27,12 @@ export default defineConfig({
     globals: true,
     browser: {
       enabled: true,
-      name: 'chrome',
-      provider: 'webdriverio',
+      provider: playwright(),
 
-      // https://webdriver.io
-      providerOptions: {},
-    },
+      // browsers must be installed via `npx playwright install <browser_name>`
+      instances: [
+        { browser: 'chromium' }
+      ]
+    }
   }
 });
