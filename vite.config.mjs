@@ -16,7 +16,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'lib/index.jsx'),
-      formats: [ 'es' ]
+      formats: [ 'es' ],
+      cssFileName: 'style'
     },
     rollupOptions: {
       external: [ ...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies) ],
