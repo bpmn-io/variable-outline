@@ -3,7 +3,7 @@ import React from 'react';
 
 import './EmptySearch.scss';
 
-export default function({ rawVariables }) {
+export default function EmptySearch({ rawVariables }) {
 
   const TITLE = rawVariables.length ? 'No matching Variables' : 'No Process Variables';
   const DESCRIPTION = rawVariables.length ? 'Check your query or select a different scope.' : 'Add Variables to your process through mappings, forms or example data.';

@@ -9,7 +9,7 @@ import { useVariables } from './hooks/useVariables';
 import Search from './Components/Search';
 import useCanvasSync from './hooks/useCanvasSync';
 
-export default function(props) {
+export default function TabContent(props) {
   const { rawVariables, availableVariables } = useVariables();
   useCanvasSync();
 
