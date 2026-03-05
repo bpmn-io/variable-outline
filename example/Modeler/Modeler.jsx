@@ -25,7 +25,6 @@ export const Modeler = ({ modeler, setModeler, ...props }) => {
           parent: propertiesPanel.current
         },
         keyboard: {
-          // eslint-disable-next-line no-undef
           bindTo: document
         },
         elementTemplates: Object.values(connectors)

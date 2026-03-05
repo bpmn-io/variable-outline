@@ -1,4 +1,3 @@
-/* global document */
 import ReactDOM from 'react-dom';
 import useContextMenuBehavior from '../../hooks/useContextMenuBehavior';
 
