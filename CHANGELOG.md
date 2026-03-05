@@ -9,6 +9,7 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 * `FEAT`: show variables for elements in canvas selection ([#20](https://github.com/bpmn-io/variable-outline/pull/20))
 * `FEAT`: add copy button for variable name ([#23](https://github.com/bpmn-io/variable-outline/pull/23))
 * `FEAT`: add written by selection filter ([#21](https://github.com/bpmn-io/variable-outline/pull/21))
+* `FEAT`: show variable value with codemirror ([#24](https://github.com/bpmn-io/variable-outline/pull/24))
 
 ## 2.0.1
 
