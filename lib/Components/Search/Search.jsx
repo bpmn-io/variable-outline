@@ -21,13 +21,12 @@ export default function Search() {
       className="bio-vo-search"
       size="md"
       placeholder="Search variables for name, scope, or origin"
-      labelText="Filter"
-      closeButtonLabelText="Clear filter input"
-      id="search-1"
+      labelText="Search"
       onChange={ handleSearch }
       value={ search }
       type="inline"
     />
+
     <Tooltip
       className="bio-vo-help"
       label="This panel shows the variables accessible to the selected element, grouped by scope. Expand a variable to see which elements write it and what value it holds. Use the search or filters to narrow down the list."
