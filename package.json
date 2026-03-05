@@ -5,7 +5,7 @@
   "main": "dist/variable-outline.mjs",
   "scripts": {
     "all": "run-s lint test build",
-    "start": "vite --config demo.config.mjs",
+    "start": "vite --config demo.config.mjs --open",
     "build": "vite build",
     "test": "vitest run",
     "test:watch": "vitest watch",
