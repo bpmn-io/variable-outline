@@ -15,65 +15,73 @@ const DEFAULT_FILTER = {
 let setSpy = vi.fn();
 let setFilter;
 
-it('should render search input', function() {
+describe('lib/components/Search', function() {
 
-  // given
-  const { container } = render(<Search />, { wrapper });
+  it('should render search input', function() {
 
-  // then
-  const searchInput = container.querySelector('input');
-  expect(searchInput).to.exist;
+    // given
+    const { container } = render(<Search />, { wrapper: createWrapper() });
 
-});
+    // then
+    const searchInput = container.querySelector('input');
+    expect(searchInput).to.exist;
 
-
-it('should set search term', async () => {
-
-  // given
-  const { container } = render(<Search />, { wrapper });
-
-  // when
-  const searchInput = container.querySelector('input');
-
-  await act(async () => {
-    fireEvent.change(searchInput, { target: { value: 'MySearch' } });
   });
 
-  // then
-  expect(setSpy).lastCalledWith({
-    search: 'MySearch',
-    selectedElements: [],
-    writtenOnly: false
-  });
-});
 
-it('should react to external changes', async () => {
+  it('should set search term', async () => {
 
-  // given
-  const { container } = render(<Search />, { wrapper });
+    // given
+    const { container } = render(<Search />, { wrapper: createWrapper() });
 
-  // when
-  await act(async () => {
-    setFilter({
+    // when
+    const searchInput = container.querySelector('input');
+
+    await act(async () => {
+      fireEvent.change(searchInput, { target: { value: 'MySearch' } });
+    });
+
+    // then
+    expect(setSpy).lastCalledWith({
       search: 'MySearch',
       selectedElements: [],
+      writtenOnly: false
     });
   });
 
-  // then
-  expect(container.querySelector('input').value).to.eql('MySearch');
+  it('should react to external changes', async () => {
+
+    // given
+    const { container } = render(<Search />, { wrapper: createWrapper() });
+
+    // when
+    await act(async () => {
+      setFilter({
+        search: 'MySearch',
+        selectedElements: [],
+      });
+    });
+
+    // then
+    expect(container.querySelector('input').value).to.eql('MySearch');
+  });
+
 });
 
 
 // helpers /////////////////////////
 
-function wrapper({ children }) {
-  const [ filter, _setFilter ] = useState(DEFAULT_FILTER);
+function createWrapper() {
 
-  setFilter = _setFilter;
+  return function TestWrapper({ children }) {
+    const [ filter, _setFilter ] = useState(DEFAULT_FILTER);
 
-  return <FilterContext.Provider value={ [ filter, e => {
-    setSpy(e);
-    setFilter(e);
-  } ] }>{children}</FilterContext.Provider>;
+    setFilter = _setFilter;
+
+    return <FilterContext.Provider value={ [ filter, e => {
+      setSpy(e);
+      setFilter(e);
+    } ] }>{children}</FilterContext.Provider>;
+  };
+
 }
