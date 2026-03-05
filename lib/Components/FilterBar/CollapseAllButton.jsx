@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { CollapseAll, ExpandAll } from '@carbon/icons-react';
+import { IconButton } from '@carbon/react';
 
 import { ScopeExpandContext } from '../../Context/ScopeExpandContext';
 
@@ -10,13 +11,16 @@ export default function CollapseAllButton() {
   const label = allCollapsed ? 'Expand all' : 'Collapse all';
 
   return (
-    <button
+    <IconButton
       className="bio-vo-collapse-button"
+      kind="ghost"
+      size="sm"
+      label={ label }
+      aria-label={ label }
+      align="left"
       onClick={ allCollapsed ? expandAll : collapseAll }
-      title={ label }
-      type="button"
     >
-      <Icon className="bio-vo-collapse-icon" />
-    </button>
+      <Icon />
+    </IconButton>
   );
 }
