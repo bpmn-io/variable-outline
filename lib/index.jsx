@@ -11,7 +11,7 @@ import { ScopeExpandProvider } from './Context/ScopeExpandContext';
  * @param {*} props.injector
  * @returns {import('react').ReactElement}
  */
-export default function(props) {
+export default function VariableOutline(props) {
 
   const {
     injector

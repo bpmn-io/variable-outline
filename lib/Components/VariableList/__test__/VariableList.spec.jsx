@@ -20,6 +20,7 @@ const defaultFilter = {
 let wrapper;
 
 describe('VariableList', () => {
+
   beforeEach(bootstrapModeler(diagramXML));
 
   beforeEach(inject((injector) => { wrapper = createWrapper(injector); }));
@@ -215,12 +216,14 @@ const getScopeVariables = (container) => {
   }));
 };
 
-const createWrapper = (injector, filter = defaultFilter) => ({ children }) => (
-  <InjectorContext.Provider value={ injector }>
-    <FilterContext.Provider value={ [ filter, () => {} ] }>
-      <ScopeExpandProvider>
-        { children }
-      </ScopeExpandProvider>
-    </FilterContext.Provider>
-  </InjectorContext.Provider>
-);
+const createWrapper = (injector, filter = defaultFilter) => function TestWrapper({ children }) {
+  return (
+    <InjectorContext.Provider value={ injector }>
+      <FilterContext.Provider value={ [ filter, () => {} ] }>
+        <ScopeExpandProvider>
+          { children }
+        </ScopeExpandProvider>
+      </FilterContext.Provider>
+    </InjectorContext.Provider>
+  );
+};

@@ -1,4 +1,4 @@
-import { Search, Tooltip } from '@carbon/react';
+import { Search as CarbonSearch, Tooltip } from '@carbon/react';
 import { Help } from '@carbon/icons-react';
 
 import { FilterContext } from '../../Context/FilterContext';
@@ -6,7 +6,7 @@ import { useContext } from 'react';
 
 import './Search.scss';
 
-export default () => {
+export default function Search() {
 
   const [ filter, setFilter ] = useContext(FilterContext);
 
@@ -17,7 +17,7 @@ export default () => {
   };
 
   return <div className="bio-vo-search-container">
-    <Search
+    <CarbonSearch
       className="bio-vo-search"
       size="md"
       placeholder="Search variables for name, scope, or origin"
@@ -36,5 +36,4 @@ export default () => {
       <Help />
     </Tooltip>
   </div>;
-
-};
+}
