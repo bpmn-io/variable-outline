@@ -11,7 +11,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    flex: 1 1 auto;
+    flex: 1 0 auto;
     min-width: fit-content;
   }
 
@@ -20,4 +20,31 @@
     align-items: center;
     gap: 6px;
   }
+
+  .bio-vo-collapse-button {
+    border: 1px solid var(--cds-border-strong, #8d8d8d);
+    border-radius: 4px;
+    color: var(--cds-text-primary, #161616);
+
+    svg {
+      fill: var(--cds-icon-primary, #161616);
+    }
+
+    &:hover {
+      background-color: var(--cds-layer-hover, #e8e8e8);
+      color: var(--cds-text-primary, #161616);
+    }
+
+    &:focus,
+    &:focus-visible {
+      border-color: transparent;
+      outline: 2px solid var(--cds-focus, #0f62fe);
+      outline-offset: -2px;
+    }
+
+    &:active {
+      background-color: var(--cds-layer-active, #c6c6c6);
+    }
+  }
+
 }
