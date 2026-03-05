@@ -19,7 +19,8 @@ const defaultFilter = {
 
 let wrapper;
 
-describe('VariableList', () => {
+
+describe('lib/components/VariableList', () => {
 
   beforeEach(bootstrapModeler(diagramXML));
 
