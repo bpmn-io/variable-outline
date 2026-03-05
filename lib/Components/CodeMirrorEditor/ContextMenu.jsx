@@ -19,6 +19,7 @@ export function ContextMenu({ menuState, view, rootVariableName, onClose }) {
         className="vd-context-menu-item"
         onClick={ copyPath }
         role="menuitem"
+        type="button"
         ref={ firstItemRef }
       >
         Copy path
@@ -27,6 +28,7 @@ export function ContextMenu({ menuState, view, rootVariableName, onClose }) {
         className="vd-context-menu-item"
         onClick={ copyValue }
         role="menuitem"
+        type="button"
       >
         Copy value
       </button>
