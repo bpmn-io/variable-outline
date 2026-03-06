@@ -11,7 +11,7 @@ Simply add the component to your existing React application and pass the bpmn-js
 
 ```js
 import VariableOutline from '@bpmn-io/variable-outline';
-import '@bpmn-io/variable-outline/dist/style.css';
+import '@bpmn-io/variable-outline/dist/variable-outline.css';
 
 export function MyComponent(props) {
   const {
@@ -23,7 +23,7 @@ export function MyComponent(props) {
 ```
 
 ### Using Carbon Styles
-> [!NOTE]  
+> [!NOTE]
 > This library does not include `@carbon` styles. If you need them, you must import them into your existing SCSS file:
 
 ```scss
