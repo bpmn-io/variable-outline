@@ -8,6 +8,7 @@ export default function ElementEntry({ element: bo, inline = false }) {
     <button
       className={ `variable-element-entry${inline ? ' variable-element-entry--inline' : ''}${isSelected ? ' variable-element-entry--selected' : ''}` }
       onClick={ navigate }
+      type="button"
     >
       { getName(bo) }
     </button>
