@@ -24,9 +24,6 @@ export const Modeler = ({ modeler, setModeler, ...props }) => {
         propertiesPanel: {
           parent: propertiesPanel.current
         },
-        keyboard: {
-          bindTo: document
-        },
         elementTemplates: Object.values(connectors)
       });
       setModeler(modeler);
