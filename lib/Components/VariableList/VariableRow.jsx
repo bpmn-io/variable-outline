@@ -19,14 +19,12 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
     ? `Written by ${singleWriterName}`
     : `Written by ${writeCount} elements`;
   return (
-    <div className={ `variable-row${isSelectedOrigin ? ' variable-row--highlight' : ''}${expanded ? ' variable-row--expanded' : ''}` }>
-      <div
-        className="variable-row-header"
-        onClick={ onToggle }
-      >
+    <div className={ `variable-row${expanded ? ' variable-row--expanded' : ''}` }>
+      <div className="variable-row-header">
         <button
           className="variable-row-toggle"
           type="button"
+          onClick={ onToggle }
           aria-expanded={ expanded }
         >
           <ChevronRight className={ `variable-row-chevron${expanded ? ' variable-row-chevron--expanded' : ''}` } />

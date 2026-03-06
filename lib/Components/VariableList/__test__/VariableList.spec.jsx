@@ -214,7 +214,7 @@ describe('lib/components/VariableList', () => {
 
       // when
       await act(() => {
-        fireEvent.click(container.querySelector('.variable-row-header'));
+        fireEvent.click(container.querySelector('.variable-row-toggle'));
       });
 
       // then
