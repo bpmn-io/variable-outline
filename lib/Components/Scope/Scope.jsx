@@ -1,13 +1,13 @@
 import { ChevronRight } from '@carbon/icons-react';
 import { Tag } from '@carbon/react';
 
-import VariableRow from './VariableRow';
+import VariableRow from '../VariableRow';
 import { getSVGComponent } from '../BpmnIcon';
 import useService from '../../hooks/useService';
 import useExpandable from '../../hooks/useExpandable';
 import useScopeExpand from '../../hooks/useScopeExpand';
 
-export default function ScopeGroup({ scopeName, scope, variables, filter, defaultExpanded = true, isLocal = false, scopeType = 'parent' }) {
+export default function Scope({ scopeName, scope, variables, filter, defaultExpanded = true, isLocal = false, scopeType = 'parent' }) {
   const [ expandedIds, handleToggle ] = useExpandable();
   const [ expanded, toggleExpanded ] = useScopeExpand(scope.id, defaultExpanded);
 

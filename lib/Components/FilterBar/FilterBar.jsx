@@ -3,7 +3,7 @@ import CollapseAllButton from './CollapseAllButton';
 
 import './FilterBar.scss';
 
-export default function FilterBar({ variables }) {
+export default function FilterBar() {
   return (
     <div className="bio-vo-filter-bar">
       <div className="bio-vo-filter-bar-actions">

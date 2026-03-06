@@ -6,7 +6,7 @@ import { bootstrapBpmnJS, inject } from 'bpmn-js/test/helper';
 
 import diagramXML from './diagram.xml?raw';
 import { getVariables } from '../../../hooks/useVariables';
-import Variables from '../VariableList';
+import ScopeList from '../ScopeList';
 import { FilterContext } from '../../../Context/FilterContext';
 import { InjectorContext } from '../../../Context/InjectorContext';
 import { ScopeExpandProvider } from '../../../Context/ScopeExpandContext';
@@ -20,7 +20,7 @@ const defaultFilter = {
 let wrapper;
 
 
-describe('lib/components/VariableList', () => {
+describe('lib/components/ScopeList', () => {
 
   beforeEach(bootstrapModeler(diagramXML));
 
@@ -33,7 +33,7 @@ describe('lib/components/VariableList', () => {
       // when
       const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
       const { container } = render(
-        <Variables variables={ availableVariables } />,
+        <ScopeList variables={ availableVariables } />,
         { wrapper }
       );
 
@@ -69,7 +69,7 @@ describe('lib/components/VariableList', () => {
       const filter = { ...defaultFilter, selectedElements: [ 'OuterSubprocess' ] };
       const { availableVariables } = await getVariables({ variableResolver, selection, filter });
       const { container } = render(
-        <Variables variables={ availableVariables } />,
+        <ScopeList variables={ availableVariables } />,
         { wrapper: createWrapper(injector, filter) }
       );
 
@@ -111,7 +111,7 @@ describe('lib/components/VariableList', () => {
       const filter = { ...defaultFilter, selectedElements: [ 'ServiceTask' ] };
       const { availableVariables } = await getVariables({ variableResolver, selection, filter });
       const { container } = render(
-        <Variables variables={ availableVariables } />,
+        <ScopeList variables={ availableVariables } />,
         { wrapper: createWrapper(injector, filter) }
       );
 
@@ -163,7 +163,7 @@ describe('lib/components/VariableList', () => {
       const filter = { ...defaultFilter, selectedElements: [ 'ServiceTask' ] };
       const { availableVariables } = await getVariables({ variableResolver, selection, filter });
       const { container } = render(
-        <Variables variables={ availableVariables } />,
+        <ScopeList variables={ availableVariables } />,
         { wrapper: createWrapper(injector, filter) }
       );
 
@@ -208,7 +208,7 @@ describe('lib/components/VariableList', () => {
       // given
       const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
       const { container } = render(
-        <Variables variables={ availableVariables } />,
+        <ScopeList variables={ availableVariables } />,
         { wrapper }
       );
 
@@ -234,7 +234,7 @@ describe('lib/components/VariableList', () => {
 
       const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
       const { container } = render(
-        <Variables variables={ availableVariables } />,
+        <ScopeList variables={ availableVariables } />,
         { wrapper }
       );
 
