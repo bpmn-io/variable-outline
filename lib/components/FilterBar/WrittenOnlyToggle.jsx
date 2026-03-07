@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
 import { Toggle } from '@carbon/react';
-import { FilterContext } from '../../Context/FilterContext';
+import { FilterContext } from '../../context/FilterContext';
 
 export default function WrittenOnlyToggle() {
   const [ filter, setFilter ] = useContext(FilterContext);

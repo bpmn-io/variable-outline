@@ -1,13 +1,13 @@
 import { useContext } from 'react';
 
 import parseVariables from '../../utils/parseRows';
-import ScopeGroup from './ScopeGroup';
-import { FilterContext } from '../../Context/FilterContext';
+import Scope from '../Scope';
+import { FilterContext } from '../../context/FilterContext';
 import useGroupedVariables from '../../hooks/useGroupedVariables';
 
 import '../outline-variables.scss';
 
-export default function VariableList({ variables: rawVariables }) {
+export default function ScopeList({ variables: rawVariables }) {
   const variables = parseVariables(rawVariables);
   const [ filter ] = useContext(FilterContext);
   const selectedElementIds = filter.selectedElements;
@@ -35,7 +35,7 @@ export default function VariableList({ variables: rawVariables }) {
             }
 
             return (
-              <ScopeGroup
+              <Scope
                 key={ group.scopeId }
                 scopeName={ displayName }
                 scope={ group.scope }

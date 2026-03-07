@@ -1,7 +1,7 @@
 import { Search as CarbonSearch, Tooltip } from '@carbon/react';
 import { Help } from '@carbon/icons-react';
 
-import { FilterContext } from '../../Context/FilterContext';
+import { FilterContext } from '../../context/FilterContext';
 import { useContext } from 'react';
 
 import './Search.scss';
