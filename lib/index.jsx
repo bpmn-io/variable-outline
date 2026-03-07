@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import TabContent from './Components/TabContent';
-import { InjectorContext } from './Context/InjectorContext';
-import { FilterContext } from './Context/FilterContext';
-import { ScopeExpandProvider } from './Context/ScopeExpandContext';
+import TabContent from './components/TabContent';
+import { InjectorContext } from './context/InjectorContext';
+import { FilterContext } from './context/FilterContext';
+import { ScopeExpandProvider } from './context/ScopeExpandContext';
 
 /**
  *

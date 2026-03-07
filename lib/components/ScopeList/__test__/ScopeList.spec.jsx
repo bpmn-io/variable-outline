@@ -7,9 +7,9 @@ import { bootstrapBpmnJS, inject } from 'bpmn-js/test/helper';
 import diagramXML from './diagram.xml?raw';
 import { getVariables } from '../../../hooks/useVariables';
 import ScopeList from '../ScopeList';
-import { FilterContext } from '../../../Context/FilterContext';
-import { InjectorContext } from '../../../Context/InjectorContext';
-import { ScopeExpandProvider } from '../../../Context/ScopeExpandContext';
+import { FilterContext } from '../../../context/FilterContext';
+import { InjectorContext } from '../../../context/InjectorContext';
+import { ScopeExpandProvider } from '../../../context/ScopeExpandContext';
 
 const defaultFilter = {
   search: '',

@@ -2,7 +2,7 @@ import { expect, it, vi } from 'vitest';
 
 import { render, fireEvent } from '@testing-library/react';
 import { act, useState } from 'react';
-import { FilterContext } from '../../../Context/FilterContext';
+import { FilterContext } from '../../../context/FilterContext';
 import Search from '../Search';
 
 

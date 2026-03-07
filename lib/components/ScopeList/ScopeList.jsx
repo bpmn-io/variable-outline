@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import parseVariables from '../../utils/parseRows';
 import Scope from '../Scope';
-import { FilterContext } from '../../Context/FilterContext';
+import { FilterContext } from '../../context/FilterContext';
 import useGroupedVariables from '../../hooks/useGroupedVariables';
 
 import '../outline-variables.scss';

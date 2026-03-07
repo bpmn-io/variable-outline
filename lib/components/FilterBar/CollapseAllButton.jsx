@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { CollapseAll, ExpandAll } from '@carbon/icons-react';
 import { IconButton } from '@carbon/react';
 
-import { ScopeExpandContext } from '../../Context/ScopeExpandContext';
+import { ScopeExpandContext } from '../../context/ScopeExpandContext';
 
 export default function CollapseAllButton() {
   const { allCollapsed, collapseAll, expandAll } = useContext(ScopeExpandContext);
