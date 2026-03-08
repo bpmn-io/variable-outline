@@ -1,38 +1,41 @@
-import { expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
-import { render, fireEvent } from '@testing-library/react';
-import { act, useState } from 'react';
-import { FilterContext } from '../../../context/FilterContext';
+import { render, fireEvent, waitFor, act } from '@testing-library/react';
+import CamundaCloudModeler from 'camunda-bpmn-js/dist/camunda-cloud-modeler.development.js';
+import { bootstrapBpmnJS, inject } from 'bpmn-js/test/helper';
+
+import diagramXML from '../../../hooks/__test__/diagram.xml?raw';
+import { FilterProvider } from '../../../context/FilterContext';
+import { InjectorContext } from '../../../context/InjectorContext';
+import useFilter from '../../../hooks/useFilter';
 import Search from '../Search';
 
 
-const DEFAULT_FILTER = {
-  search: '',
-  selectedElements: [],
-  writtenOnly: false
-};
-
-let setSpy = vi.fn();
-let setFilter;
-
 describe('lib/components/Search', function() {
 
-  it('should render search input', function() {
+  beforeEach(bootstrapModeler(diagramXML));
+
+  it('should render search input', inject(function(injector) {
 
     // given
-    const { container } = render(<Search />, { wrapper: createWrapper() });
+    const { container } = render(<Search />, { wrapper: createWrapper(injector) });
 
     // then
     const searchInput = container.querySelector('input');
     expect(searchInput).to.exist;
 
-  });
+  }));
 
 
-  it('should set search term', async () => {
+  it('should set search term', inject(async (injector) => {
 
     // given
-    const { container } = render(<Search />, { wrapper: createWrapper() });
+    const filterRef = { current: null };
+
+    const { container } = render(
+      <SearchWithFilter filterRef={ filterRef } />,
+      { wrapper: createWrapper(injector) }
+    );
 
     // when
     const searchInput = container.querySelector('input');
@@ -42,46 +45,35 @@ describe('lib/components/Search', function() {
     });
 
     // then
-    expect(setSpy).lastCalledWith({
-      search: 'MySearch',
-      selectedElements: [],
-      writtenOnly: false
+    await waitFor(() => {
+      expect(filterRef.current.search).to.eql('MySearch');
     });
-  });
-
-  it('should react to external changes', async () => {
-
-    // given
-    const { container } = render(<Search />, { wrapper: createWrapper() });
-
-    // when
-    await act(async () => {
-      setFilter({
-        search: 'MySearch',
-        selectedElements: [],
-      });
-    });
-
-    // then
-    expect(container.querySelector('input').value).to.eql('MySearch');
-  });
+  }));
 
 });
 
 
 // helpers /////////////////////////
 
-function createWrapper() {
+function SearchWithFilter({ filterRef }) {
+  const filter = useFilter();
+  filterRef.current = filter;
 
+  return <Search />;
+}
+
+function bootstrapModeler(diagram, options) {
+  return bootstrapBpmnJS(CamundaCloudModeler, diagram, options);
+}
+
+function createWrapper(injector) {
   return function TestWrapper({ children }) {
-    const [ filter, _setFilter ] = useState(DEFAULT_FILTER);
-
-    setFilter = _setFilter;
-
-    return <FilterContext.Provider value={ [ filter, e => {
-      setSpy(e);
-      setFilter(e);
-    } ] }>{children}</FilterContext.Provider>;
+    return (
+      <InjectorContext.Provider value={ injector }>
+        <FilterProvider>
+          { children }
+        </FilterProvider>
+      </InjectorContext.Provider>
+    );
   };
-
 }

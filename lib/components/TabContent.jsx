@@ -7,11 +7,9 @@ import EmptyState from './EmptyState';
 
 import { useVariables } from '../hooks/useVariables';
 import Search from './Search';
-import useCanvasSync from '../hooks/useCanvasSync';
 
 export default function TabContent(props) {
   const { rawVariables, availableVariables } = useVariables();
-  useCanvasSync();
 
   return <div className="bio-vo-tab-content">
     <Search />

@@ -1,16 +1,13 @@
-import { useContext } from 'react';
-
 import parseVariables from '../../utils/parseRows';
 import Scope from '../Scope';
-import { FilterContext } from '../../context/FilterContext';
+import useFilter from '../../hooks/useFilter';
 import useGroupedVariables from '../../hooks/useGroupedVariables';
 
 import '../outline-variables.scss';
 
 export default function ScopeList({ variables: rawVariables }) {
   const variables = parseVariables(rawVariables);
-  const [ filter ] = useContext(FilterContext);
-  const selectedElementIds = filter.selectedElements;
+  const { selectedElementIds } = useFilter();
   const sortedVariables = [ ...variables ].sort((a, b) => a.name.localeCompare(b.name));
 
   const groupsByScope = useGroupedVariables(sortedVariables, selectedElementIds);
@@ -40,7 +37,6 @@ export default function ScopeList({ variables: rawVariables }) {
                 scopeName={ displayName }
                 scope={ group.scope }
                 variables={ group.variables }
-                filter={ filter }
                 defaultExpanded={ defaultExpanded }
                 isLocal={ isLocal }
                 scopeType={ scopeType }

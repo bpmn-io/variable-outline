@@ -1,19 +1,16 @@
 import { Search as CarbonSearch, Tooltip } from '@carbon/react';
 import { Help } from '@carbon/icons-react';
 
-import { FilterContext } from '../../context/FilterContext';
-import { useContext } from 'react';
+import useFilter from '../../hooks/useFilter';
 
 import './Search.scss';
 
 export default function Search() {
 
-  const [ filter, setFilter ] = useContext(FilterContext);
-
-  const search = filter.search || '';
+  const { search, setSearch } = useFilter();
 
   const handleSearch = (event) => {
-    setFilter({ ...filter, search: event.target.value });
+    setSearch(event.target.value);
   };
 
   return <div className="bio-vo-search-container">

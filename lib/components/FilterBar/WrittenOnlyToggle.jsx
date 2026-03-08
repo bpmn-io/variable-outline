@@ -1,18 +1,11 @@
-import { useContext } from 'react';
-
 import { Toggle } from '@carbon/react';
-import { FilterContext } from '../../context/FilterContext';
+import useFilter from '../../hooks/useFilter';
 
 export default function WrittenOnlyToggle() {
-  const [ filter, setFilter ] = useContext(FilterContext);
-
-  const writtenOnly = filter.writtenOnly || false;
+  const { writtenOnly, toggleWrittenOnly } = useFilter();
 
   const handleToggle = () => {
-    setFilter((previousFilter) => ({
-      ...previousFilter,
-      writtenOnly: !previousFilter.writtenOnly
-    }));
+    toggleWrittenOnly();
   };
 
   return (

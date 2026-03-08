@@ -5,18 +5,20 @@ import VariableRow from '../VariableRow';
 import { getSVGComponent } from '../BpmnIcon';
 import useService from '../../hooks/useService';
 import useExpandable from '../../hooks/useExpandable';
+import useFilter from '../../hooks/useFilter';
 import useScopeExpand from '../../hooks/useScopeExpand';
 
-export default function Scope({ scopeName, scope, variables, filter, defaultExpanded = true, isLocal = false, scopeType = 'parent' }) {
+export default function Scope({ scopeName, scope, variables, defaultExpanded = true, isLocal = false, scopeType = 'parent' }) {
   const [ expandedIds, handleToggle ] = useExpandable();
   const [ expanded, toggleExpanded ] = useScopeExpand(scope.id, defaultExpanded);
+  const { selectedElementIds } = useFilter();
 
   const elementRegistry = useService('elementRegistry');
   const element = elementRegistry.get(scope.id);
   const ScopeIcon = element ? getSVGComponent(element) : null;
 
   const rows = variables.map(variable => {
-    const isSelectedOrigin = filter.selectedElements.some(id =>
+    const isSelectedOrigin = selectedElementIds.some(id =>
       variable.origin?.some(o => o.id === id)
     );
     return (

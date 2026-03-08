@@ -13,7 +13,7 @@ import { ScopeExpandProvider } from '../../../context/ScopeExpandContext';
 
 const defaultFilter = {
   search: '',
-  selectedElements: [],
+  selectedElementIds: [],
   writtenOnly: false
 };
 
@@ -66,7 +66,7 @@ describe('lib/components/ScopeList', () => {
       selection.select(elementRegistry.get('OuterSubprocess'));
 
       // when
-      const filter = { ...defaultFilter, selectedElements: [ 'OuterSubprocess' ] };
+      const filter = { ...defaultFilter, selectedElementIds: [ 'OuterSubprocess' ] };
       const { availableVariables } = await getVariables({ variableResolver, selection, filter });
       const { container } = render(
         <ScopeList variables={ availableVariables } />,
@@ -108,7 +108,7 @@ describe('lib/components/ScopeList', () => {
       selection.select(elementRegistry.get('ServiceTask'));
 
       // when
-      const filter = { ...defaultFilter, selectedElements: [ 'ServiceTask' ] };
+      const filter = { ...defaultFilter, selectedElementIds: [ 'ServiceTask' ] };
       const { availableVariables } = await getVariables({ variableResolver, selection, filter });
       const { container } = render(
         <ScopeList variables={ availableVariables } />,
@@ -160,7 +160,7 @@ describe('lib/components/ScopeList', () => {
       selection.select(elementRegistry.get('ServiceTask'));
 
       // when
-      const filter = { ...defaultFilter, selectedElements: [ 'ServiceTask' ] };
+      const filter = { ...defaultFilter, selectedElementIds: [ 'ServiceTask' ] };
       const { availableVariables } = await getVariables({ variableResolver, selection, filter });
       const { container } = render(
         <ScopeList variables={ availableVariables } />,
@@ -274,7 +274,13 @@ const getVariablesByScope = (container) => {
 const createWrapper = (injector, filter = defaultFilter) => function TestWrapper({ children }) {
   return (
     <InjectorContext.Provider value={ injector }>
-      <FilterContext.Provider value={ [ filter, () => {} ] }>
+      <FilterContext.Provider value={ {
+        search: filter.search,
+        setSearch: () => {},
+        writtenOnly: filter.writtenOnly,
+        toggleWrittenOnly: () => {},
+        selectedElementIds: filter.selectedElementIds
+      } }>
         <ScopeExpandProvider>
           { children }
         </ScopeExpandProvider>
