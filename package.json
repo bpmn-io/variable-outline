@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/variable-outline",
-  "version": "2.0.1",
+  "version": "3.0.0-rc.0",
   "description": "A React component to display variables in a BPMN diagram.",
   "main": "dist/variable-outline.mjs",
   "scripts": {
