@@ -12,6 +12,10 @@
     "lint": "eslint .",
     "prepare": "vite build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bpmn-io/variable-outline"
+  },
   "files": [
     "dist"
   ],
