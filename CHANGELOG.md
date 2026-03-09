@@ -15,6 +15,7 @@ ___Note:__ Yet to be released changes appear here._
 * `FEAT`: add written by selection filter ([#21](https://github.com/bpmn-io/variable-outline/pull/21))
 * `FEAT`: show variable value with codemirror ([#24](https://github.com/bpmn-io/variable-outline/pull/24))
 * `FEAT`: add collapse/expand scope groups functionality ([#22](https://github.com/bpmn-io/variable-outline/pull/22))
+* `FIX`: auto align tooltip not to overflow ([#49](https://github.com/bpmn-io/variable-outline/pull/49))
 
 ## 2.0.1
 

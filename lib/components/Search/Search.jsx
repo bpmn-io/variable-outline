@@ -28,6 +28,7 @@ export default function Search() {
       className="bio-vo-help"
       label="This panel shows the variables accessible to the selected element, grouped by scope. Expand a variable to see which elements write it and what value it holds. Use the search or filters to narrow down the list."
       align="bottom-end"
+      autoAlign
     >
       <Help />
     </Tooltip>
