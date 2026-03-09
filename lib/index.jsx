@@ -1,8 +1,6 @@
-import { useState } from 'react';
-
 import TabContent from './components/TabContent';
 import { InjectorContext } from './context/InjectorContext';
-import { FilterContext } from './context/FilterContext';
+import { FilterProvider } from './context/FilterContext';
 import { ScopeExpandProvider } from './context/ScopeExpandContext';
 
 /**
@@ -17,19 +15,13 @@ export default function VariableOutline(props) {
     injector
   } = props;
 
-  const search = useState({
-    search: '',
-    selectedElements: [],
-    writtenOnly: false
-  });
-
   return (
     <InjectorContext.Provider value={ injector }>
-      <FilterContext.Provider value={ search }>
+      <FilterProvider>
         <ScopeExpandProvider>
           <TabContent />
         </ScopeExpandProvider>
-      </FilterContext.Provider>
+      </FilterProvider>
     </InjectorContext.Provider>
   );
 }
