@@ -30,9 +30,8 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
           <ChevronRight className={ `variable-row-chevron${expanded ? ' variable-row-chevron--expanded' : ''}` } />
           <div className="variable-row-content">
             <div className="variable-row-info">
-              <Tooltip label={ variable.name } align="bottom" enterDelayMs={ 500 } autoAlign>
-                <span className="variable-name">{ variable.name }</span>
-              </Tooltip>
+              <span className="variable-name">{ variable.name }</span>
+
               { isSelectedOrigin && (
                 <Tooltip label="This variable is written by current selection." align="bottom" autoAlign>
                   <span className="variable-written-tag">
