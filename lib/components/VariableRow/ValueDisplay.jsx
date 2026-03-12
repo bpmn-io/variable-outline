@@ -22,7 +22,11 @@ function entryToValue(entry) {
   if (trimmed === 'false') return false;
   const num = Number(trimmed);
   if (!isNaN(num) && trimmed !== '') return num;
-  return entry.info;
+  try {
+    return JSON.parse(entry.info);
+  } catch {
+    return entry.info;
+  }
 }
 
 function buildDoc(info, type, entries, isList) {
