@@ -156,6 +156,7 @@
   align-items: center;
   gap: 8px;
   flex: 1;
+  min-width: 0;
   padding: 10px 0 10px 24px;
   margin: 0;
   cursor: pointer;
@@ -202,6 +203,7 @@
 }
 
 .variable-name {
+  display: block;
   font-family: var(--font-family-monospace);
   font-size: var(--font-size-default, 14px);
   line-height: 18px;

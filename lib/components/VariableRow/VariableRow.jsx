@@ -31,6 +31,7 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
           <div className="variable-row-content">
             <div className="variable-row-info">
               <span className="variable-name">{ variable.name }</span>
+
               { isSelectedOrigin && (
                 <Tooltip label="This variable is written by current selection." align="bottom" autoAlign>
                   <span className="variable-written-tag">
