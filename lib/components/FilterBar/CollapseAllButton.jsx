@@ -12,7 +12,6 @@ export default function CollapseAllButton() {
 
   return (
     <IconButton
-      className="bio-vo-collapse-button"
       kind="ghost"
       size="sm"
       label={ label }
