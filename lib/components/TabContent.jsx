@@ -10,13 +10,14 @@ import Search from './Search';
 
 export default function TabContent(props) {
   const { rawVariables, availableVariables } = useVariables();
+  const { learnMoreUrl } = props;
 
   return <div className="bio-vo-tab-content">
     <Search />
     <FilterBar />
     {availableVariables.length > 0 ?
       <ScopeList { ...props } variables={ availableVariables } /> :
-      <EmptyState rawVariables={ rawVariables } />
+      <EmptyState rawVariables={ rawVariables } learnMoreUrl={ learnMoreUrl } />
     }
   </div>;
 }
