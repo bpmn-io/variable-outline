@@ -5,15 +5,15 @@ import ValueDisplay from '../ValueDisplay';
 
 
 const NESTED_ENTRIES = [
-  { name: 'name', info: 'John', type: 'String', entries: [] },
+  { name: 'name', info: '"John"', type: 'String', entries: [] },
   {
     name: 'address',
     info: null,
     type: null,
     isList: false,
     entries: [
-      { name: 'street', info: '123 Main St', type: 'String', entries: [] },
-      { name: 'city', info: 'Springfield', type: 'String', entries: [] },
+      { name: 'street', info: '"123 Main St"', type: 'String', entries: [] },
+      { name: 'city', info: '"Springfield"', type: 'String', entries: [] },
     ]
   },
 ];
@@ -103,6 +103,25 @@ describe('ValueDisplay', () => {
       await waitFor(() => {
         expect(editor.querySelector('.vd-fold-placeholder')).to.exist;
       });
+    });
+
+    it('should deserialize string values without double-encoding', async () => {
+
+      // given
+      const { container } = renderValueDisplay();
+      const editor = await waitForEditor(container);
+      await unfoldEditor(editor);
+
+      // when
+      const content = editor.querySelector('.cm-content').textContent;
+
+      // then - properly serialized: "John", not double-encoded: "\"John\""
+      expect(content).to.include('"John"');
+      expect(content).to.include('"123 Main St"');
+      expect(content).to.include('"Springfield"');
+      expect(content).not.to.include('"\\"John\\""');
+      expect(content).not.to.include('"\\"123 Main St\\""');
+      expect(content).not.to.include('"\\"Springfield\\""');
     });
 
     it('should unfold nested value when clicking its fold placeholder', async () => {
