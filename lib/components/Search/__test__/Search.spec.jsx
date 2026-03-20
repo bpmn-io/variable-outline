@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import CamundaCloudModeler from 'camunda-bpmn-js/dist/camunda-cloud-modeler.development.js';
@@ -53,6 +53,142 @@ describe('lib/components/Search', function() {
 });
 
 
+describe('lib/components/Search - tracking', function() {
+
+  const mockTracking = { track: vi.fn() };
+
+  beforeEach(bootstrapModeler(diagramXML, {
+    additionalModules: [ {
+      bpmnJSTracking: [ 'value', mockTracking ]
+    } ]
+  }));
+
+  beforeEach(() => vi.useFakeTimers());
+
+  afterEach(() => {
+    vi.useRealTimers();
+    mockTracking.track.mockClear();
+  });
+
+
+  it('should track search after debounce delay', inject(function(injector) {
+
+    // given
+    const { container } = render(<Search />, { wrapper: createWrapper(injector) });
+    const searchInput = container.querySelector('input');
+
+    // when
+    act(() => {
+      fireEvent.change(searchInput, { target: { value: 'foo' } });
+    });
+
+    // then
+    expect(mockTracking.track).not.toHaveBeenCalled();
+
+    // when
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+
+    // then
+    expect(mockTracking.track).toHaveBeenCalledOnce();
+    expect(mockTracking.track).toHaveBeenCalledWith({
+      name: 'variableOutline:searched',
+      data: undefined
+    });
+  }));
+
+
+  it('should collapse rapid keystrokes into single event', inject(function(injector) {
+
+    // given
+    const { container } = render(<Search />, { wrapper: createWrapper(injector) });
+    const searchInput = container.querySelector('input');
+
+    // when
+    act(() => {
+      fireEvent.change(searchInput, { target: { value: 'f' } });
+      fireEvent.change(searchInput, { target: { value: 'fo' } });
+      fireEvent.change(searchInput, { target: { value: 'foo' } });
+      vi.advanceTimersByTime(300);
+    });
+
+    // then
+    expect(mockTracking.track).toHaveBeenCalledOnce();
+    expect(mockTracking.track).toHaveBeenCalledWith({
+      name: 'variableOutline:searched',
+      data: undefined
+    });
+  }));
+
+
+  it('should NOT track when search is cleared', inject(function(injector) {
+
+    // given
+    const { container } = render(<Search />, { wrapper: createWrapper(injector) });
+    const searchInput = container.querySelector('input');
+
+    act(() => {
+      fireEvent.change(searchInput, { target: { value: 'foo' } });
+      vi.advanceTimersByTime(300);
+    });
+
+    mockTracking.track.mockClear();
+
+    // when
+    act(() => {
+      fireEvent.change(searchInput, { target: { value: '' } });
+      vi.advanceTimersByTime(300);
+    });
+
+    // then
+    expect(mockTracking.track).not.toHaveBeenCalled();
+  }));
+
+
+  it('should NOT include search term in tracking data', inject(function(injector) {
+
+    // given
+    const { container } = render(<Search />, { wrapper: createWrapper(injector) });
+    const searchInput = container.querySelector('input');
+
+    // when
+    act(() => {
+      fireEvent.change(searchInput, { target: { value: 'sensitive-query' } });
+      vi.advanceTimersByTime(300);
+    });
+
+    // then
+    expect(mockTracking.track).toHaveBeenCalledWith({
+      name: 'variableOutline:searched',
+      data: undefined
+    });
+  }));
+
+
+  it('should not crash when tracking service is absent', function() {
+
+    // given
+    const injector = createMockInjector(null);
+
+    const { container } = render(<Search />, {
+      wrapper: createWrapper(injector)
+    });
+
+    const searchInput = container.querySelector('input');
+
+    // when / then
+    expect(() => {
+      act(() => {
+        fireEvent.change(searchInput, { target: { value: 'test' } });
+        vi.advanceTimersByTime(300);
+      });
+    }).not.toThrow();
+  });
+
+});
+
+
 // helpers /////////////////////////
 
 function SearchWithFilter({ filterRef }) {
@@ -64,6 +200,28 @@ function SearchWithFilter({ filterRef }) {
 
 function bootstrapModeler(diagram, options) {
   return bootstrapBpmnJS(CamundaCloudModeler, diagram, options);
+}
+
+function createMockInjector(trackingService) {
+  const mockEventBus = { on() {}, off() {} };
+
+  return {
+    get: (name, strict) => {
+      if (name === 'bpmnJSTracking') {
+        return trackingService;
+      }
+
+      if (name === 'eventBus') {
+        return mockEventBus;
+      }
+
+      if (strict !== false) {
+        throw new Error(`No provider for "${ name }"!`);
+      }
+
+      return null;
+    }
+  };
 }
 
 function createWrapper(injector) {

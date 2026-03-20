@@ -1,16 +1,40 @@
+import { useEffect, useMemo } from 'react';
 import { Search as CarbonSearch, Tooltip } from '@carbon/react';
 import { Help } from '@carbon/icons-react';
+import { debounce } from 'min-dash';
 
 import useFilter from '../../hooks/useFilter';
+import useTracking from '../../hooks/useTracking';
 
 import './Search.scss';
+
+const SEARCH_DEBOUNCE_DELAY = 300;
 
 export default function Search() {
 
   const { search, setSearch } = useFilter();
+  const track = useTracking();
+
+  const trackSearch = useMemo(
+    () => debounce(() => {
+      track('searched');
+    }, SEARCH_DEBOUNCE_DELAY),
+    [ track ]
+  );
+
+  useEffect(() => {
+    return () => trackSearch.cancel();
+  }, [ trackSearch ]);
 
   const handleSearch = (event) => {
-    setSearch(event.target.value);
+    const value = event.target.value;
+    setSearch(value);
+
+    if (value.length > 0) {
+      trackSearch();
+    } else {
+      trackSearch.cancel();
+    }
   };
 
   return <div className="bio-vo-search-container">
