@@ -17,6 +17,7 @@ ___Note:__ Yet to be released changes appear here._
 * `FEAT`: add collapse/expand scope groups functionality ([#22](https://github.com/bpmn-io/variable-outline/pull/22))
 * `FIX`: auto align tooltip not to overflow ([#49](https://github.com/bpmn-io/variable-outline/pull/49))
 * `FIX`: prevent double-encoding of string values ([#53](https://github.com/bpmn-io/variable-outline/pull/53))
+* `CHORE`: reword search bar copy to reflect filter semantics ([#65](https://github.com/bpmn-io/variable-outline/pull/65))
 
 ## 2.0.1
 

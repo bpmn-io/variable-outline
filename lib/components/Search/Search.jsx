@@ -17,8 +17,8 @@ export default function Search() {
     <CarbonSearch
       className="bio-vo-search"
       size="md"
-      placeholder="Search variables for name, scope, or origin"
-      labelText="Search"
+      placeholder="Filter by name, origin, or scope"
+      labelText="Filter variables"
       onChange={ handleSearch }
       value={ search }
       type="inline"
@@ -26,7 +26,7 @@ export default function Search() {
 
     <Tooltip
       className="bio-vo-help"
-      label="This panel shows the variables accessible to the selected element, grouped by scope. Expand a variable to see which elements write it and what value it holds. Use the search or filters to narrow down the list."
+      label="This panel shows the variables accessible to the selected element, grouped by scope. Expand a variable to see which elements write it and what value it holds. Type in the input to filter by name, origin, or scope."
       align="bottom-end"
       autoAlign
     >

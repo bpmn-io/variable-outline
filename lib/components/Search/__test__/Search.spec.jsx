@@ -15,7 +15,7 @@ describe('lib/components/Search', function() {
 
   beforeEach(bootstrapModeler(diagramXML));
 
-  it('should render search input', inject(function(injector) {
+  it('should render filter input', inject(function(injector) {
 
     // given
     const { container } = render(<Search />, { wrapper: createWrapper(injector) });
@@ -27,7 +27,7 @@ describe('lib/components/Search', function() {
   }));
 
 
-  it('should set search term', inject(async (injector) => {
+  it('should set filter term', inject(async (injector) => {
 
     // given
     const filterRef = { current: null };
