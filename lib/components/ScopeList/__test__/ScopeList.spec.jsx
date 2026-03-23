@@ -28,7 +28,7 @@ describe('lib/components/ScopeList', () => {
 
   describe('given no element is selected', () => {
 
-    it('renders all output variables in a single global scope group, sorted alphabetically', inject(async (variableResolver, selection, injector) => {
+    it('renders all output variables in a single global scope group, sorted alphabetically', inject(async (variableResolver, selection) => {
 
       // when
       const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
@@ -203,7 +203,7 @@ describe('lib/components/ScopeList', () => {
 
   describe('variable row interaction', () => {
 
-    it('expands a row on click to reveal Written by details', inject(async (variableResolver, selection, injector) => {
+    it('expands a row on click to reveal Written by details', inject(async (variableResolver, selection) => {
 
       // given
       const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
@@ -223,7 +223,7 @@ describe('lib/components/ScopeList', () => {
       expect(container.textContent).to.include('ProcessStartEvent');
     }));
 
-    it('copies variable name to clipboard and updates button state', inject(async (variableResolver, selection, injector) => {
+    it('copies variable name to clipboard and updates button state', inject(async (variableResolver, selection) => {
 
       // given
       const clipboardWrite = vi.fn(() => Promise.resolve());
@@ -260,8 +260,8 @@ describe('lib/components/ScopeList', () => {
 
 // helpers /////////////////////////
 
-function bootstrapModeler(diagram, options) {
-  return bootstrapBpmnJS(CamundaCloudModeler, diagram, options);
+function bootstrapModeler(diagram) {
+  return bootstrapBpmnJS(CamundaCloudModeler, diagram);
 }
 
 const getVariablesByScope = (container) => {
