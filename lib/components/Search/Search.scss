@@ -3,9 +3,11 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  box-sizing: border-box;
+  height: 64px;
   padding: 8px 12px;
-  background-color: var(--bio-vo-bg);
-  border-bottom: 1px solid var(--cds-border-subtle, #e0e0e0);
+  background-color: var(--bio-vo-header-bg);
+  border-bottom: 1px solid var(--cds-border-subtle, hsl(225, 10%, 75%));
   top: 0;
 
   .bio-vo-search {
@@ -17,7 +19,7 @@
     block-size: 32px;
     border: 1px solid var(--input-border-color, hsl(225, 10%, 75%));
     border-radius: 2px;
-    background-color: var(--input-background-color, hsl(225, 10%, 97%));
+    background-color: var(--input-background-color, white);
     font-size: var(--text-size-base, 14px);
 
     &::placeholder {
