@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import ValueDisplay from '../ValueDisplay';
+import { InjectorContext } from '../../../context/InjectorContext';
 
 
 const NESTED_ENTRIES = [
@@ -167,16 +168,21 @@ async function unfoldEditor(editor) {
   });
 }
 
-function renderValueDisplay(overrides = {}) {
+function renderValueDisplay() {
+  const mockInjector = {
+    get: () => null
+  };
+
   return render(
-    <ValueDisplay
-      info={ null }
-      type={ null }
-      isList={ false }
-      variableName="testVar"
-      entries={ NESTED_ENTRIES }
-      { ...overrides }
-    />
+    <InjectorContext.Provider value={ mockInjector }>
+      <ValueDisplay
+        info={ null }
+        type={ null }
+        isList={ false }
+        variableName="testVar"
+        entries={ NESTED_ENTRIES }
+      />
+    </InjectorContext.Provider>
   );
 }
 

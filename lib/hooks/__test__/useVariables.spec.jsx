@@ -245,8 +245,8 @@ describe('#useVariables hook sync behavior', () => {
 
 // helpers /////////////////////////
 
-function bootstrapModeler(diagram, options) {
-  return bootstrapBpmnJS(CamundaCloudModeler, diagram, options);
+function bootstrapModeler(diagram) {
+  return bootstrapBpmnJS(CamundaCloudModeler, diagram);
 }
 
 function createHookWrapper(injector) {
