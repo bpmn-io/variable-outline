@@ -19,6 +19,7 @@ ___Note:__ Yet to be released changes appear here._
 * `FEAT`: align panel styling with properties panel ([#68](https://github.com/bpmn-io/variable-outline/pull/68))
 * `FIX`: auto align tooltip not to overflow ([#49](https://github.com/bpmn-io/variable-outline/pull/49))
 * `FIX`: prevent double-encoding of string values ([#53](https://github.com/bpmn-io/variable-outline/pull/53))
+* `FIX`: adjust variable name font size for improved visual balance ([#70](https://github.com/bpmn-io/variable-outline/pull/70))
 
 ## 2.0.1
 
