@@ -51,8 +51,14 @@
     "vitest": "^4.0.18"
   },
   "peerDependencies": {
+    "bpmn-js-tracking": "*",
     "camunda-bpmn-js": "*",
     "react": "*",
     "react-dom": "*"
+  },
+  "peerDependenciesMeta": {
+    "bpmn-js-tracking": {
+      "optional": true
+    }
   }
 }
