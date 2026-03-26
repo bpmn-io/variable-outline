@@ -1,7 +1,7 @@
 import { Link } from '@carbon/react';
+import { ValueVariableAlt } from '@carbon/icons-react';
 
 import './EmptyState.scss';
-import EmptyStateIcon from '../BpmnIcon/svg/bpmn-empty-state.svg?react';
 
 export default function EmptyState({ rawVariables, learnMoreUrl }) {
 
@@ -10,7 +10,9 @@ export default function EmptyState({ rawVariables, learnMoreUrl }) {
 
   return (
     <div className="bio-vo-empty-state">
-      <EmptyStateIcon className="bio-vo-empty-state__icon" aria-hidden="true" focusable="false" />
+      <div className="bio-vo-empty-state__icon-container" aria-hidden="true">
+        <ValueVariableAlt size={ 24 } />
+      </div>
       <h3 className="bio-vo-empty-state__title">{TITLE}</h3>
       <p className="bio-vo-empty-state__description">
         {DESCRIPTION}
@@ -20,7 +22,6 @@ export default function EmptyState({ rawVariables, learnMoreUrl }) {
           href={ learnMoreUrl }
           target="_blank"
           rel="noopener noreferrer"
-          className="bio-vo-empty-state__link"
         >
           Learn more
         </Link>
