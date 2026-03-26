@@ -5,25 +5,32 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  gap: 12px;
+  padding: 24px;
   color: var(--cds-text-secondary, #525252);
-  font-size: var(--text-size-base);
+  font-size: var(--text-size-small);
+  line-height: 16px;
+  letter-spacing: 0.32px;
 
-  &__icon {
-    margin-bottom: 8px;
+  &__icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #f4f4f4;
   }
 
   &__title {
-    font-size: var(--text-size-base);
     font-weight: 600;
-    margin: 0 0 4px 0;
+    margin: 0;
   }
 
   &__description {
-    margin: 0 48px;
+    margin: 0;
     font-weight: 400;
-  }
-
-  &__link {
-    margin-top: 8px;
+    line-height: 1.33;
+    max-width: 209px;
   }
 }

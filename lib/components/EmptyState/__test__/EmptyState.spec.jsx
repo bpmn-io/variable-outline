@@ -14,7 +14,9 @@ describe('lib/components/EmptyState', () => {
       const { container } = render(<EmptyState rawVariables={ [] } />);
 
       // then
-      expect(container.querySelector('svg')).to.exist;
+      const iconContainer = container.querySelector('.bio-vo-empty-state__icon-container');
+      expect(iconContainer).to.exist;
+      expect(iconContainer.querySelector('svg')).to.exist;
     });
 
 
@@ -48,7 +50,9 @@ describe('lib/components/EmptyState', () => {
       const { container } = render(<EmptyState rawVariables={ [ { name: 'foo' } ] } />);
 
       // then
-      expect(container.querySelector('svg')).to.exist;
+      const iconContainer = container.querySelector('.bio-vo-empty-state__icon-container');
+      expect(iconContainer).to.exist;
+      expect(iconContainer.querySelector('svg')).to.exist;
     });
 
 
