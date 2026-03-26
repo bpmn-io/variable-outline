@@ -7,11 +7,13 @@ import useService from '../../hooks/useService';
 import useExpandable from '../../hooks/useExpandable';
 import useFilter from '../../hooks/useFilter';
 import useScopeExpand from '../../hooks/useScopeExpand';
+import useTracking from '../../hooks/useTracking';
 
 export default function Scope({ scopeName, scope, variables, defaultExpanded = true, isLocal = false, scopeType = 'parent' }) {
   const [ expandedIds, handleToggle ] = useExpandable();
   const [ expanded, toggleExpanded ] = useScopeExpand(scope.id, defaultExpanded);
   const { selectedElementIds } = useFilter();
+  const track = useTracking();
 
   const elementRegistry = useService('elementRegistry');
   const element = elementRegistry.get(scope.id);
@@ -27,7 +29,11 @@ export default function Scope({ scopeName, scope, variables, defaultExpanded = t
         variable={ variable }
         isSelectedOrigin={ isSelectedOrigin }
         expanded={ expandedIds.has(variable.id) }
-        onToggle={ () => handleToggle(variable.id) }
+        onToggle={ () => {
+          const willExpand = !expandedIds.has(variable.id);
+          handleToggle(variable.id);
+          track(willExpand ? 'expandVariable' : 'collapseVariable');
+        } }
       />
     );
   });
