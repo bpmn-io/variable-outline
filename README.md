@@ -4,6 +4,14 @@
 
 A React component to display variables in a BPMN diagram.
 
+## Installation
+
+Install via npm:
+
+```bash
+npm install @bpmn-io/variable-outline
+```
+
 ## Usage
 
 Simply add the component to your existing React application and pass the bpmn-js
