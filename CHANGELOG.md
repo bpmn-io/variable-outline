@@ -6,6 +6,8 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FIX`: sync horizontal border colors with details panel ([#80](https://github.com/bpmn-io/variable-outline/pull/80))
+
 ## 3.0.0
 
 * `FEAT`: make layout vertical for variables ([#16](https://github.com/bpmn-io/variable-outline/pull/16))
