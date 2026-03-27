@@ -88,6 +88,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--bio-vo-text-primary);
 }
 
 .variable-section-count {
@@ -96,20 +97,21 @@
   font-size: var(--text-size-small);
 }
 
-.variable-scope-chip {
+// specificity is important; otherwise CDS styles override
+.variable-scope-chip:not(.cds--tag--operational):not(span):not([disabled]) {
   &.cds--tag--outline {
     background-color: transparent;
-    border: 1px solid var(--cds-border-strong, #8d8d8d);
-    color: var(--cds-text-secondary, #6f6f6f);
+    outline: 1px solid var(--bio-vo-text-muted);
+    color: var(--bio-vo-text-muted);
   }
 
   &.cds--tag.cds--tag--blue {
     background-color: transparent;
-    border: 1px solid var(--cds-link-primary, #0f62fe);
-    color: var(--cds-link-primary, #0f62fe);
+    outline: 1px solid var(--cds-tag-color-blue, #0043ce);
+    color: var(--cds-tag-color-blue, #0043ce);
 
     .cds--tag__label {
-      color: var(--cds-link-primary, #0f62fe);
+      color: var(--cds-tag-color-blue, #0043ce);
       background: transparent;
     }
   }
@@ -209,6 +211,7 @@
   font-size: 13px;
   line-height: 18px;
   font-weight: 400;
+  color: var(--bio-vo-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -220,7 +223,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--cds-link-primary, #0f62fe);
+  border: 1px solid var(--bio-vo-text-muted);
   border-radius: 9999px;
   padding: 2px;
   height: 16px;
@@ -230,7 +233,7 @@
   svg {
     width: 10px;
     height: 10px;
-    fill: var(--cds-link-primary, #0f62fe);
+    fill: var(--bio-vo-text-muted);
   }
 }
 
@@ -266,8 +269,8 @@
 }
 
 .variable-copy-icon {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
 }
 
 
@@ -284,9 +287,9 @@
     gap: 4px;
 
     .variable-detail-label-text {
-      font-size: var(--text-size-small);
-      font-weight: 600;
-      color: var(--cds-text-secondary, #6f6f6f);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--bio-vo-text-secondary);
     }
   }
 }
@@ -296,9 +299,9 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: var(--text-size-small);
-  font-weight: 600;
-  color: var(--cds-text-secondary, #6f6f6f);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--bio-vo-text-secondary);
   margin-bottom: 6px;
 
   &--collapsible {
@@ -310,7 +313,7 @@
     margin-bottom: 0;
 
     &:hover {
-      color: var(--cds-text-primary, #161616);
+      color: var(--bio-vo-text-primary);
     }
 
     &:focus-visible {
@@ -352,7 +355,7 @@
   box-sizing: border-box;
   background-color: var(--bio-vo-bg);
   margin-bottom: 2px;
-  color: var(--cds-text-primary, #161616);
+  color: var(--bio-vo-text-primary);
   text-decoration: underline;
   transition: background-color 0.1s ease;
   border-left: 3px solid transparent;
@@ -368,12 +371,13 @@
   }
 
   &--selected {
+    background-color: var(--cds-layer-hover, #e0e0e0);
     border-left-color: var(--cds-focus, #0f62fe);
     text-decoration: none;
     cursor: default;
 
     &:hover {
-      color: var(--cds-text-primary, #161616);
+      color: var(--bio-vo-text-primary);
     }
   }
 
@@ -395,7 +399,7 @@
       cursor: default;
 
       &:hover {
-        color: var(--cds-text-primary, #161616);
+        color: var(--bio-vo-text-primary);
       }
     }
   }
@@ -403,7 +407,7 @@
 
 
 .vd-root {
-  color: var(--cds-text-primary, #161616);
+  color: var(--bio-vo-text-primary);
 }
 
 .vd-codemirror {
@@ -465,7 +469,7 @@
   border-radius: 4px;
 
   &:hover, &--active {
-    color: var(--cds-icon-primary, #161616);
+    color: var(--bio-vo-text-primary);
     background: var(--cds-layer-hover, #e8e8e8);
   }
 
@@ -482,6 +486,7 @@
   --bio-vo-context-menu-shadow-color-2: hsl(225, 10%, 75%);
   --text-size-small: 12px;
   --text-size-base: 14px;
+  --bio-vo-text-primary: #22242A;
 
   position: fixed;
   z-index: 9999;
@@ -501,7 +506,7 @@
   width: 100%;
   padding: 4px 12px;
   cursor: pointer;
-  color: var(--cds-text-primary, #161616);
+  color: var(--bio-vo-text-primary);
   box-sizing: border-box;
   font-size: var(--text-size-base);
 
