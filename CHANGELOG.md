@@ -6,6 +6,8 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FIX`: use explicit font size for empty state to ensure consistency ([#81](https://github.com/bpmn-io/variable-outline/pull/81))
+
 ## 3.0.1
 
 * `FIX`: sync horizontal border colors with details panel ([#80](https://github.com/bpmn-io/variable-outline/pull/80))
