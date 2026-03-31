@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { render, act } from '@testing-library/react';
 import { useState, useImperativeHandle, forwardRef } from 'react';
 
@@ -74,12 +74,13 @@ const TestEditor = forwardRef(function TestEditor(props, ref) {
   const [ doc, setDoc ] = useState(props.doc || '');
   const [ isJson, setIsJson ] = useState(props.isJson || false);
   const [ variableName, setVariableName ] = useState(props.variableName || 'test');
+  const [ , setMenuState ] = useState(null);
 
   const { ref: editorRef, view } = useCodeMirror({
     doc,
     variableName,
     isJson,
-    onMenuStateChange: vi.fn()
+    onMenuStateChange: setMenuState
   });
 
   useImperativeHandle(ref, () => ({
