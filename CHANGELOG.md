@@ -6,6 +6,8 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+* `DEPS`: move codemirror dependencies to peer dependencies ([#86](https://github.com/bpmn-io/variable-outline/pull/86))
+
 ## 3.0.1
 
 * `FIX`: sync horizontal border colors with details panel ([#80](https://github.com/bpmn-io/variable-outline/pull/80))
