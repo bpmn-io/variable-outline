@@ -99,6 +99,8 @@
 
 // specificity is important; otherwise CDS styles override
 .variable-scope-chip:not(.cds--tag--operational):not(span):not([disabled]) {
+  margin: 0;
+
   &.cds--tag--outline {
     background-color: transparent;
     outline: 1px solid var(--bio-vo-text-muted);
@@ -237,10 +239,7 @@
   }
 }
 
-
-
-.variable-copy-button {
-  all: unset;
+.variable-copy-button.cds--btn--icon-only {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -251,10 +250,7 @@
   transition: opacity 0.15s ease;
   cursor: pointer;
   flex-shrink: 0;
-
-  &:hover {
-    background-color: var(--cds-layer-hover, #e0e0e0);
-  }
+  padding: 0;
 
   &:focus-visible {
     opacity: 1;

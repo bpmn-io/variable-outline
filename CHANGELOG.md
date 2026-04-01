@@ -6,6 +6,8 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FIX`: use Carbon IconButton to improve tooltip alignment ([#87](https://github.com/bpmn-io/variable-outline/pull/87))
+
 ## 3.0.2
 
 * `FIX`: use explicit font size for empty state to ensure consistency ([#81](https://github.com/bpmn-io/variable-outline/pull/81))
