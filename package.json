@@ -23,14 +23,14 @@
   "dependencies": {
     "@carbon/icons-react": "^11.77.0",
     "@carbon/react": "^1.59.0",
+    "min-dash": "^5.0.0"
+  },
+  "devDependencies": {
     "@codemirror/lang-json": "^6.0.2",
     "@codemirror/language": "^6.12.2",
     "@codemirror/state": "^6.5.4",
     "@codemirror/view": "^6.39.16",
     "@lezer/highlight": "^1.2.3",
-    "min-dash": "^5.0.0"
-  },
-  "devDependencies": {
     "@testing-library/react": "^16.0.0",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
@@ -52,6 +52,11 @@
     "vitest": "^4.0.18"
   },
   "peerDependencies": {
+    "@codemirror/lang-json": "^6.0.0",
+    "@codemirror/language": "^6.0.0",
+    "@codemirror/state": "^6.0.0",
+    "@codemirror/view": "^6.0.0",
+    "@lezer/highlight": "^1.0.0",
     "bpmn-js-tracking": "*",
     "camunda-bpmn-js": "*",
     "react": "*",

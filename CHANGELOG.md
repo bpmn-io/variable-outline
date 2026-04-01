@@ -7,6 +7,8 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 ___Note:__ Yet to be released changes appear here._
 
 * `FIX`: use explicit font size for empty state to ensure consistency ([#81](https://github.com/bpmn-io/variable-outline/pull/81))
+* `FIX`: use visually-hidden technique for `aria-live` copy status to keep it in accessibility tree ([#85](https://github.com/bpmn-io/variable-outline/pull/85))
+* `DEPS`: move codemirror dependencies to peer dependencies ([#86](https://github.com/bpmn-io/variable-outline/pull/86))
 
 ## 3.0.1
 
