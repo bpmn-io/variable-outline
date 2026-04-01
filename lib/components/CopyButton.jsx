@@ -20,7 +20,7 @@ export default function CopyButton({ text }) {
         aria-label="Copy variable name"
         onClick={ handleClick }
       >
-        <span aria-live="polite" style={ { display: 'none' } }>
+        <span aria-live="polite" className="visually-hidden">
           { copied ? 'Copied to clipboard!' : '' }
         </span>
 
