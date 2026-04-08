@@ -6,6 +6,8 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+## 3.0.3
+
 * `FIX`: preserve value preview expand state when value changes ([#83](https://github.com/bpmn-io/variable-outline/pull/83))
 * `FIX`: use Carbon IconButton to improve tooltip alignment ([#87](https://github.com/bpmn-io/variable-outline/pull/87))
 * `FIX`: exclude variables without scope before applying the search filter to preserve original behavior ([#89](https://github.com/bpmn-io/variable-outline/pull/89))
