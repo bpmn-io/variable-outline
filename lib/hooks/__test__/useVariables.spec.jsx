@@ -102,6 +102,42 @@ describe('#getVariables', () => {
   }));
 
 
+  it('should filter by origin with origin-less variables in list', async () => {
+
+    // given
+    const variableResolver = {
+      getVariables: async () => ({
+        'Process_1': [
+          {
+            name: 'withOrigin',
+            origin: [ { id: 'Task_1', name: 'Task 1' } ],
+            scope: { id: 'Process_1', name: 'My Process', $type: 'bpmn:Process' }
+          },
+          {
+            name: 'withoutOrigin',
+            scope: { id: 'Process_1', name: 'My Process', $type: 'bpmn:Process' }
+          }
+        ]
+      })
+    };
+
+    const selection = { get: () => [] };
+
+    const filter = {
+      search: 'Task 1',
+      selectedElementIds: [],
+      writtenOnly: false
+    };
+
+    // when
+    const { filteredVariables } = await getVariables({ variableResolver, selection, filter });
+
+    // then
+    expect(filteredVariables).to.have.length(1);
+    expect(filteredVariables[0].name).to.eql('withOrigin');
+  });
+
+
   it('should filter for multi-select', inject(async (elementRegistry, variableResolver, selection) => {
 
     // given
