@@ -6,6 +6,8 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FIX`: preserve value preview expand state when value changes ([#83](https://github.com/bpmn-io/variable-outline/pull/83))
+
 ## 3.0.2
 
 * `FIX`: use explicit font size for empty state to ensure consistency ([#81](https://github.com/bpmn-io/variable-outline/pull/81))
