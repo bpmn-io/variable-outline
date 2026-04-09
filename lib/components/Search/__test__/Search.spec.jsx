@@ -204,6 +204,7 @@ function bootstrapModeler(diagram, options) {
 
 function createMockInjector(trackingService) {
   const mockEventBus = { on() {}, off() {} };
+  const mockSelection = { get() { return []; } };
 
   return {
     get: (name, strict) => {
@@ -213,6 +214,10 @@ function createMockInjector(trackingService) {
 
       if (name === 'eventBus') {
         return mockEventBus;
+      }
+
+      if (name === 'selection') {
+        return mockSelection;
       }
 
       if (strict !== false) {

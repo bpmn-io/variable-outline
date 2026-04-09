@@ -98,6 +98,20 @@ describe('lib/context/FilterContext', () => {
     });
   }));
 
+  it('should seed selectedElementIds from current selection on mount', inject(async (elementRegistry, selection, injector) => {
+
+    // given
+    selection.select(elementRegistry.get('Task_1'));
+
+    // when
+    const { result } = renderHook(() => useFilter(), { wrapper: createHookWrapper(injector) });
+
+    // then
+    await waitFor(() => {
+      expect(result.current.selectedElementIds).to.eql([ 'Task_1' ]);
+    });
+  }));
+
   it('should sync selectedElementIds on selection.changed', inject(async (elementRegistry, selection, injector) => {
 
     // given
