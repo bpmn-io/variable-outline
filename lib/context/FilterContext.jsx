@@ -12,6 +12,7 @@ export const FilterContext = createContext({
 
 export function FilterProvider({ children }) {
   const eventBus = useService('eventBus');
+  const selection = useService('selection');
 
   const [ filter, setFilter ] = useState({
     search: '',
@@ -19,23 +20,33 @@ export function FilterProvider({ children }) {
     writtenOnly: false
   });
 
-  const onSelectionChanged = useCallback((e) => {
-    const selected = e.newSelection || [];
-    const elementIds = selected.map(el => el.id);
-
-    setFilter(prev => ({
-      ...prev,
-      selectedElementIds: elementIds
-    }));
-  }, []);
-
   useEffect(() => {
+    function onSelectionChanged(e) {
+      const selected = e.newSelection || [];
+
+      setFilter(prev => ({
+        ...prev,
+        selectedElementIds: selected.map(el => el.id)
+      }));
+    }
+
     eventBus.on('selection.changed', onSelectionChanged);
 
     return () => {
       eventBus.off('selection.changed', onSelectionChanged);
     };
-  }, [ eventBus, onSelectionChanged ]);
+  }, [ eventBus ]);
+
+  useEffect(() => {
+    const currentSelection = selection.get();
+
+    if (currentSelection.length) {
+      setFilter(prev => ({
+        ...prev,
+        selectedElementIds: currentSelection.map(el => el.id)
+      }));
+    }
+  }, [ selection ]);
 
   const setSearch = useCallback((value) => {
     setFilter(prev => ({

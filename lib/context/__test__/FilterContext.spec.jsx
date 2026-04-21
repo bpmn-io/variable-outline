@@ -98,6 +98,73 @@ describe('lib/context/FilterContext', () => {
     });
   }));
 
+  it('should seed selectedElementIds from current selection on mount', inject(async (elementRegistry, selection, injector) => {
+
+    // given
+    selection.select(elementRegistry.get('Task_1'));
+
+    // when
+    const { result } = renderHook(() => useFilter(), { wrapper: createHookWrapper(injector) });
+
+    // then
+    await waitFor(() => {
+      expect(result.current.selectedElementIds).to.eql([ 'Task_1' ]);
+    });
+  }));
+
+  it('should seed multiple selectedElementIds from current selection on mount', inject(async (elementRegistry, selection, injector) => {
+
+    // given
+    selection.select([
+      elementRegistry.get('Task_1'),
+      elementRegistry.get('Task_2')
+    ]);
+
+    // when
+    const { result } = renderHook(() => useFilter(), { wrapper: createHookWrapper(injector) });
+
+    // then
+    await waitFor(() => {
+      expect(result.current.selectedElementIds).to.eql([ 'Task_1', 'Task_2' ]);
+    });
+  }));
+
+  it('should replace initial selection with new selection', inject(async (elementRegistry, selection, injector) => {
+
+    // given
+    selection.select(elementRegistry.get('Task_1'));
+
+    const { result } = renderHook(() => useFilter(), { wrapper: createHookWrapper(injector) });
+
+    // when
+    await act(() => {
+      selection.select(elementRegistry.get('Task_2'));
+    });
+
+    // then
+    await waitFor(() => {
+      expect(result.current.selectedElementIds).to.eql([ 'Task_2' ]);
+    });
+  }));
+
+  it('should clear selectedElementIds when selection is cleared', inject(async (elementRegistry, selection, injector) => {
+
+    // given
+    selection.select(elementRegistry.get('Task_1'));
+
+    const { result } = renderHook(() => useFilter(), { wrapper: createHookWrapper(injector) });
+
+    // when
+    await act(() => {
+      selection.select([]);
+    });
+
+    // then
+    await waitFor(() => {
+      expect(result.current.selectedElementIds).to.eql([]);
+    });
+  }));
+
   it('should sync selectedElementIds on selection.changed', inject(async (elementRegistry, selection, injector) => {
 
     // given
