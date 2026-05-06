@@ -141,6 +141,20 @@ describe('ValueDisplay', () => {
       });
     });
 
+    it('should not start or end fold placeholder with brackets', async () => {
+
+      // given
+      const { container } = renderValueDisplay();
+      const editor = await waitForEditor(container);
+
+      // when
+      const placeholder = editor.querySelector('.vd-fold-placeholder');
+
+      // then
+      expect(placeholder.textContent).not.to.match(/^[[{]/);
+      expect(placeholder.textContent).not.to.match(/[\]}]$/);
+    });
+
   });
 });
 
