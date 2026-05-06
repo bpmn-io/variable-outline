@@ -5,6 +5,7 @@ import CamundaCloudModeler from 'camunda-bpmn-js/dist/camunda-cloud-modeler.deve
 import { bootstrapBpmnJS, inject } from 'bpmn-js/test/helper';
 
 import diagramXML from './diagram.xml?raw';
+import collaborationDiagramXML from './collaboration-diagram.xml?raw';
 import { getVariables } from '../../../hooks/useVariables';
 import ScopeList from '../ScopeList';
 import { FilterContext } from '../../../context/FilterContext';
@@ -54,6 +55,21 @@ describe('lib/components/ScopeList', () => {
           ],
         }
       ]);
+    }));
+
+    it('highlights root scope as local', inject(async (variableResolver, selection) => {
+
+      // when
+      const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+      const { container } = render(
+        <ScopeList variables={ availableVariables } />,
+        { wrapper }
+      );
+
+      // then
+      const localScopes = container.querySelectorAll('.variable-scope-group--local');
+      expect(localScopes).to.have.length(1);
+      expect(localScopes[0].querySelector('.variable-section-name').textContent).to.eql('TestDiagram');
     }));
 
   });
@@ -251,6 +267,56 @@ describe('lib/components/ScopeList', () => {
       expect(clipboardWrite).toHaveBeenCalledWith(firstVariableName);
       expect(copyButton.className).to.include('variable-copy-button--copied');
       expect(liveRegion.textContent).to.eql('Copied to clipboard!');
+    }));
+
+  });
+
+});
+
+
+describe('lib/components/ScopeList (collaboration)', () => {
+
+  beforeEach(bootstrapModeler(collaborationDiagramXML));
+
+  beforeEach(inject((injector) => { wrapper = createWrapper(injector); }));
+
+  describe('given no element is selected', () => {
+
+    it('highlights all root scopes as local', inject(async (variableResolver, selection) => {
+
+      // when
+      const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+      const { container } = render(
+        <ScopeList variables={ availableVariables } />,
+        { wrapper }
+      );
+
+      // then
+      const localScopes = container.querySelectorAll('.variable-scope-group--local');
+      expect(localScopes).to.have.length(2);
+    }));
+
+  });
+
+  describe('given a participant is selected', () => {
+
+    it('highlights the participant process scope as local', inject(async (elementRegistry, variableResolver, selection, injector) => {
+
+      // given
+      selection.select(elementRegistry.get('Participant_A'));
+
+      // when
+      const filter = { ...defaultFilter, selectedElementIds: [ 'Participant_A' ] };
+      const { availableVariables } = await getVariables({ variableResolver, selection, filter });
+      const { container } = render(
+        <ScopeList variables={ availableVariables } />,
+        { wrapper: createWrapper(injector, filter) }
+      );
+
+      // then
+      const localScopes = container.querySelectorAll('.variable-scope-group--local');
+      expect(localScopes).to.have.length(1);
+      expect(localScopes[0].querySelector('.variable-section-name').textContent).to.eql('Process A');
     }));
 
   });
