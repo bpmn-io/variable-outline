@@ -1,24 +1,39 @@
+import { is, getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
+
 import parseVariables from '../../utils/parseRows';
 import Scope from '../Scope';
 import useFilter from '../../hooks/useFilter';
 import useGroupedVariables from '../../hooks/useGroupedVariables';
+import useService from '../../hooks/useService';
 
 import '../outline-variables.scss';
 
 export default function ScopeList({ variables: rawVariables }) {
   const variables = parseVariables(rawVariables);
   const { selectedElementIds } = useFilter();
-  const sortedVariables = [ ...variables ].sort((a, b) => a.name.localeCompare(b.name));
+  const elementRegistry = useService('elementRegistry');
+  const sortedVariables = variables.toSorted((a, b) => a.name.localeCompare(b.name));
 
   const groupsByScope = useGroupedVariables(sortedVariables, selectedElementIds);
+
+  const selectedScopeIds = selectedElementIds.map(id => {
+    const element = elementRegistry.get(id);
+
+    if (is(element, 'bpmn:Participant')) {
+      return getBusinessObject(element).processRef?.id || id;
+    }
+
+    return id;
+  });
 
   return (
     <div className="variable-list-container">
       <div className="variable-list-inner">
         {
           groupsByScope.map(group => {
-            const isProcess = group.scope?.$type === 'bpmn:Process';
-            const isLocal = selectedElementIds.includes(group.scopeId);
+            const isProcess = is(group.scope, 'bpmn:Process');
+            const isLocal = selectedScopeIds.includes(group.scopeId) ||
+              (isProcess && selectedElementIds.length === 0);
 
             const displayName = group.scope?.name || group.scopeId;
             let defaultExpanded = true;
