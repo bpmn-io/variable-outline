@@ -11,7 +11,7 @@ describe('useCodeMirror', () => {
 
     // given
     const ref = { current: null };
-    render(<TestEditor ref={ ref } doc={ '{ "a": 1 }' } isJson />);
+    render(<TestEditor ref={ ref } doc={ '{ "a": 1 }' } isFeel />);
 
     const initialView = ref.current.view;
     expect(initialView).to.exist;
@@ -28,7 +28,7 @@ describe('useCodeMirror', () => {
   });
 
 
-  it('should recreate editor when isJson changes', async () => {
+  it('should recreate editor when isFeel changes', async () => {
 
     // given
     const ref = { current: null };
@@ -39,7 +39,7 @@ describe('useCodeMirror', () => {
 
     // when
     await act(() => {
-      ref.current.setIsJson(true);
+      ref.current.setIsFeel(true);
     });
 
     // then
@@ -72,21 +72,21 @@ describe('useCodeMirror', () => {
 
 const TestEditor = forwardRef(function TestEditor(props, ref) {
   const [ doc, setDoc ] = useState(props.doc || '');
-  const [ isJson, setIsJson ] = useState(props.isJson || false);
+  const [ isFeel, setIsFeel ] = useState(props.isFeel || false);
   const [ variableName, setVariableName ] = useState(props.variableName || 'test');
   const [ , setMenuState ] = useState(null);
 
   const { ref: editorRef, view } = useCodeMirror({
     doc,
     variableName,
-    isJson,
+    isFeel,
     onMenuStateChange: setMenuState
   });
 
   useImperativeHandle(ref, () => ({
     view,
     setDoc,
-    setIsJson,
+    setIsFeel,
     setVariableName
   }), [ view ]);
 
