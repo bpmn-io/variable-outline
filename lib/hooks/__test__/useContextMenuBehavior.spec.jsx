@@ -4,7 +4,7 @@ import { act, renderHook } from '@testing-library/react';
 import useContextMenuBehavior from '../useContextMenuBehavior';
 import { InjectorContext } from '../../context/InjectorContext';
 
-vi.mock('../../components/CodeMirrorEditor/jsonTreeUtils', () => ({
+vi.mock('../../components/CodeMirrorEditor/treeUtils', () => ({
   getLineContext: vi.fn(() => ({
     propertyNode: {},
     valueNode: {}
