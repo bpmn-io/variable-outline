@@ -2,12 +2,13 @@ import { useState } from 'react';
 import useCodeMirror from '../../hooks/useCodeMirror';
 import { ContextMenu } from './ContextMenu';
 
-export default function CodeMirrorEditor({ doc, variableName, isJson }) {
+export default function CodeMirrorEditor({ doc, variableName, isFeel, isStructured }) {
   const [ menuState, setMenuState ] = useState(null);
   const { ref, view, closeMenu } = useCodeMirror({
     doc,
     variableName,
-    isJson,
+    isFeel,
+    isStructured,
     onMenuStateChange: setMenuState
   });
 
