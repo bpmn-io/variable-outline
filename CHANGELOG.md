@@ -8,6 +8,7 @@ ___Note:__ Yet to be released changes appear here._
 
 * `FEAT`: remove inner brackets from value preview fold placeholder ([#92](https://github.com/bpmn-io/variable-outline/pull/92))
 * `FEAT`: highlight root scope when nothing is selected in the canvas ([#91](https://github.com/bpmn-io/variable-outline/pull/91))
+* `FEAT`: display "Used by" section showing elements that read a variable ([#94](https://github.com/bpmn-io/variable-outline/pull/94))
 
 ## 3.0.3
 

@@ -1,4 +1,4 @@
-import { ChevronRight, Code, Edit } from '@carbon/icons-react';
+import { ChevronRight, Code, Edit, View } from '@carbon/icons-react';
 import { Tooltip } from '@carbon/react';
 
 import CopyButton from '../CopyButton';
@@ -11,6 +11,9 @@ import { getName } from '../../utils/elementUtil';
 export default function VariableRow({ variable, isSelectedOrigin, expanded, onToggle }) {
   const writers = variable.origin;
   const writeCount = writers.length;
+
+  const readers = (variable.usedBy || []).filter(el => el && el.id);
+  const readCount = readers.length;
 
   const singleWriterName = writeCount === 1
     ? getName(writers[0])
@@ -60,6 +63,19 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
               )) }
             </CollapsibleDetailSection>
           ) }
+          { readCount > 0 && (readCount === 1 ? (
+            <div className="variable-detail-section variable-detail-section--inline">
+              <View className="variable-detail-label-icon" />
+              <span className="variable-detail-label-text">Used by</span>
+              <ElementEntry element={ readers[0] } inline />
+            </div>
+          ) : (
+            <CollapsibleDetailSection label={ `Used by ${readCount} elements` }>
+              { readers.map(r => (
+                <ElementEntry key={ r.id } element={ r } />
+              )) }
+            </CollapsibleDetailSection>
+          )) }
           { (variable.type || variable.info || variable.entries?.length > 0) && (
             <div className="variable-detail-section">
               <div className="variable-detail-label">
