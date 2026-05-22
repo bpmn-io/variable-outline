@@ -6,16 +6,18 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+## 3.1.0
+
 * `FEAT`: remove inner brackets from value preview fold placeholder ([#92](https://github.com/bpmn-io/variable-outline/pull/92))
 * `FEAT`: highlight root scope when nothing is selected in the canvas ([#91](https://github.com/bpmn-io/variable-outline/pull/91))
 * `FEAT`: display "Used by" section showing elements that read a variable ([#94](https://github.com/bpmn-io/variable-outline/pull/94))
+* `FIX`: seed selection state on mount to reflect pre-existing canvas selection ([#90](https://github.com/bpmn-io/variable-outline/pull/90))
 
 ## 3.0.3
 
 * `FIX`: preserve value preview expand state when value changes ([#83](https://github.com/bpmn-io/variable-outline/pull/83))
 * `FIX`: use Carbon IconButton to improve tooltip alignment ([#87](https://github.com/bpmn-io/variable-outline/pull/87))
 * `FIX`: exclude variables without scope before applying the search filter to preserve original behavior ([#89](https://github.com/bpmn-io/variable-outline/pull/89))
-* `FIX`: seed selection state on mount to reflect pre-existing canvas selection ([#90](https://github.com/bpmn-io/variable-outline/pull/90))
 
 ## 3.0.2
 
