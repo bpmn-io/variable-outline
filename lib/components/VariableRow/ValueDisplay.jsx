@@ -1,40 +1,41 @@
 import CodeMirrorEditor from '../CodeMirrorEditor';
 
-function entriesToObject(entries, isList) {
-  if (isList) {
-    return entries.map(e => entryToValue(e));
+function formatValue(entry, depth) {
+  if (entry.entries?.length > 0) {
+    return buildFeelDoc(entry.entries, entry.isList, depth + 1);
   }
-  const obj = {};
-  for (const e of entries) {
-    obj[e.name] = entryToValue(e);
+
+  if (entry.type === 'Null' || entry.info == null || entry.info === '') {
+    return 'null';
   }
-  return obj;
+
+  const value = String(entry.info).trim();
+  return value.startsWith('=') ? value.slice(1) : value;
 }
 
-function entryToValue(entry) {
-  if (entry.entries && entry.entries.length > 0) {
-    return entriesToObject(entry.entries, entry.isList);
+function buildFeelDoc(entries, isList, depth = 1) {
+  const pad = '  '.repeat(depth);
+  const closePad = '  '.repeat(depth - 1);
+
+  if (isList) {
+    const items = entries.map(e => `${pad}${formatValue(e, depth)}`);
+    return `[\n${items.join(',\n')}\n${closePad}]`;
   }
-  if (entry.type === 'Null' || entry.info === null) return null;
-  if (!entry.info) return undefined;
-  const trimmed = entry.info.trim();
-  if (trimmed === 'true') return true;
-  if (trimmed === 'false') return false;
-  const num = Number(trimmed);
-  if (!isNaN(num) && trimmed !== '') return num;
-  try {
-    return JSON.parse(entry.info);
-  } catch {
-    return entry.info;
-  }
+
+  const items = entries.map(e => {
+    const value = formatValue(e, depth);
+    return `${pad}"${e.name}": ${value}`;
+  });
+  return `{\n${items.join(',\n')}\n${closePad}}`;
 }
 
 function buildDoc(info, type, entries, isList) {
   if (entries && entries.length > 0) {
-    return JSON.stringify(entriesToObject(entries, isList), null, 2);
+    return buildFeelDoc(entries, isList);
   }
   if (type === 'Null' || info === null) return 'null';
-  return info != null ? String(info) : '';
+  if (info != null) return String(info).trim();
+  return '';
 }
 
 export default function ValueDisplay({ info, type, entries, isList, variableName }) {
@@ -50,7 +51,8 @@ export default function ValueDisplay({ info, type, entries, isList, variableName
       <CodeMirrorEditor
         doc={ doc }
         variableName={ variableName }
-        isJson={ hasEntries }
+        isFeel={ hasEntries || (info != null && String(info).trim().startsWith('=')) }
+        isStructured={ hasEntries }
       />
     </div>
   );
