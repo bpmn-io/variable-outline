@@ -317,6 +317,7 @@ describe('lib/components/ScopeList (collaboration)', () => {
       const localScopes = container.querySelectorAll('.variable-scope-group--local');
       expect(localScopes).to.have.length(1);
       expect(localScopes[0].querySelector('.variable-section-name').textContent).to.eql('Process A');
+      expect(localScopes[0].querySelector('.bio-va-element-icon')).to.exist;
     }));
 
   });
