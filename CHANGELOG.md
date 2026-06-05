@@ -7,6 +7,7 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 ___Note:__ Yet to be released changes appear here._
 
 * `FEAT`: enhance FEEL syntax highlighting ([#96](https://github.com/bpmn-io/variable-outline/pull/96))
+* `DEPS`: bump `@bpmn-io/lang-feel` to v4 ([#96](https://github.com/bpmn-io/variable-outline/pull/96))
 
 ## 3.1.0
 
