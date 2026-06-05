@@ -6,6 +6,8 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: enhance FEEL syntax highlighting ([#96](https://github.com/bpmn-io/variable-outline/pull/96))
+
 ## 3.1.0
 
 * `FEAT`: remove inner brackets from value preview fold placeholder ([#92](https://github.com/bpmn-io/variable-outline/pull/92))
