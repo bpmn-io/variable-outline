@@ -16,7 +16,7 @@ export default function Scope({ scopeName, scope, variables, defaultExpanded = t
   const track = useTracking();
 
   const elementRegistry = useService('elementRegistry');
-  const element = elementRegistry.get(scope.id);
+  const element = elementRegistry.get(scope.id) || scope;
   const ScopeIcon = element ? getSVGComponent(element) : null;
 
   const rows = variables.map(variable => {
