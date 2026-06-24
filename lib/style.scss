@@ -44,6 +44,6 @@
 
 .djs-element.bio-vo-highlight .djs-outline {
   visibility: visible;
-  stroke: var(--element-selected-outline-stroke-color);
-  fill: var(--search-preselected-background-color) !important;
+  stroke: var(--element-selected-outline-stroke-color, hsl(205, 100%, 50%));
+  fill: var(--search-preselected-background-color, hsla(205, 100%, 50%, 15%)) !important;
 }
