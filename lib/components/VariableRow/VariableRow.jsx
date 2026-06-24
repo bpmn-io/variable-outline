@@ -9,9 +9,49 @@ import useElementHighlight from '../../hooks/useElementHighlight';
 import { getName } from '../../utils/elementUtil';
 
 
+function VariantSection({ variant, variableName }) {
+  const hasValue = variant.type || variant.info || variant.entries?.length > 0;
+
+  return (
+    <div className="variable-detail-section variable-detail-section--variant">
+      { variant.origin.length === 1 ? (
+        <div className="variable-detail-section variable-detail-section--inline">
+          <Edit className="variable-detail-label-icon" />
+          <span className="variable-detail-label-text">Written by</span>
+          <ElementEntry element={ variant.origin[0] } inline />
+        </div>
+      ) : (
+        <CollapsibleDetailSection label={ `Written by ${variant.origin.length} elements` }>
+          { variant.origin.map(o => (
+            <ElementEntry key={ o.id } element={ o } />
+          )) }
+        </CollapsibleDetailSection>
+      ) }
+      { hasValue && (
+        <div className="variable-detail-section">
+          <div className="variable-detail-label">
+            <Code className="variable-detail-label-icon" />
+            <span>Value</span>
+          </div>
+          <ValueDisplay
+            info={ variant.info }
+            type={ variant.type }
+            entries={ variant.entries }
+            isList={ variant.isList }
+            variableName={ variableName }
+          />
+        </div>
+      ) }
+    </div>
+  );
+}
+
+
 export default function VariableRow({ variable, isSelectedOrigin, expanded, onToggle }) {
   const writers = variable.origin;
   const writeCount = writers.length;
+  const variants = variable.variants;
+  const hasVariants = variants?.length > 1;
 
   const readers = (variable.usedBy || []).filter(el => el && el.id);
   const readCount = readers.length;
@@ -25,6 +65,7 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
   const writtenByTitle = singleWriterName
     ? `Written by ${singleWriterName}`
     : `Written by ${writeCount} elements`;
+
   return (
     <div className={ `variable-row${expanded ? ' variable-row--expanded' : ''}` }>
       <div className="variable-row-header">
@@ -54,22 +95,51 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
       </div>
       { expanded && (
         <div className="variable-row-details">
-          { writeCount === 1 ? (
-            <div className="variable-detail-section variable-detail-section--inline">
-              <Edit className="variable-detail-label-icon" />
-              <span className="variable-detail-label-text">Written by</span>
-              <ElementEntry element={ writers[0] } inline />
-            </div>
+          { hasVariants ? (
+            variants.map((variant, index) => (
+              <VariantSection
+                key={ index }
+                variant={ variant }
+                variableName={ variable.name }
+              />
+            ))
           ) : (
-            <CollapsibleDetailSection
-              label={ writtenByTitle }
-              onMouseEnter={ highlightWriters }
-              onMouseLeave={ clearWriters }
-            >
-              { writers.map(o => (
-                <ElementEntry key={ o.id } element={ o } />
-              )) }
-            </CollapsibleDetailSection>
+            <>
+              { writeCount === 1 ? (
+                <div className="variable-detail-section variable-detail-section--inline">
+                  <Edit className="variable-detail-label-icon" />
+                  <span className="variable-detail-label-text">Written by</span>
+                  <ElementEntry element={ writers[0] } inline />
+                </div>
+              ) : (
+                <CollapsibleDetailSection
+                  label={ writtenByTitle }
+                  onMouseEnter={ highlightWriters }
+                  onMouseLeave={ clearWriters }
+                >
+                  { writers.map(o => (
+                    <ElementEntry key={ o.id } element={ o } />
+                  )) }
+                </CollapsibleDetailSection>
+              ) }
+              { (variable.type || variable.info || variable.entries?.length > 0) && (
+                <div className="variable-detail-section">
+                  <div className="variable-detail-label">
+                    <Code className="variable-detail-label-icon" />
+                    <Tooltip className="bio-vo-tooltip-wrapper" label="This is a merged representation." align="bottom" autoAlign>
+                      <span>Value</span>
+                    </Tooltip>
+                  </div>
+                  <ValueDisplay
+                    info={ variable.info }
+                    type={ variable.type }
+                    entries={ variable.entries }
+                    isList={ variable.isList }
+                    variableName={ variable.name }
+                  />
+                </div>
+              ) }
+            </>
           ) }
           { readCount > 0 && (readCount === 1 ? (
             <div className="variable-detail-section variable-detail-section--inline">
@@ -88,23 +158,6 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
               )) }
             </CollapsibleDetailSection>
           )) }
-          { (variable.type || variable.info || variable.entries?.length > 0) && (
-            <div className="variable-detail-section">
-              <div className="variable-detail-label">
-                <Code className="variable-detail-label-icon" />
-                <Tooltip className="bio-vo-tooltip-wrapper" label="This is a merged representation." align="bottom" autoAlign>
-                  <span>Value</span>
-                </Tooltip>
-              </div>
-              <ValueDisplay
-                info={ variable.info }
-                type={ variable.type }
-                entries={ variable.entries }
-                isList={ variable.isList }
-                variableName={ variable.name }
-              />
-            </div>
-          ) }
         </div>
       ) }
     </div>

@@ -7,6 +7,161 @@ import { InjectorContext } from '../../../context/InjectorContext';
 
 describe('VariableRow', () => {
 
+  describe('variants', () => {
+
+    it('should render per-variant "Written by" sections when variable has multiple variants', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [
+          { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' },
+          { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' }
+        ],
+        variants: [
+          {
+            origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
+            type: 'String',
+            info: 'hello'
+          },
+          {
+            origin: [ { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' } ],
+            type: 'Number',
+            info: '42'
+          }
+        ]
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.getAllByText('Written by')).to.have.lengthOf(2);
+    });
+
+    it('should not render merged "Value" section when variants are present', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [
+          { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' },
+          { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' }
+        ],
+        type: 'String',
+        info: 'merged',
+        variants: [
+          {
+            origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
+            type: 'String',
+            info: 'hello'
+          },
+          {
+            origin: [ { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' } ],
+            type: 'Number',
+            info: '42'
+          }
+        ]
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      const tooltips = document.querySelectorAll('.bio-vo-tooltip-wrapper');
+      expect(tooltips).to.have.lengthOf(0);
+    });
+
+    it('should fall back to merged display when variants array has one entry', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
+        type: 'String',
+        info: 'hello',
+        variants: [
+          {
+            origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
+            type: 'String',
+            info: 'hello'
+          }
+        ]
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.getByText('Written by')).to.exist;
+      expect(screen.getByText('Value')).to.exist;
+    });
+
+    it('should still render "Used by" section when variants are present', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [
+          { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' },
+          { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' }
+        ],
+        usedBy: [
+          { id: 'Task_3', name: 'Reader', $type: 'bpmn:Task' }
+        ],
+        variants: [
+          {
+            origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
+            type: 'String',
+            info: 'hello'
+          },
+          {
+            origin: [ { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' } ],
+            type: 'Number',
+            info: '42'
+          }
+        ]
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.getByText('Used by')).to.exist;
+    });
+
+    it('should render "Value" sections per variant when variants have type/info', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [
+          { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' },
+          { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' }
+        ],
+        variants: [
+          {
+            origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
+            type: 'String',
+            info: 'hello'
+          },
+          {
+            origin: [ { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' } ],
+            type: 'Number',
+            info: '42'
+          }
+        ]
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.getAllByText('Value')).to.have.lengthOf(2);
+    });
+
+  });
+
   describe('Used by section', () => {
 
     it('should not render "Used by" section when usedBy is undefined', () => {
