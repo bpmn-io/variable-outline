@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
 
 import VariableRow from '../VariableRow';
 import { InjectorContext } from '../../../context/InjectorContext';
@@ -111,18 +111,91 @@ describe('VariableRow', () => {
 
   });
 
+  describe('hover highlighting', () => {
+
+    it('should highlight all writers when hovering "Written by N elements"', () => {
+
+      // given
+      const writers = [
+        { id: 'Task_1', name: 'Writer 1', $type: 'bpmn:Task' },
+        { id: 'Task_2', name: 'Writer 2', $type: 'bpmn:Task' }
+      ];
+      const variable = { name: 'myVar', origin: writers };
+      const addMarker = vi.fn();
+      renderVariableRow(variable, { addMarker });
+
+      // when
+      fireEvent.mouseEnter(screen.getByText('Written by 2 elements').closest('button'));
+
+      // then
+      const highlightedElements = addMarker.mock.calls.map(([ el ]) => el.id);
+      expect(highlightedElements).toEqual([ 'Task_1', 'Task_2' ]);
+    });
+
+    it('should clear highlights for all writers on mouse leave', () => {
+
+      // given
+      const writers = [
+        { id: 'Task_1', name: 'Writer 1', $type: 'bpmn:Task' },
+        { id: 'Task_2', name: 'Writer 2', $type: 'bpmn:Task' }
+      ];
+      const variable = { name: 'myVar', origin: writers };
+      const removeMarker = vi.fn();
+      renderVariableRow(variable, { removeMarker });
+
+      // when
+      fireEvent.mouseLeave(screen.getByText('Written by 2 elements').closest('button'));
+
+      // then
+      const unhighlightedElements = removeMarker.mock.calls.map(([ el ]) => el.id);
+      expect(unhighlightedElements).toEqual([ 'Task_1', 'Task_2' ]);
+    });
+
+    it('should highlight all readers when hovering "Used by N elements"', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [ { id: 'Task_1', name: 'Writer', $type: 'bpmn:Task' } ],
+        usedBy: [
+          { id: 'Task_2', name: 'Reader 1', $type: 'bpmn:Task' },
+          { id: 'Task_3', name: 'Reader 2', $type: 'bpmn:Task' }
+        ]
+      };
+      const addMarker = vi.fn();
+      renderVariableRow(variable, { addMarker });
+
+      // when
+      fireEvent.mouseEnter(screen.getByText('Used by 2 elements').closest('button'));
+
+      // then
+      const highlightedElements = addMarker.mock.calls.map(([ el ]) => el.id);
+      expect(highlightedElements).toEqual([ 'Task_2', 'Task_3' ]);
+    });
+
+  });
+
 });
 
 
 // helpers /////////////////////////
 
-function renderVariableRow(variable) {
+function renderVariableRow(variable, { addMarker = vi.fn(), removeMarker = vi.fn() } = {}) {
+  const knownIds = [
+    ...variable.origin,
+    ...(variable.usedBy || []).filter(el => el && el.id)
+  ].map(el => el.id);
+
   const mockInjector = {
     get: (service) => {
       const services = {
         selection: { get: () => [] },
-        canvas: { scrollToElement: () => {} },
-        elementRegistry: { get: () => null }
+        canvas: {
+          scrollToElement: () => {},
+          addMarker,
+          removeMarker
+        },
+        elementRegistry: { get: (id) => knownIds.includes(id) ? { id } : null }
       };
       return services[service];
     }

@@ -5,6 +5,7 @@ import CopyButton from '../CopyButton';
 import ValueDisplay from './ValueDisplay';
 import ElementEntry from './ElementEntry';
 import CollapsibleDetailSection from './CollapsibleDetailSection';
+import useElementHighlight from '../../hooks/useElementHighlight';
 import { getName } from '../../utils/elementUtil';
 
 
@@ -14,6 +15,9 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
 
   const readers = (variable.usedBy || []).filter(el => el && el.id);
   const readCount = readers.length;
+
+  const { highlight: highlightWriters, clearHighlight: clearWriters } = useElementHighlight(writers);
+  const { highlight: highlightReaders, clearHighlight: clearReaders } = useElementHighlight(readers);
 
   const singleWriterName = writeCount === 1
     ? getName(writers[0])
@@ -57,7 +61,11 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
               <ElementEntry element={ writers[0] } inline />
             </div>
           ) : (
-            <CollapsibleDetailSection label={ writtenByTitle }>
+            <CollapsibleDetailSection
+              label={ writtenByTitle }
+              onMouseEnter={ highlightWriters }
+              onMouseLeave={ clearWriters }
+            >
               { writers.map(o => (
                 <ElementEntry key={ o.id } element={ o } />
               )) }
@@ -70,7 +78,11 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
               <ElementEntry element={ readers[0] } inline />
             </div>
           ) : (
-            <CollapsibleDetailSection label={ `Used by ${readCount} elements` }>
+            <CollapsibleDetailSection
+              label={ `Used by ${readCount} elements` }
+              onMouseEnter={ highlightReaders }
+              onMouseLeave={ clearReaders }
+            >
               { readers.map(r => (
                 <ElementEntry key={ r.id } element={ r } />
               )) }

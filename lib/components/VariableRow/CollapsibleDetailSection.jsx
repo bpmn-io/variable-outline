@@ -4,6 +4,8 @@ import { ChevronRight } from '@carbon/icons-react';
 export default function CollapsibleDetailSection({
   label,
   defaultExpanded = false,
+  onMouseEnter,
+  onMouseLeave,
   children
 }) {
 
@@ -17,6 +19,8 @@ export default function CollapsibleDetailSection({
         type="button"
         className="variable-detail-label variable-detail-label--collapsible"
         onClick={ toggleExpanded }
+        onMouseEnter={ onMouseEnter }
+        onMouseLeave={ onMouseLeave }
       >
         <ChevronRight className={ `variable-detail-chevron${!expanded ? '' : ' variable-detail-chevron--expanded'}` } />
         { label }
