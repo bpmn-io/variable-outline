@@ -54,6 +54,21 @@ describe('ElementEntry', () => {
       expect(addMarker).not.toHaveBeenCalled();
     });
 
+    it('should clear highlight on unmount while hovered', () => {
+
+      // given
+      const element = { id: 'Task_1' };
+      const removeMarker = vi.fn();
+      const { container, unmount } = renderElementEntry(element, { removeMarker });
+      fireEvent.mouseEnter(container.querySelector('button'));
+
+      // when
+      unmount();
+
+      // then
+      expect(removeMarker).toHaveBeenCalledWith(element, 'bio-vo-highlight');
+    });
+
     it('should highlight selected element on mouse enter', () => {
 
       // given
