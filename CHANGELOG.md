@@ -6,6 +6,8 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+## 3.2.0
+
 * `FEAT`: enhance FEEL syntax highlighting ([#96](https://github.com/bpmn-io/variable-outline/pull/96))
 * `FEAT`: highlight diagram elements when hovering over element entries and multi-element section headers ([#98](https://github.com/bpmn-io/variable-outline/pull/98))
 
