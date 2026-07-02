@@ -50,8 +50,8 @@ function VariantSection({ variant, variableName }) {
 export default function VariableRow({ variable, isSelectedOrigin, expanded, onToggle }) {
   const writers = variable.origin;
   const writeCount = writers.length;
-  const variants = variable.variants;
-  const hasVariants = variants?.length > 1;
+  const variants = (variable.variants || []).filter(variant => variant.origin?.length);
+  const hasVariants = variants.length > 1;
 
   const readers = (variable.usedBy || []).filter(el => el && el.id);
   const readCount = readers.length;

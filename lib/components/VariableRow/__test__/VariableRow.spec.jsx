@@ -130,6 +130,61 @@ describe('VariableRow', () => {
       expect(screen.getByText('Used by')).to.exist;
     });
 
+    it('should ignore variants without origin', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [
+          { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' },
+          { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' }
+        ],
+        variants: [
+          {
+            origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
+            type: 'String',
+            info: 'hello'
+          },
+          {
+            type: 'Number'
+          },
+          {
+            origin: [ { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' } ],
+            type: 'Number',
+            info: '42'
+          }
+        ]
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.getAllByText('Written by')).to.have.lengthOf(2);
+    });
+
+    it('should fall back to merged display when no variant has an origin', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
+        type: 'String',
+        info: 'hello',
+        variants: [
+          { type: 'String' },
+          { type: 'Number' }
+        ]
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.getByText('Written by')).to.exist;
+      expect(screen.getByText('Value')).to.exist;
+    });
+
     it('should render "Value" sections per variant when variants have type/info', () => {
 
       // given

@@ -7,6 +7,7 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 ___Note:__ Yet to be released changes appear here._
 
 * `FEAT`: display individual per-origin variable values instead of merged representation ([#99](https://github.com/bpmn-io/variable-outline/pull/99))
+* `FIX`: ignore variants without origin, falling back to the merged value display ([#99](https://github.com/bpmn-io/variable-outline/pull/99))
 * `DEPS`: add `@bpmn-io/cm-theme` as direct dependency ([#99](https://github.com/bpmn-io/variable-outline/pull/99))
 
 ## 3.2.0
