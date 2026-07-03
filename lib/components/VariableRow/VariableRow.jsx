@@ -19,9 +19,9 @@ function getVariants(variable) {
   }
 
   const { origin = [], type, info, entries, isList } = variable;
-  const hasValue = type || info || entries?.length > 0;
 
-  if (!origin.length && !hasValue) {
+  // without a writer there is no "writes" row (e.g. external references)
+  if (!origin.length) {
     return [];
   }
 

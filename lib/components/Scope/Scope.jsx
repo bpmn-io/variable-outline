@@ -1,4 +1,4 @@
-import { ChevronRight } from '@carbon/icons-react';
+import { ChevronRight, Information } from '@carbon/icons-react';
 import { Tooltip } from '@carbon/react';
 
 import VariableRow from '../VariableRow';
@@ -10,14 +10,14 @@ import useScopeExpand from '../../hooks/useScopeExpand';
 import useTracking from '../../hooks/useTracking';
 import { getName } from '../../utils/elementUtil';
 
-export default function Scope({ scopeName, scope, variables, defaultExpanded = true, isLocal = false }) {
+export default function Scope({ scopeName, scope, scopeId, variables, defaultExpanded = true, isLocal = false, isExternal = false }) {
   const [ expandedIds, handleToggle ] = useExpandable();
-  const [ expanded, toggleExpanded ] = useScopeExpand(scope.id, defaultExpanded);
+  const [ expanded, toggleExpanded ] = useScopeExpand(scope?.id ?? scopeId, defaultExpanded);
   const { selectedElementIds } = useFilter();
   const track = useTracking();
 
   const elementRegistry = useService('elementRegistry');
-  const element = elementRegistry.get(scope.id);
+  const element = scope ? elementRegistry.get(scope.id) : null;
   const ScopeIcon = element ? getSVGComponent(element) : null;
 
   const selectedElement = selectedElementIds.length === 1
@@ -79,6 +79,12 @@ export default function Scope({ scopeName, scope, variables, defaultExpanded = t
 
       { expanded && (
         <div className={ `variable-scope-rows${isLocal ? ' variable-scope-rows--local' : ''}` }>
+          { isExternal && (
+            <div className="variable-scope-info-banner">
+              <Information aria-hidden="true" />
+              These variables are referenced in the diagram but never written. They must be provided as input at runtime.
+            </div>
+          ) }
           { rows }
         </div>
       ) }

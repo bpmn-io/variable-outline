@@ -227,6 +227,22 @@ describe('VariableRow', () => {
       expect(screen.getAllByRole('button', { name: /writes/ })).to.have.lengthOf(1);
     });
 
+    it('should render variable without writers as "Used by" only', () => {
+
+      // given
+      const variable = {
+        name: 'externalRef',
+        usedBy: [ { id: 'Task_1', name: 'Reader Task', $type: 'bpmn:Task' } ]
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.queryByRole('button', { name: /writes/ })).not.to.exist;
+      expect(screen.getByText('Used by')).to.exist;
+    });
+
     it('should still render "Used by" section when variants are present', () => {
 
       // given

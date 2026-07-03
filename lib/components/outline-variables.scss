@@ -98,6 +98,27 @@
   white-space: nowrap;
 }
 
+.variable-scope-info-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 4px 12px;
+  padding: 6px 8px;
+  font-size: var(--text-size-small);
+  line-height: 1.5;
+  color: var(--bio-vo-text-secondary);
+  background-color: var(--bio-vo-header-bg, hsl(225, 10%, 96%));
+  border-left: 2px solid var(--cds-border-subtle, #e0e0e0);
+  border-radius: 0 3px 3px 0;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+}
+
 .variable-scope-current-tag {
   display: inline-flex;
   align-items: center;
