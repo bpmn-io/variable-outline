@@ -62,7 +62,7 @@ export default function Scope({ scopeName, scope, scopeId, variables, defaultExp
         <ChevronRight className={ `variable-section-chevron${!expanded ? '' : ' variable-section-chevron--expanded'}` } />
 
         { ScopeIcon && <ScopeIcon className="variable-section-scope-icon" /> }
-        <span className="variable-section-name">{ scopeName }</span>
+        <span className="variable-section-name" title={ scopeName }>{ scopeName }</span>
 
         { isLocal && (
           <Tooltip label="Scope of the current selection" align="bottom" autoAlign>

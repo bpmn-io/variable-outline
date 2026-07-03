@@ -547,6 +547,52 @@ describe('VariableRow', () => {
 
   });
 
+  describe('truncation tooltips', () => {
+
+    it('should carry the full text on truncatable labels', () => {
+
+      // given
+      const variable = {
+        name: 'myVeryLongVariableName',
+        origin: [ { id: 'Task_1', name: 'A Very Long Writer Name', $type: 'bpmn:Task' } ],
+        type: 'Context',
+        entries: [
+          { name: 'status' },
+          { name: 'timestamp' },
+          { name: 'items' }
+        ]
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.getByTitle('myVeryLongVariableName')).to.exist;
+      expect(screen.getByTitle('A Very Long Writer Name')).to.exist;
+      expect(screen.getByTitle('{ status, timestamp, … }')).to.exist;
+    });
+
+    it('should list all writers on the "N elements" label', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [
+          { id: 'Task_1', name: 'Writer 1', $type: 'bpmn:Task' },
+          { id: 'Task_2', name: 'Writer 2', $type: 'bpmn:Task' }
+        ],
+        type: 'String'
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.getByText('2 elements').getAttribute('title')).to.eql('Writer 1, Writer 2');
+    });
+
+  });
+
   describe('hover highlighting', () => {
 
     it('should highlight all writers when hovering "N elements"', () => {

@@ -9,6 +9,7 @@ import UsedBySection from './UsedBySection';
 import useElementHighlight from '../../hooks/useElementHighlight';
 import useFilter from '../../hooks/useFilter';
 import buildValuePreview from '../../utils/valuePreview';
+import { getName } from '../../utils/elementUtil';
 
 
 function getVariants(variable) {
@@ -62,6 +63,7 @@ function VariantRow({ variant, variableName }) {
         ) : (
           <span
             className="variable-variant-writers"
+            title={ writers.map(getName).join(', ') }
             onMouseEnter={ highlight }
             onMouseLeave={ clearHighlight }
           >
@@ -75,7 +77,7 @@ function VariantRow({ variant, variableName }) {
           aria-expanded={ open }
         >
           <span className="variable-variant-writes">writes</span>
-          { !open && <span className="variable-variant-preview">{ preview }</span> }
+          { !open && <span className="variable-variant-preview" title={ preview }>{ preview }</span> }
         </button>
       </div>
       { open && (
@@ -121,7 +123,7 @@ export default function VariableRow({ variable, isSelectedOrigin, isSelectedRead
           <ChevronRight className={ `variable-row-chevron${expanded ? ' variable-row-chevron--expanded' : ''}` } />
           <div className="variable-row-content">
             <div className="variable-row-info">
-              <span className="variable-name">{ variable.name }</span>
+              <span className="variable-name" title={ variable.name }>{ variable.name }</span>
 
               { showTags && isSelectedOrigin && (
                 <Tooltip label={ selectionName ? `Written by ${selectionName}` : 'Written by current selection' } align="bottom" autoAlign>
