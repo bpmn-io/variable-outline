@@ -383,6 +383,11 @@
   align-items: center;
   gap: 5px;
   padding: 4px 0;
+
+  // constant height: expanding removes the preview, which must not
+  // shrink the line
+  box-sizing: border-box;
+  min-height: 26px;
   cursor: pointer;
 
   &:hover {
@@ -471,6 +476,11 @@
   align-items: center;
   gap: 5px;
   padding: 4px 0;
+
+  // constant height: expanding removes the inline readers, which must
+  // not shrink the line
+  box-sizing: border-box;
+  min-height: 26px;
   cursor: pointer;
 
   &:hover {
