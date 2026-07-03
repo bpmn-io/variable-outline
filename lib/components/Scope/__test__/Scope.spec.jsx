@@ -90,6 +90,112 @@ describe('#Scope variable tracking', () => {
 });
 
 
+describe('#Scope header', () => {
+
+  beforeEach(bootstrapModeler(diagramXML));
+
+  it('should not render scope type chips', inject(async (injector, variableResolver, selection) => {
+
+    // given
+    const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+    const scope = availableVariables[0].scope;
+
+    // when
+    const { queryByText } = render(
+      <Scope
+        scopeName="TestScope"
+        scope={ scope }
+        variables={ availableVariables }
+        defaultExpanded={ true }
+        isLocal={ true }
+      />,
+      { wrapper: createWrapper(injector, vi.fn()) }
+    );
+
+    // then
+    expect(queryByText('Root')).not.to.exist;
+    expect(queryByText('Local')).not.to.exist;
+    expect(queryByText('Parent')).not.to.exist;
+  }));
+
+
+  it('should show variable count only while collapsed', inject(async (injector, variableResolver, selection) => {
+
+    // given
+    const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+    const scope = availableVariables[0].scope;
+
+    const { queryByText, getByText, getByRole } = render(
+      <Scope
+        scopeName="TestScope"
+        scope={ scope }
+        variables={ availableVariables }
+        defaultExpanded={ false }
+      />,
+      { wrapper: createWrapper(injector, vi.fn()) }
+    );
+
+    // assume
+    expect(getByText(`${availableVariables.length} variables`)).to.exist;
+
+    // when
+    await act(() => {
+      fireEvent.click(getByRole('button', { name: /TestScope/ }));
+    });
+
+    // then
+    expect(queryByText(`${availableVariables.length} variables`)).not.to.exist;
+  }));
+
+
+  it('should mark the scope of the current selection', inject(async (injector, variableResolver, selection) => {
+
+    // given
+    const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+    const scope = availableVariables[0].scope;
+
+    // when
+    const { getByText } = render(
+      <Scope
+        scopeName="TestScope"
+        scope={ scope }
+        variables={ availableVariables }
+        defaultExpanded={ true }
+        isLocal={ true }
+      />,
+      { wrapper: createWrapper(injector, vi.fn()) }
+    );
+
+    // then
+    expect(getByText('current scope')).to.exist;
+  }));
+
+
+  it('should not mark other scopes', inject(async (injector, variableResolver, selection) => {
+
+    // given
+    const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+    const scope = availableVariables[0].scope;
+
+    // when
+    const { queryByText } = render(
+      <Scope
+        scopeName="TestScope"
+        scope={ scope }
+        variables={ availableVariables }
+        defaultExpanded={ true }
+        isLocal={ false }
+      />,
+      { wrapper: createWrapper(injector, vi.fn()) }
+    );
+
+    // then
+    expect(queryByText('current scope')).not.to.exist;
+  }));
+
+});
+
+
 // helpers /////////////////////////
 
 function bootstrapModeler(diagram, options) {

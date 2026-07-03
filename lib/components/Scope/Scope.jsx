@@ -1,5 +1,5 @@
 import { ChevronRight } from '@carbon/icons-react';
-import { Tag } from '@carbon/react';
+import { Tooltip } from '@carbon/react';
 
 import VariableRow from '../VariableRow';
 import { getSVGComponent } from '../BpmnIcon';
@@ -10,7 +10,7 @@ import useScopeExpand from '../../hooks/useScopeExpand';
 import useTracking from '../../hooks/useTracking';
 import { getName } from '../../utils/elementUtil';
 
-export default function Scope({ scopeName, scope, variables, defaultExpanded = true, isLocal = false, scopeType = 'parent' }) {
+export default function Scope({ scopeName, scope, variables, defaultExpanded = true, isLocal = false }) {
   const [ expandedIds, handleToggle ] = useExpandable();
   const [ expanded, toggleExpanded ] = useScopeExpand(scope.id, defaultExpanded);
   const { selectedElementIds } = useFilter();
@@ -63,14 +63,18 @@ export default function Scope({ scopeName, scope, variables, defaultExpanded = t
 
         { ScopeIcon && <ScopeIcon className="variable-section-scope-icon" /> }
         <span className="variable-section-name">{ scopeName }</span>
-        <Tag
-          className="variable-scope-chip"
-          type={ scopeType === 'local' ? 'blue' : 'outline' }
-          size="sm"
-        >
-          { scopeType === 'root' ? 'Root' : scopeType === 'local' ? 'Local' : 'Parent' }
-        </Tag>
-        <span className="variable-section-count">{ variables.length }</span>
+
+        { isLocal && (
+          <Tooltip label="Scope of the current selection" align="bottom" autoAlign>
+            <span className="variable-scope-current-tag">current scope</span>
+          </Tooltip>
+        ) }
+
+        { !expanded && (
+          <span className="variable-section-count">
+            { variables.length === 1 ? '1 variable' : `${variables.length} variables` }
+          </span>
+        ) }
       </button>
 
       { expanded && (

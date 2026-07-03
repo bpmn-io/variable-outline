@@ -11,6 +11,7 @@ ___Note:__ Yet to be released changes appear here._
 * `FEAT`: show "Used by" elements inline with an expandable full list ([#101](https://github.com/bpmn-io/variable-outline/pull/101))
 * `FEAT`: tag variables read or written by the current selection ([#101](https://github.com/bpmn-io/variable-outline/pull/101))
 * `FEAT`: selection filter now also matches variables read by the selection ([#101](https://github.com/bpmn-io/variable-outline/pull/101))
+* `FEAT`: simplify scope headers with a collapsed-only variable count and a "current scope" tag ([#101](https://github.com/bpmn-io/variable-outline/pull/101))
 * `FIX`: ignore variants without origin, falling back to the merged value display ([#99](https://github.com/bpmn-io/variable-outline/pull/99))
 * `DEPS`: add `@bpmn-io/cm-theme` as direct dependency ([#99](https://github.com/bpmn-io/variable-outline/pull/99))
 

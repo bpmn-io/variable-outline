@@ -36,15 +36,7 @@ export default function ScopeList({ variables: rawVariables }) {
               (isProcess && selectedElementIds.length === 0);
 
             const displayName = group.scope?.name || group.scopeId;
-            let defaultExpanded = true;
-            let scopeType = 'parent';
-            if (isProcess) {
-              scopeType = 'root';
-            } else if (isLocal) {
-              scopeType = 'local';
-            } else {
-              defaultExpanded = false;
-            }
+            const defaultExpanded = isProcess || isLocal;
 
             return (
               <Scope
@@ -54,7 +46,6 @@ export default function ScopeList({ variables: rawVariables }) {
                 variables={ group.variables }
                 defaultExpanded={ defaultExpanded }
                 isLocal={ isLocal }
-                scopeType={ scopeType }
               />
             );
           })

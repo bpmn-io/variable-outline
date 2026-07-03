@@ -95,28 +95,21 @@
   color: var(--cds-text-secondary, #6f6f6f);
   font-weight: 400;
   font-size: var(--text-size-small);
+  white-space: nowrap;
 }
 
-// specificity is important; otherwise CDS styles override
-.variable-scope-chip:not(.cds--tag--operational):not(span):not([disabled]) {
-  margin: 0;
-
-  &.cds--tag--outline {
-    background-color: transparent;
-    outline: 1px solid var(--bio-vo-text-muted);
-    color: var(--bio-vo-text-muted);
-  }
-
-  &.cds--tag.cds--tag--blue {
-    background-color: transparent;
-    outline: 1px solid var(--cds-tag-color-blue, #0043ce);
-    color: var(--cds-tag-color-blue, #0043ce);
-
-    .cds--tag__label {
-      color: var(--cds-tag-color-blue, #0043ce);
-      background: transparent;
-    }
-  }
+.variable-scope-current-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 0 6px;
+  height: 16px;
+  font-size: 10px;
+  font-weight: 500;
+  flex-shrink: 0;
+  white-space: nowrap;
+  outline: 1px solid var(--cds-border-interactive, #0f62fe);
+  color: var(--cds-border-interactive, #0f62fe);
 }
 
 .variable-row {
