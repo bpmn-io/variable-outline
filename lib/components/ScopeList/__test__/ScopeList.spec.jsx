@@ -219,7 +219,7 @@ describe('lib/components/ScopeList', () => {
 
   describe('variable row interaction', () => {
 
-    it('expands a row on click to reveal Written by details', inject(async (variableResolver, selection) => {
+    it('expands a row on click to reveal writer details', inject(async (variableResolver, selection) => {
 
       // given
       const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
@@ -235,7 +235,7 @@ describe('lib/components/ScopeList', () => {
 
       // then
       expect(container.querySelector('.variable-row-details')).to.exist;
-      expect(container.textContent).to.include('Written by');
+      expect(container.textContent).to.include('writes');
       expect(container.textContent).to.include('ProcessStartEvent');
     }));
 

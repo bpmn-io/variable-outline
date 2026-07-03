@@ -9,7 +9,7 @@ describe('VariableRow', () => {
 
   describe('variants', () => {
 
-    it('should render per-variant "Written by" sections when variable has multiple variants', () => {
+    it('should render one "writes" row per variant', () => {
 
       // given
       const variable = {
@@ -36,10 +36,12 @@ describe('VariableRow', () => {
       renderVariableRow(variable);
 
       // then
-      expect(screen.getAllByText('Written by')).to.have.lengthOf(2);
+      expect(screen.getAllByRole('button', { name: /writes/ })).to.have.lengthOf(2);
+      expect(screen.getByRole('button', { name: 'Writer A' })).to.exist;
+      expect(screen.getByRole('button', { name: 'Writer B' })).to.exist;
     });
 
-    it('should not render merged "Value" section when variants are present', () => {
+    it('should show a one-line value preview per collapsed variant', () => {
 
       // given
       const variable = {
@@ -48,13 +50,123 @@ describe('VariableRow', () => {
           { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' },
           { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' }
         ],
+        variants: [
+          {
+            origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
+            type: 'Context',
+            entries: [
+              { name: 'status' },
+              { name: 'timestamp' },
+              { name: 'items' }
+            ]
+          },
+          {
+            origin: [ { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' } ],
+            type: 'Number',
+            info: '42'
+          }
+        ]
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.getByText('{ status, timestamp, … }')).to.exist;
+      expect(screen.getByText('42')).to.exist;
+    });
+
+    it('should reveal only the expanded variant value', async () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [
+          { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' },
+          { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' }
+        ],
+        variants: [
+          {
+            origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
+            type: 'String',
+            info: 'hello'
+          },
+          {
+            origin: [ { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' } ],
+            type: 'Number',
+            info: '42'
+          }
+        ]
+      };
+      renderVariableRow(variable);
+
+      const [ firstToggle ] = screen.getAllByRole('button', { name: /writes/ });
+
+      // when
+      fireEvent.click(firstToggle);
+
+      // then
+      expect(firstToggle.getAttribute('aria-expanded')).to.eql('true');
+      expect(await screen.findByText('hello')).to.exist;
+      expect(screen.getAllByText('42')).to.have.lengthOf(1);
+    });
+
+    it('should render single-writer variable through the same "writes" row', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
         type: 'String',
-        info: 'merged',
+        info: 'hello'
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.getByRole('button', { name: /writes/ })).to.exist;
+      expect(screen.queryByText('Written by')).not.to.exist;
+      expect(screen.queryByText('Value')).not.to.exist;
+    });
+
+    it('should navigate on writer click without toggling the variant', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
+        type: 'String',
+        info: 'hello'
+      };
+      const select = vi.fn();
+      renderVariableRow(variable, { select });
+
+      // when
+      fireEvent.click(screen.getByRole('button', { name: 'Writer A' }));
+
+      // then
+      expect(select).toHaveBeenCalled();
+      expect(screen.getByRole('button', { name: /writes/ }).getAttribute('aria-expanded')).to.eql('false');
+    });
+
+    it('should ignore variants without origin', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [
+          { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' },
+          { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' }
+        ],
         variants: [
           {
             origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
             type: 'String',
             info: 'hello'
+          },
+          {
+            type: 'Number'
           },
           {
             origin: [ { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' } ],
@@ -68,11 +180,10 @@ describe('VariableRow', () => {
       renderVariableRow(variable);
 
       // then
-      const tooltips = document.querySelectorAll('.bio-vo-tooltip-wrapper');
-      expect(tooltips).to.have.lengthOf(0);
+      expect(screen.getAllByRole('button', { name: /writes/ })).to.have.lengthOf(2);
     });
 
-    it('should fall back to merged display when variants array has one entry', () => {
+    it('should fall back to one merged "writes" row when no variant has an origin', () => {
 
       // given
       const variable = {
@@ -81,11 +192,8 @@ describe('VariableRow', () => {
         type: 'String',
         info: 'hello',
         variants: [
-          {
-            origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
-            type: 'String',
-            info: 'hello'
-          }
+          { type: 'String' },
+          { type: 'Number' }
         ]
       };
 
@@ -93,8 +201,29 @@ describe('VariableRow', () => {
       renderVariableRow(variable);
 
       // then
-      expect(screen.getByText('Written by')).to.exist;
-      expect(screen.getByText('Value')).to.exist;
+      expect(screen.getAllByRole('button', { name: /writes/ })).to.have.lengthOf(1);
+      expect(screen.getByRole('button', { name: 'Writer A' })).to.exist;
+    });
+
+    it('should render multi-writer merged variable as "N elements" row', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [
+          { id: 'Task_1', name: 'Writer 1', $type: 'bpmn:Task' },
+          { id: 'Task_2', name: 'Writer 2', $type: 'bpmn:Task' }
+        ],
+        type: 'String',
+        info: 'merged'
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.getByText('2 elements')).to.exist;
+      expect(screen.getAllByRole('button', { name: /writes/ })).to.have.lengthOf(1);
     });
 
     it('should still render "Used by" section when variants are present', () => {
@@ -128,91 +257,6 @@ describe('VariableRow', () => {
 
       // then
       expect(screen.getByText('Used by')).to.exist;
-    });
-
-    it('should ignore variants without origin', () => {
-
-      // given
-      const variable = {
-        name: 'myVar',
-        origin: [
-          { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' },
-          { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' }
-        ],
-        variants: [
-          {
-            origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
-            type: 'String',
-            info: 'hello'
-          },
-          {
-            type: 'Number'
-          },
-          {
-            origin: [ { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' } ],
-            type: 'Number',
-            info: '42'
-          }
-        ]
-      };
-
-      // when
-      renderVariableRow(variable);
-
-      // then
-      expect(screen.getAllByText('Written by')).to.have.lengthOf(2);
-    });
-
-    it('should fall back to merged display when no variant has an origin', () => {
-
-      // given
-      const variable = {
-        name: 'myVar',
-        origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
-        type: 'String',
-        info: 'hello',
-        variants: [
-          { type: 'String' },
-          { type: 'Number' }
-        ]
-      };
-
-      // when
-      renderVariableRow(variable);
-
-      // then
-      expect(screen.getByText('Written by')).to.exist;
-      expect(screen.getByText('Value')).to.exist;
-    });
-
-    it('should render "Value" sections per variant when variants have type/info', () => {
-
-      // given
-      const variable = {
-        name: 'myVar',
-        origin: [
-          { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' },
-          { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' }
-        ],
-        variants: [
-          {
-            origin: [ { id: 'Task_1', name: 'Writer A', $type: 'bpmn:Task' } ],
-            type: 'String',
-            info: 'hello'
-          },
-          {
-            origin: [ { id: 'Task_2', name: 'Writer B', $type: 'bpmn:Task' } ],
-            type: 'Number',
-            info: '42'
-          }
-        ]
-      };
-
-      // when
-      renderVariableRow(variable);
-
-      // then
-      expect(screen.getAllByText('Value')).to.have.lengthOf(2);
     });
 
   });
@@ -323,19 +367,19 @@ describe('VariableRow', () => {
 
   describe('hover highlighting', () => {
 
-    it('should highlight all writers when hovering "Written by N elements"', () => {
+    it('should highlight all writers when hovering "N elements"', () => {
 
       // given
       const writers = [
         { id: 'Task_1', name: 'Writer 1', $type: 'bpmn:Task' },
         { id: 'Task_2', name: 'Writer 2', $type: 'bpmn:Task' }
       ];
-      const variable = { name: 'myVar', origin: writers };
+      const variable = { name: 'myVar', origin: writers, type: 'String' };
       const addMarker = vi.fn();
       renderVariableRow(variable, { addMarker });
 
       // when
-      fireEvent.mouseEnter(screen.getByText('Written by 2 elements').closest('button'));
+      fireEvent.mouseEnter(screen.getByText('2 elements'));
 
       // then
       const highlightedElements = addMarker.mock.calls.map(([ el ]) => el.id);
@@ -349,12 +393,12 @@ describe('VariableRow', () => {
         { id: 'Task_1', name: 'Writer 1', $type: 'bpmn:Task' },
         { id: 'Task_2', name: 'Writer 2', $type: 'bpmn:Task' }
       ];
-      const variable = { name: 'myVar', origin: writers };
+      const variable = { name: 'myVar', origin: writers, type: 'String' };
       const removeMarker = vi.fn();
       renderVariableRow(variable, { removeMarker });
 
       // when
-      fireEvent.mouseLeave(screen.getByText('Written by 2 elements').closest('button'));
+      fireEvent.mouseLeave(screen.getByText('2 elements'));
 
       // then
       const unhighlightedElements = removeMarker.mock.calls.map(([ el ]) => el.id);
@@ -390,16 +434,16 @@ describe('VariableRow', () => {
 
 // helpers /////////////////////////
 
-function renderVariableRow(variable, { addMarker = vi.fn(), removeMarker = vi.fn() } = {}) {
+function renderVariableRow(variable, { addMarker = vi.fn(), removeMarker = vi.fn(), select = vi.fn() } = {}) {
   const knownIds = [
-    ...variable.origin,
+    ...(variable.origin || []),
     ...(variable.usedBy || []).filter(el => el && el.id)
   ].map(el => el.id);
 
   const mockInjector = {
     get: (service) => {
       const services = {
-        selection: { get: () => [] },
+        selection: { get: () => [], select },
         canvas: {
           scrollToElement: () => {},
           addMarker,
