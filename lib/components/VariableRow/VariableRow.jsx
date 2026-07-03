@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { ChevronRight, Edit, View } from '@carbon/icons-react';
+import { ChevronRight, Edit } from '@carbon/icons-react';
 import { Tooltip } from '@carbon/react';
 
 import CopyButton from '../CopyButton';
 import ValueDisplay from './ValueDisplay';
 import ElementEntry from './ElementEntry';
-import CollapsibleDetailSection from './CollapsibleDetailSection';
+import UsedBySection from './UsedBySection';
 import useElementHighlight from '../../hooks/useElementHighlight';
 import buildValuePreview from '../../utils/valuePreview';
 
@@ -104,8 +104,6 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
   const readers = (variable.usedBy || []).filter(el => el && el.id);
   const readCount = readers.length;
 
-  const { highlight: highlightReaders, clearHighlight: clearReaders } = useElementHighlight(readers);
-
   return (
     <div className={ `variable-row${expanded ? ' variable-row--expanded' : ''}` }>
       <div className="variable-row-header">
@@ -142,23 +140,7 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
               variableName={ variable.name }
             />
           )) }
-          { readCount > 0 && (readCount === 1 ? (
-            <div className="variable-detail-section variable-detail-section--inline">
-              <View className="variable-detail-label-icon" />
-              <span className="variable-detail-label-text">Used by</span>
-              <ElementEntry element={ readers[0] } inline />
-            </div>
-          ) : (
-            <CollapsibleDetailSection
-              label={ `Used by ${readCount} elements` }
-              onMouseEnter={ highlightReaders }
-              onMouseLeave={ clearReaders }
-            >
-              { readers.map(r => (
-                <ElementEntry key={ r.id } element={ r } />
-              )) }
-            </CollapsibleDetailSection>
-          )) }
+          { readCount > 0 && <UsedBySection readers={ readers } /> }
         </div>
       ) }
     </div>

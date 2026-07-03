@@ -319,7 +319,7 @@ describe('VariableRow', () => {
       expect(screen.getByText('Used by')).to.exist;
     });
 
-    it('should render "Used by" section with multiple reader elements', () => {
+    it('should render readers inline when they fit', () => {
 
       // given
       const variable = {
@@ -337,7 +337,86 @@ describe('VariableRow', () => {
       renderVariableRow(variable);
 
       // then
-      expect(screen.getByText('Used by 2 elements')).to.exist;
+      expect(screen.getByText('Used by')).to.exist;
+      expect(screen.getByRole('button', { name: 'Reader Task 1' })).to.exist;
+      expect(screen.getByRole('button', { name: 'Reader Task 2' })).to.exist;
+      expect(screen.queryByText(/and \d+ more/)).not.to.exist;
+    });
+
+    it('should overflow into "and N more"', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [
+          { id: 'Task_1', name: 'Writer Task', $type: 'bpmn:Task' }
+        ],
+        usedBy: [
+          { id: 'Task_2', name: 'Reader Task 1', $type: 'bpmn:Task' },
+          { id: 'Task_3', name: 'Reader Task 2', $type: 'bpmn:Task' },
+          { id: 'Task_4', name: 'Reader Task 3', $type: 'bpmn:Task' },
+          { id: 'Task_5', name: 'Reader Task 4', $type: 'bpmn:Task' }
+        ]
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.getByRole('button', { name: 'Reader Task 1' })).to.exist;
+      expect(screen.getByRole('button', { name: 'Reader Task 2' })).to.exist;
+      expect(screen.queryByRole('button', { name: 'Reader Task 3' })).not.to.exist;
+      expect(screen.getByRole('button', { name: 'and 2 more' })).to.exist;
+    });
+
+    it('should expand to the full reader list', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [
+          { id: 'Task_1', name: 'Writer Task', $type: 'bpmn:Task' }
+        ],
+        usedBy: [
+          { id: 'Task_2', name: 'Reader Task 1', $type: 'bpmn:Task' },
+          { id: 'Task_3', name: 'Reader Task 2', $type: 'bpmn:Task' },
+          { id: 'Task_4', name: 'Reader Task 3', $type: 'bpmn:Task' },
+          { id: 'Task_5', name: 'Reader Task 4', $type: 'bpmn:Task' }
+        ]
+      };
+      renderVariableRow(variable);
+
+      // when
+      fireEvent.click(screen.getByRole('button', { name: 'and 2 more' }));
+
+      // then
+      expect(screen.getByRole('button', { name: 'Reader Task 3' })).to.exist;
+      expect(screen.getByRole('button', { name: 'Reader Task 4' })).to.exist;
+      expect(screen.queryByRole('button', { name: /and \d+ more/ })).not.to.exist;
+    });
+
+    it('should navigate on reader click without toggling the list', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [
+          { id: 'Task_1', name: 'Writer Task', $type: 'bpmn:Task' }
+        ],
+        usedBy: [
+          { id: 'Task_2', name: 'Reader Task 1', $type: 'bpmn:Task' },
+          { id: 'Task_3', name: 'Reader Task 2', $type: 'bpmn:Task' }
+        ]
+      };
+      const select = vi.fn();
+      renderVariableRow(variable, { select });
+
+      // when
+      fireEvent.click(screen.getByRole('button', { name: 'Reader Task 1' }));
+
+      // then
+      expect(select).toHaveBeenCalled();
+      expect(screen.getByRole('button', { name: 'Used by' }).getAttribute('aria-expanded')).to.eql('false');
     });
 
     it('should filter out strings and render only element readers', () => {
@@ -405,7 +484,7 @@ describe('VariableRow', () => {
       expect(unhighlightedElements).toEqual([ 'Task_1', 'Task_2' ]);
     });
 
-    it('should highlight all readers when hovering "Used by N elements"', () => {
+    it('should highlight all readers when hovering "Used by"', () => {
 
       // given
       const variable = {
@@ -420,7 +499,7 @@ describe('VariableRow', () => {
       renderVariableRow(variable, { addMarker });
 
       // when
-      fireEvent.mouseEnter(screen.getByText('Used by 2 elements').closest('button'));
+      fireEvent.mouseEnter(screen.getByRole('button', { name: 'Used by' }));
 
       // then
       const highlightedElements = addMarker.mock.calls.map(([ el ]) => el.id);

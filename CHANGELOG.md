@@ -8,6 +8,7 @@ ___Note:__ Yet to be released changes appear here._
 
 * `FEAT`: display individual per-origin variable values instead of merged representation ([#99](https://github.com/bpmn-io/variable-outline/pull/99))
 * `FEAT`: display each writer as an expandable "writes" row with a one-line value preview ([#101](https://github.com/bpmn-io/variable-outline/pull/101))
+* `FEAT`: show "Used by" elements inline with an expandable full list ([#101](https://github.com/bpmn-io/variable-outline/pull/101))
 * `FIX`: ignore variants without origin, falling back to the merged value display ([#99](https://github.com/bpmn-io/variable-outline/pull/99))
 * `DEPS`: add `@bpmn-io/cm-theme` as direct dependency ([#99](https://github.com/bpmn-io/variable-outline/pull/99))
 
