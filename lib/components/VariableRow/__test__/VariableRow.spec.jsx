@@ -444,6 +444,76 @@ describe('VariableRow', () => {
 
   });
 
+  describe('selection tags', () => {
+
+    it('should tag variable written by the selection', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [ { id: 'Task_1', name: 'Writer Task', $type: 'bpmn:Task' } ]
+      };
+
+      // when
+      renderVariableRow(variable, { isSelectedOrigin: true, selectionName: 'Writer Task' });
+
+      // then
+      expect(screen.getByText('written')).to.exist;
+      expect(screen.queryByText('read')).not.to.exist;
+    });
+
+    it('should tag variable read by the selection', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [ { id: 'Task_1', name: 'Writer Task', $type: 'bpmn:Task' } ],
+        usedBy: [ { id: 'Task_2', name: 'Reader Task', $type: 'bpmn:Task' } ]
+      };
+
+      // when
+      renderVariableRow(variable, { isSelectedReader: true, selectionName: 'Reader Task' });
+
+      // then
+      expect(screen.getByText('read')).to.exist;
+      expect(screen.queryByText('written')).not.to.exist;
+    });
+
+    it('should tag variable both read and written by the selection', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [ { id: 'Task_1', name: 'Task', $type: 'bpmn:Task' } ],
+        usedBy: [ { id: 'Task_1', name: 'Task', $type: 'bpmn:Task' } ]
+      };
+
+      // when
+      renderVariableRow(variable, { isSelectedOrigin: true, isSelectedReader: true });
+
+      // then
+      expect(screen.getByText('written')).to.exist;
+      expect(screen.getByText('read')).to.exist;
+    });
+
+    it('should not tag unrelated variable', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [ { id: 'Task_1', name: 'Writer Task', $type: 'bpmn:Task' } ]
+      };
+
+      // when
+      renderVariableRow(variable);
+
+      // then
+      expect(screen.queryByText('written')).not.to.exist;
+      expect(screen.queryByText('read')).not.to.exist;
+    });
+
+  });
+
   describe('hover highlighting', () => {
 
     it('should highlight all writers when hovering "N elements"', () => {
@@ -513,7 +583,14 @@ describe('VariableRow', () => {
 
 // helpers /////////////////////////
 
-function renderVariableRow(variable, { addMarker = vi.fn(), removeMarker = vi.fn(), select = vi.fn() } = {}) {
+function renderVariableRow(variable, {
+  addMarker = vi.fn(),
+  removeMarker = vi.fn(),
+  select = vi.fn(),
+  isSelectedOrigin = false,
+  isSelectedReader = false,
+  selectionName = null
+} = {}) {
   const knownIds = [
     ...(variable.origin || []),
     ...(variable.usedBy || []).filter(el => el && el.id)
@@ -538,7 +615,9 @@ function renderVariableRow(variable, { addMarker = vi.fn(), removeMarker = vi.fn
     <InjectorContext.Provider value={ mockInjector }>
       <VariableRow
         variable={ variable }
-        isSelectedOrigin={ false }
+        isSelectedOrigin={ isSelectedOrigin }
+        isSelectedReader={ isSelectedReader }
+        selectionName={ selectionName }
         expanded={ true }
         onToggle={ () => {} }
       />

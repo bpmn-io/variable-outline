@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronRight, Edit } from '@carbon/icons-react';
+import { ChevronRight } from '@carbon/icons-react';
 import { Tooltip } from '@carbon/react';
 
 import CopyButton from '../CopyButton';
@@ -98,7 +98,7 @@ function VariantRow({ variant, variableName }) {
 }
 
 
-export default function VariableRow({ variable, isSelectedOrigin, expanded, onToggle }) {
+export default function VariableRow({ variable, isSelectedOrigin, isSelectedReader, selectionName, expanded, onToggle }) {
   const variants = getVariants(variable);
 
   const readers = (variable.usedBy || []).filter(el => el && el.id);
@@ -119,10 +119,14 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
               <span className="variable-name">{ variable.name }</span>
 
               { isSelectedOrigin && (
-                <Tooltip label="This variable is written by current selection." align="bottom" autoAlign>
-                  <span className="variable-written-tag">
-                    <Edit />
-                  </span>
+                <Tooltip label={ selectionName ? `Written by ${selectionName}` : 'Written by current selection' } align="bottom" autoAlign>
+                  <span className="variable-rw-tag variable-rw-tag--written">written</span>
+                </Tooltip>
+              ) }
+
+              { isSelectedReader && (
+                <Tooltip label={ selectionName ? `Read by ${selectionName}` : 'Read by current selection' } align="bottom" autoAlign>
+                  <span className="variable-rw-tag variable-rw-tag--read">read</span>
                 </Tooltip>
               ) }
             </div>

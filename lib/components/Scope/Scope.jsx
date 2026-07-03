@@ -8,6 +8,7 @@ import useExpandable from '../../hooks/useExpandable';
 import useFilter from '../../hooks/useFilter';
 import useScopeExpand from '../../hooks/useScopeExpand';
 import useTracking from '../../hooks/useTracking';
+import { getName } from '../../utils/elementUtil';
 
 export default function Scope({ scopeName, scope, variables, defaultExpanded = true, isLocal = false, scopeType = 'parent' }) {
   const [ expandedIds, handleToggle ] = useExpandable();
@@ -19,15 +20,27 @@ export default function Scope({ scopeName, scope, variables, defaultExpanded = t
   const element = elementRegistry.get(scope.id);
   const ScopeIcon = element ? getSVGComponent(element) : null;
 
+  const selectedElement = selectedElementIds.length === 1
+    ? elementRegistry.get(selectedElementIds[0])
+    : null;
+  const selectionName = selectedElement?.businessObject
+    ? getName(selectedElement.businessObject)
+    : null;
+
   const rows = variables.map(variable => {
     const isSelectedOrigin = selectedElementIds.some(id =>
       variable.origin?.some(o => o.id === id)
+    );
+    const isSelectedReader = selectedElementIds.some(id =>
+      variable.usedBy?.some(el => el && el.id === id)
     );
     return (
       <VariableRow
         key={ variable.id }
         variable={ variable }
         isSelectedOrigin={ isSelectedOrigin }
+        isSelectedReader={ isSelectedReader }
+        selectionName={ selectionName }
         expanded={ expandedIds.has(variable.id) }
         onToggle={ () => {
           const willExpand = !expandedIds.has(variable.id);

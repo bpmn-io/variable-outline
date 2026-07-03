@@ -221,21 +221,24 @@
   min-width: 0;
 }
 
-.variable-written-tag {
+.variable-rw-tag {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  border: 1px solid var(--bio-vo-text-muted);
   border-radius: 9999px;
-  padding: 2px;
+  padding: 0 6px;
   height: 16px;
-  width: 16px;
+  font-size: 10px;
+  font-weight: 500;
   flex-shrink: 0;
 
-  svg {
-    width: 10px;
-    height: 10px;
-    fill: var(--bio-vo-text-muted);
+  &--written {
+    outline: 1px solid var(--cds-tag-color-blue, #0043ce);
+    color: var(--cds-tag-color-blue, #0043ce);
+  }
+
+  &--read {
+    outline: 1px solid var(--cds-support-info, #007d79);
+    color: var(--cds-support-info, #007d79);
   }
 }
 
