@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 import VariableRow from '../VariableRow';
+import { FilterContext } from '../../../context/FilterContext';
 import { InjectorContext } from '../../../context/InjectorContext';
 
 
@@ -496,6 +497,22 @@ describe('VariableRow', () => {
       expect(screen.getByText('read')).to.exist;
     });
 
+    it('should hide tags while filtering by selection', () => {
+
+      // given
+      const variable = {
+        name: 'myVar',
+        origin: [ { id: 'Task_1', name: 'Writer Task', $type: 'bpmn:Task' } ]
+      };
+
+      // when
+      renderVariableRow(variable, { isSelectedOrigin: true, isSelectedReader: true, writtenOnly: true });
+
+      // then
+      expect(screen.queryByText('written')).not.to.exist;
+      expect(screen.queryByText('read')).not.to.exist;
+    });
+
     it('should not tag unrelated variable', () => {
 
       // given
@@ -589,7 +606,8 @@ function renderVariableRow(variable, {
   select = vi.fn(),
   isSelectedOrigin = false,
   isSelectedReader = false,
-  selectionName = null
+  selectionName = null,
+  writtenOnly = false
 } = {}) {
   const knownIds = [
     ...(variable.origin || []),
@@ -611,16 +629,26 @@ function renderVariableRow(variable, {
     }
   };
 
+  const filter = {
+    search: '',
+    setSearch: () => {},
+    writtenOnly,
+    toggleWrittenOnly: () => {},
+    selectedElementIds: []
+  };
+
   return render(
     <InjectorContext.Provider value={ mockInjector }>
-      <VariableRow
-        variable={ variable }
-        isSelectedOrigin={ isSelectedOrigin }
-        isSelectedReader={ isSelectedReader }
-        selectionName={ selectionName }
-        expanded={ true }
-        onToggle={ () => {} }
-      />
+      <FilterContext.Provider value={ filter }>
+        <VariableRow
+          variable={ variable }
+          isSelectedOrigin={ isSelectedOrigin }
+          isSelectedReader={ isSelectedReader }
+          selectionName={ selectionName }
+          expanded={ true }
+          onToggle={ () => {} }
+        />
+      </FilterContext.Provider>
     </InjectorContext.Provider>
   );
 }

@@ -7,6 +7,7 @@ import ValueDisplay from './ValueDisplay';
 import ElementEntry from './ElementEntry';
 import UsedBySection from './UsedBySection';
 import useElementHighlight from '../../hooks/useElementHighlight';
+import useFilter from '../../hooks/useFilter';
 import buildValuePreview from '../../utils/valuePreview';
 
 
@@ -104,6 +105,10 @@ export default function VariableRow({ variable, isSelectedOrigin, isSelectedRead
   const readers = (variable.usedBy || []).filter(el => el && el.id);
   const readCount = readers.length;
 
+  // while filtering by selection, every visible row is related to it
+  const { writtenOnly } = useFilter();
+  const showTags = !writtenOnly;
+
   return (
     <div className={ `variable-row${expanded ? ' variable-row--expanded' : ''}` }>
       <div className="variable-row-header">
@@ -118,13 +123,13 @@ export default function VariableRow({ variable, isSelectedOrigin, isSelectedRead
             <div className="variable-row-info">
               <span className="variable-name">{ variable.name }</span>
 
-              { isSelectedOrigin && (
+              { showTags && isSelectedOrigin && (
                 <Tooltip label={ selectionName ? `Written by ${selectionName}` : 'Written by current selection' } align="bottom" autoAlign>
                   <span className="variable-rw-tag variable-rw-tag--written">written</span>
                 </Tooltip>
               ) }
 
-              { isSelectedReader && (
+              { showTags && isSelectedReader && (
                 <Tooltip label={ selectionName ? `Read by ${selectionName}` : 'Read by current selection' } align="bottom" autoAlign>
                   <span className="variable-rw-tag variable-rw-tag--read">read</span>
                 </Tooltip>

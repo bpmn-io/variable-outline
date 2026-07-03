@@ -128,6 +128,50 @@ describe('#getVariables', () => {
   }));
 
 
+  it('should include variables read by the selection when filtering', async () => {
+
+    // given
+    const scope = { id: 'Process_1', name: 'My Process', $type: 'bpmn:Process' };
+    const variableResolver = {
+      getVariables: async () => ({
+        'Process_1': [
+          {
+            name: 'readBySelection',
+            origin: [ { id: 'Other_1', name: 'Other' } ],
+            usedBy: [ { id: 'Task_1', name: 'Task 1' } ],
+            scope
+          },
+          {
+            name: 'unrelated',
+            origin: [ { id: 'Other_1', name: 'Other' } ],
+            scope
+          },
+          {
+            name: 'stringReaders',
+            origin: [ { id: 'Other_1', name: 'Other' } ],
+            usedBy: [ 'targetVar' ],
+            scope
+          }
+        ]
+      })
+    };
+
+    const selection = { get: () => [] };
+
+    const filter = {
+      search: '',
+      selectedElementIds: [ 'Task_1' ],
+      writtenOnly: true
+    };
+
+    // when
+    const { availableVariables } = await getVariables({ variableResolver, selection, filter });
+
+    // then
+    expect(availableVariables.map(v => v.name)).to.eql([ 'readBySelection' ]);
+  });
+
+
   it('should filter by origin with origin-less variables in list', async () => {
 
     // given
