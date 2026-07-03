@@ -395,6 +395,7 @@
     display: inline-block;
     flex: 0 1 auto;
     min-width: 8ch;
+    line-height: 18px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -447,6 +448,9 @@
   min-width: 6ch;
   font-family: var(--font-family-monospace);
   font-size: 12px;
+
+  // room for descenders under overflow: hidden
+  line-height: 18px;
   color: var(--bio-vo-text-muted);
   white-space: nowrap;
   overflow: hidden;
@@ -495,6 +499,7 @@
 .variable-used-by-inline {
   min-width: 0;
   font-size: 13px;
+  line-height: 18px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
