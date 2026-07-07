@@ -6,6 +6,7 @@ import { bootstrapBpmnJS, inject } from 'bpmn-js/test/helper';
 
 import diagramXML from './diagram.xml?raw';
 import collaborationDiagramXML from './collaboration-diagram.xml?raw';
+import externalReferencesDiagramXML from './external-references-diagram.xml?raw';
 import { getVariables } from '../../../hooks/useVariables';
 import ScopeList from '../ScopeList';
 import { FilterContext } from '../../../context/FilterContext';
@@ -219,7 +220,7 @@ describe('lib/components/ScopeList', () => {
 
   describe('variable row interaction', () => {
 
-    it('expands a row on click to reveal Written by details', inject(async (variableResolver, selection) => {
+    it('expands a row on click to reveal writer details', inject(async (variableResolver, selection) => {
 
       // given
       const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
@@ -235,7 +236,7 @@ describe('lib/components/ScopeList', () => {
 
       // then
       expect(container.querySelector('.variable-row-details')).to.exist;
-      expect(container.textContent).to.include('Written by');
+      expect(container.textContent).to.include('writes');
       expect(container.textContent).to.include('ProcessStartEvent');
     }));
 
@@ -320,6 +321,68 @@ describe('lib/components/ScopeList (collaboration)', () => {
     }));
 
   });
+
+});
+
+
+describe('lib/components/ScopeList (external references)', () => {
+
+  beforeEach(bootstrapModeler(externalReferencesDiagramXML));
+
+  beforeEach(inject((injector) => { wrapper = createWrapper(injector); }));
+
+  it('lists read-but-never-written variables last under "External references"', inject(async (variableResolver, selection) => {
+
+    // when
+    const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+    const { container } = render(
+      <ScopeList variables={ availableVariables } />,
+      { wrapper }
+    );
+
+    // then
+    const scopes = getVariablesByScope(container);
+    const lastScope = scopes[scopes.length - 1];
+
+    expect(lastScope.scopeName).to.eql('External references');
+    expect(lastScope.variables).to.eql([ 'externalInput' ]);
+  }));
+
+
+  it('explains that external references are provided at runtime', inject(async (variableResolver, selection) => {
+
+    // when
+    const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+    const { getByText } = render(
+      <ScopeList variables={ availableVariables } />,
+      { wrapper }
+    );
+
+    // then
+    expect(getByText(/referenced in the diagram but never written/)).to.exist;
+  }));
+
+
+  it('renders external reference rows with "Used by" only', inject(async (variableResolver, selection) => {
+
+    // given
+    const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+    const { container, queryByRole, getByText } = render(
+      <ScopeList variables={ availableVariables } />,
+      { wrapper }
+    );
+
+    const externalGroup = Array.from(container.querySelectorAll('.variable-scope-group')).at(-1);
+
+    // when
+    await act(() => {
+      fireEvent.click(externalGroup.querySelector('.variable-row-toggle'));
+    });
+
+    // then
+    expect(getByText('Used by')).to.exist;
+    expect(queryByRole('button', { name: /writes/ })).not.to.exist;
+  }));
 
 });
 

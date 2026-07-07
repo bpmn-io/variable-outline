@@ -10,7 +10,7 @@ export default function WrittenOnlyToggle() {
 
   return (
     <Tooltip
-      label="Only show variables written by the currently selected element."
+      label="Only show variables read or written by the currently selected element."
       align="bottom"
       autoAlign
     >
@@ -18,11 +18,11 @@ export default function WrittenOnlyToggle() {
         <Toggle
           id="written-only-toggle"
           size="sm"
-          labelText="Written by selection"
+          labelText="Read or written by selection"
           hideLabel
           toggled={ writtenOnly }
           onToggle={ handleToggle }
-          aria-label="Written by current selection"
+          aria-label="Read or written by selection"
         />
       </div>
     </Tooltip>

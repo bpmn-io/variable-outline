@@ -128,6 +128,130 @@ describe('#getVariables', () => {
   }));
 
 
+  it('should include variables read by the selection when filtering', async () => {
+
+    // given
+    const scope = { id: 'Process_1', name: 'My Process', $type: 'bpmn:Process' };
+    const variableResolver = {
+      getVariables: async () => ({
+        'Process_1': [
+          {
+            name: 'readBySelection',
+            origin: [ { id: 'Other_1', name: 'Other' } ],
+            usedBy: [ { id: 'Task_1', name: 'Task 1' } ],
+            scope
+          },
+          {
+            name: 'unrelated',
+            origin: [ { id: 'Other_1', name: 'Other' } ],
+            scope
+          },
+          {
+            name: 'stringReaders',
+            origin: [ { id: 'Other_1', name: 'Other' } ],
+            usedBy: [ 'targetVar' ],
+            scope
+          }
+        ]
+      })
+    };
+
+    const selection = { get: () => [] };
+
+    const filter = {
+      search: '',
+      selectedElementIds: [ 'Task_1' ],
+      writtenOnly: true
+    };
+
+    // when
+    const { availableVariables } = await getVariables({ variableResolver, selection, filter });
+
+    // then
+    expect(availableVariables.map(v => v.name)).to.eql([ 'readBySelection' ]);
+  });
+
+
+  it('should keep external references, dropping consumed-only duplicates of written variables', async () => {
+
+    // given
+    const scope = { id: 'Process_1', name: 'My Process', $type: 'bpmn:Process' };
+    const variableResolver = {
+      getVariables: async () => ({
+        'Process_1': [
+          {
+            name: 'written',
+            origin: [ { id: 'Task_1', name: 'Task 1' } ],
+            scope
+          },
+          {
+            name: 'written',
+            usedBy: [ { id: 'Task_2', name: 'Task 2' } ]
+          },
+          {
+            name: 'external',
+            usedBy: [ { id: 'Task_2', name: 'Task 2' } ]
+          },
+          {
+            name: 'stringReadersOnly',
+            usedBy: [ 'targetVar' ]
+          }
+        ]
+      })
+    };
+
+    const selection = { get: () => [] };
+
+    const filter = {
+      search: '',
+      selectedElementIds: [],
+      writtenOnly: false
+    };
+
+    // when
+    const { filteredVariables } = await getVariables({ variableResolver, selection, filter });
+
+    // then
+    expect(filteredVariables.map(v => v.name)).to.eql([ 'written', 'external' ]);
+  });
+
+
+  it('should search external references without throwing on missing origin and scope', async () => {
+
+    // given
+    const scope = { id: 'Process_1', name: 'My Process', $type: 'bpmn:Process' };
+    const variableResolver = {
+      getVariables: async () => ({
+        'Process_1': [
+          {
+            name: 'written',
+            origin: [ { id: 'Task_1', name: 'Task 1' } ],
+            scope
+          },
+          {
+            name: 'external',
+            usedBy: [ { id: 'Task_2', name: 'Task 2' } ]
+          }
+        ]
+      })
+    };
+
+    const selection = { get: () => [] };
+
+    const filter = {
+      search: 'Task 1',
+      selectedElementIds: [],
+      writtenOnly: false
+    };
+
+    // when
+    const { filteredVariables } = await getVariables({ variableResolver, selection, filter });
+
+    // then
+    expect(filteredVariables.map(v => v.name)).to.eql([ 'written' ]);
+  });
+
+
   it('should filter by origin with origin-less variables in list', async () => {
 
     // given

@@ -16,6 +16,7 @@ export default function ElementEntry({ element: bo, inline = false }) {
     return (
       <span
         className={ className }
+        title={ getName(bo) }
         onMouseEnter={ highlight }
         onMouseLeave={ clearHighlight }
       >
@@ -27,6 +28,7 @@ export default function ElementEntry({ element: bo, inline = false }) {
   return (
     <button
       className={ className }
+      title={ getName(bo) }
       onClick={ navigate }
       onMouseEnter={ highlight }
       onMouseLeave={ clearHighlight }

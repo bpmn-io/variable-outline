@@ -1,30 +1,116 @@
-import { ChevronRight, Code, Edit, View } from '@carbon/icons-react';
+import { useState } from 'react';
+import { ChevronRight } from '@carbon/icons-react';
 import { Tooltip } from '@carbon/react';
 
 import CopyButton from '../CopyButton';
 import ValueDisplay from './ValueDisplay';
 import ElementEntry from './ElementEntry';
-import CollapsibleDetailSection from './CollapsibleDetailSection';
+import UsedBySection from './UsedBySection';
 import useElementHighlight from '../../hooks/useElementHighlight';
+import useFilter from '../../hooks/useFilter';
+import buildValuePreview from '../../utils/valuePreview';
 import { getName } from '../../utils/elementUtil';
 
 
-export default function VariableRow({ variable, isSelectedOrigin, expanded, onToggle }) {
-  const writers = variable.origin;
-  const writeCount = writers.length;
+function getVariants(variable) {
+  const variants = (variable.variants || []).filter(variant => variant.origin?.length);
+
+  if (variants.length) {
+    return variants;
+  }
+
+  const { origin = [], type, info, entries, isList } = variable;
+
+  // without a writer there is no "writes" row (e.g. external references)
+  if (!origin.length) {
+    return [];
+  }
+
+  return [ { origin, type, info, entries, isList } ];
+}
+
+
+function VariantRow({ variant, variableName }) {
+  const [ open, setOpen ] = useState(false);
+
+  const writers = variant.origin || [];
+  const { highlight, clearHighlight } = useElementHighlight(writers);
+
+  const hasValue = variant.type || variant.info || variant.entries?.length > 0;
+  const preview = buildValuePreview(variant);
+
+  const toggle = () => setOpen(open => !open);
+
+  const handleLineClick = event => {
+
+    // element links and the toggle handle their own clicks
+    if (event.target.closest('button')) {
+      return;
+    }
+
+    toggle();
+  };
+
+  return (
+    <div className="variable-variant">
+      <div className="variable-variant-line" onClick={ handleLineClick }>
+        <ChevronRight
+          aria-hidden="true"
+          className={ `variable-variant-chevron${open ? ' variable-variant-chevron--expanded' : ''}` }
+        />
+        { writers.length === 1 ? (
+          <ElementEntry element={ writers[0] } inline />
+        ) : (
+          <span
+            className="variable-variant-writers"
+            title={ writers.map(getName).join(', ') }
+            onMouseEnter={ highlight }
+            onMouseLeave={ clearHighlight }
+          >
+            { `${writers.length} elements` }
+          </span>
+        ) }
+        <button
+          className="variable-variant-toggle"
+          type="button"
+          onClick={ toggle }
+          aria-expanded={ open }
+        >
+          <span className="variable-variant-writes">writes</span>
+          { !open && <span className="variable-variant-preview" title={ preview }>{ preview }</span> }
+        </button>
+      </div>
+      { open && (
+        <div className="variable-variant-value">
+          { writers.length > 1 && writers.map(writer => (
+            <ElementEntry key={ writer.id } element={ writer } />
+          )) }
+          { hasValue ? (
+            <ValueDisplay
+              info={ variant.info }
+              type={ variant.type }
+              entries={ variant.entries }
+              isList={ variant.isList }
+              variableName={ variableName }
+            />
+          ) : '-' }
+        </div>
+      ) }
+    </div>
+  );
+}
+
+
+export default function VariableRow({ variable, isSelectedOrigin, isSelectedReader, selectionName, expanded, onToggle }) {
+  const variants = getVariants(variable);
 
   const readers = (variable.usedBy || []).filter(el => el && el.id);
   const readCount = readers.length;
 
-  const { highlight: highlightWriters, clearHighlight: clearWriters } = useElementHighlight(writers);
-  const { highlight: highlightReaders, clearHighlight: clearReaders } = useElementHighlight(readers);
+  // while filtering by selection, every visible row is related to it
+  const { writtenOnly } = useFilter();
+  const showTags = !writtenOnly;
 
-  const singleWriterName = writeCount === 1
-    ? getName(writers[0])
-    : null;
-  const writtenByTitle = singleWriterName
-    ? `Written by ${singleWriterName}`
-    : `Written by ${writeCount} elements`;
   return (
     <div className={ `variable-row${expanded ? ' variable-row--expanded' : ''}` }>
       <div className="variable-row-header">
@@ -37,13 +123,17 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
           <ChevronRight className={ `variable-row-chevron${expanded ? ' variable-row-chevron--expanded' : ''}` } />
           <div className="variable-row-content">
             <div className="variable-row-info">
-              <span className="variable-name">{ variable.name }</span>
+              <span className="variable-name" title={ variable.name }>{ variable.name }</span>
 
-              { isSelectedOrigin && (
-                <Tooltip label="This variable is written by current selection." align="bottom" autoAlign>
-                  <span className="variable-written-tag">
-                    <Edit />
-                  </span>
+              { showTags && isSelectedOrigin && (
+                <Tooltip label={ selectionName ? `Written by ${selectionName}` : 'Written by current selection' } align="bottom" autoAlign>
+                  <span className="variable-rw-tag variable-rw-tag--written">written</span>
+                </Tooltip>
+              ) }
+
+              { showTags && isSelectedReader && (
+                <Tooltip label={ selectionName ? `Read by ${selectionName}` : 'Read by current selection' } align="bottom" autoAlign>
+                  <span className="variable-rw-tag variable-rw-tag--read">read</span>
                 </Tooltip>
               ) }
             </div>
@@ -54,57 +144,14 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
       </div>
       { expanded && (
         <div className="variable-row-details">
-          { writeCount === 1 ? (
-            <div className="variable-detail-section variable-detail-section--inline">
-              <Edit className="variable-detail-label-icon" />
-              <span className="variable-detail-label-text">Written by</span>
-              <ElementEntry element={ writers[0] } inline />
-            </div>
-          ) : (
-            <CollapsibleDetailSection
-              label={ writtenByTitle }
-              onMouseEnter={ highlightWriters }
-              onMouseLeave={ clearWriters }
-            >
-              { writers.map(o => (
-                <ElementEntry key={ o.id } element={ o } />
-              )) }
-            </CollapsibleDetailSection>
-          ) }
-          { readCount > 0 && (readCount === 1 ? (
-            <div className="variable-detail-section variable-detail-section--inline">
-              <View className="variable-detail-label-icon" />
-              <span className="variable-detail-label-text">Used by</span>
-              <ElementEntry element={ readers[0] } inline />
-            </div>
-          ) : (
-            <CollapsibleDetailSection
-              label={ `Used by ${readCount} elements` }
-              onMouseEnter={ highlightReaders }
-              onMouseLeave={ clearReaders }
-            >
-              { readers.map(r => (
-                <ElementEntry key={ r.id } element={ r } />
-              )) }
-            </CollapsibleDetailSection>
+          { variants.map((variant, index) => (
+            <VariantRow
+              key={ index }
+              variant={ variant }
+              variableName={ variable.name }
+            />
           )) }
-          { (variable.type || variable.info || variable.entries?.length > 0) && (
-            <div className="variable-detail-section">
-              <div className="variable-detail-label">
-                <Code className="variable-detail-label-icon" />
-                <Tooltip className="bio-vo-tooltip-wrapper" label="This is a merged representation." align="bottom" autoAlign>
-                  <span>Value</span>
-                </Tooltip>
-              </div>
-              <ValueDisplay
-                info={ variable.info }
-                type={ variable.type }
-                entries={ variable.entries }
-                isList={ variable.isList }
-                variableName={ variable.name }
-              />
-            </div>
-          ) }
+          { readCount > 0 && <UsedBySection readers={ readers } /> }
         </div>
       ) }
     </div>

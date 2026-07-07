@@ -3,7 +3,7 @@ import { is, getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 import parseVariables from '../../utils/parseRows';
 import Scope from '../Scope';
 import useFilter from '../../hooks/useFilter';
-import useGroupedVariables from '../../hooks/useGroupedVariables';
+import useGroupedVariables, { EXTERNAL_SCOPE_ID } from '../../hooks/useGroupedVariables';
 import useService from '../../hooks/useService';
 
 import '../outline-variables.scss';
@@ -31,30 +31,26 @@ export default function ScopeList({ variables: rawVariables }) {
       <div className="variable-list-inner">
         {
           groupsByScope.map(group => {
+            const isExternal = group.scopeId === EXTERNAL_SCOPE_ID;
             const isProcess = is(group.scope, 'bpmn:Process');
             const isLocal = selectedScopeIds.includes(group.scopeId) ||
               (isProcess && selectedElementIds.length === 0);
 
-            const displayName = group.scope?.name || group.scopeId;
-            let defaultExpanded = true;
-            let scopeType = 'parent';
-            if (isProcess) {
-              scopeType = 'root';
-            } else if (isLocal) {
-              scopeType = 'local';
-            } else {
-              defaultExpanded = false;
-            }
+            const displayName = isExternal
+              ? 'External references'
+              : group.scope?.name || group.scopeId;
+            const defaultExpanded = isProcess || isLocal || isExternal;
 
             return (
               <Scope
                 key={ group.scopeId }
                 scopeName={ displayName }
                 scope={ group.scope }
+                scopeId={ group.scopeId }
                 variables={ group.variables }
                 defaultExpanded={ defaultExpanded }
                 isLocal={ isLocal }
-                scopeType={ scopeType }
+                isExternal={ isExternal }
               />
             );
           })

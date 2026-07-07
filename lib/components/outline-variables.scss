@@ -95,27 +95,52 @@
   color: var(--cds-text-secondary, #6f6f6f);
   font-weight: 400;
   font-size: var(--text-size-small);
+  white-space: nowrap;
 }
 
-// specificity is important; otherwise CDS styles override
-.variable-scope-chip:not(.cds--tag--operational):not(span):not([disabled]) {
-  margin: 0;
+.variable-scope-info-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 4px 12px;
+  padding: 6px 8px;
+  font-size: var(--text-size-small);
+  line-height: 1.5;
+  color: var(--bio-vo-text-secondary);
+  background-color: var(--bio-vo-header-bg, hsl(225, 10%, 96%));
+  border-left: 2px solid var(--cds-border-subtle, #e0e0e0);
+  border-radius: 0 3px 3px 0;
 
-  &.cds--tag--outline {
-    background-color: transparent;
-    outline: 1px solid var(--bio-vo-text-muted);
-    color: var(--bio-vo-text-muted);
+  svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
+}
 
-  &.cds--tag.cds--tag--blue {
-    background-color: transparent;
-    outline: 1px solid var(--cds-tag-color-blue, #0043ce);
-    color: var(--cds-tag-color-blue, #0043ce);
+.variable-scope-current-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 0 6px;
+  height: 16px;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+  flex-shrink: 0;
+  white-space: nowrap;
+  outline: 1px solid var(--cds-border-interactive, #0f62fe);
+  color: var(--cds-border-interactive, #0f62fe);
+}
 
-    .cds--tag__label {
-      color: var(--cds-tag-color-blue, #0043ce);
-      background: transparent;
-    }
+// tooltip wrappers must not break flex centering of the tags they wrap
+.variable-section-header,
+.variable-row-info {
+  .cds--popover-container {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
   }
 }
 
@@ -162,7 +187,7 @@
   gap: 8px;
   flex: 1;
   min-width: 0;
-  padding: 10px 0 10px 24px;
+  padding: 6px 0 6px 12px;
   margin: 0;
   cursor: pointer;
   text-align: left;
@@ -199,10 +224,10 @@
 }
 
 .variable-row-details {
-  padding: 4px 12px 4px 10px;
+  padding: 2px 12px 4px 8px;
   font-size: 13px;
-  margin-top: 10px;
-  margin-left: 30px;
+  margin-top: 4px;
+  margin-left: 18px;
   background-color: var(--bio-vo-bg);
   border-left: 2px solid var(--cds-border-subtle, #e0e0e0);
 }
@@ -221,21 +246,25 @@
   min-width: 0;
 }
 
-.variable-written-tag {
+.variable-rw-tag {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  border: 1px solid var(--bio-vo-text-muted);
   border-radius: 9999px;
-  padding: 2px;
+  padding: 0 6px;
   height: 16px;
-  width: 16px;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
   flex-shrink: 0;
 
-  svg {
-    width: 10px;
-    height: 10px;
-    fill: var(--bio-vo-text-muted);
+  &--written {
+    outline: 1px solid var(--cds-tag-color-blue, #0043ce);
+    color: var(--cds-tag-color-blue, #0043ce);
+  }
+
+  &--read {
+    outline: 1px solid var(--cds-support-info, #007d79);
+    color: var(--cds-support-info, #007d79);
   }
 }
 
@@ -338,6 +367,176 @@
 .variable-detail-label-icon {
   width: 12px;
   height: 12px;
+}
+
+
+.variable-variant {
+  border-bottom: 1px solid var(--cds-border-subtle-01, #e8e8e8);
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
+.variable-variant-line {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 0;
+
+  // constant height: expanding removes the preview, which must not
+  // shrink the line
+  box-sizing: border-box;
+  min-height: 26px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--cds-layer-hover, #e0e0e0);
+  }
+
+  // the writer takes the width it needs and only shrinks under
+  // real pressure from the value preview
+  .variable-element-entry--inline {
+    display: inline-block;
+    flex: 0 1 auto;
+    min-width: 8ch;
+    line-height: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.variable-variant-chevron {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  color: var(--bio-vo-text-secondary);
+  transition: transform 0.15s ease;
+
+  &--expanded {
+    transform: rotate(90deg);
+  }
+}
+
+.variable-variant-writers {
+  flex-shrink: 0;
+  font-size: 13px;
+  color: var(--bio-vo-text-secondary);
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
+
+.variable-variant-toggle {
+  all: unset;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--cds-focus, #0f62fe);
+    outline-offset: 2px;
+  }
+}
+
+.variable-variant-writes {
+  flex-shrink: 0;
+  font-size: 13px;
+  color: var(--bio-vo-text-muted);
+}
+
+.variable-variant-preview {
+  flex: 1 1 auto;
+  min-width: 6ch;
+  font-family: var(--font-family-monospace);
+  font-size: 12px;
+
+  // room for descenders under overflow: hidden
+  line-height: 18px;
+  color: var(--bio-vo-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.variable-variant-value {
+  padding: 2px 0 6px 17px;
+}
+
+
+.variable-used-by {
+  margin-top: 2px;
+}
+
+.variable-used-by-line {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 0;
+
+  // constant height: expanding removes the inline readers, which must
+  // not shrink the line
+  box-sizing: border-box;
+  min-height: 26px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--cds-layer-hover, #e0e0e0);
+  }
+
+  .variable-element-entry--inline {
+    display: inline;
+  }
+}
+
+.variable-used-by-toggle {
+  all: unset;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--bio-vo-text-secondary);
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--cds-focus, #0f62fe);
+    outline-offset: 2px;
+  }
+}
+
+.variable-used-by-inline {
+  min-width: 0;
+  font-size: 13px;
+  line-height: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.variable-more-link {
+  all: unset;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--bio-vo-text-secondary);
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--cds-link-primary, #0f62fe);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--cds-focus, #0f62fe);
+    outline-offset: 2px;
+  }
+}
+
+.variable-used-by-list {
+  margin-top: 3px;
+  padding: 0 0 4px 17px;
 }
 
 
