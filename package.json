@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bpmn-io/variable-outline"
+    "url": "git+https://github.com/bpmn-io/variable-outline.git"
   },
   "files": [
     "dist"
