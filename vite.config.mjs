@@ -22,10 +22,6 @@ export default defineConfig({
       external: [
         ...Object.keys(pkg.dependencies),
         ...Object.keys(pkg.peerDependencies),
-
-        // externalize the React JSX runtime so the host React's runtime is
-        // used instead of inlining a version-specific copy that reaches into
-        // React internals (breaks React 19, cf. #102)
         'react/jsx-runtime',
         'react/jsx-dev-runtime'
       ],
