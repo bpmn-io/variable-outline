@@ -6,6 +6,9 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+## 3.2.1
+
+* `FIX`: externalize the React JSX runtime to allow using with React 19 ([#103](https://github.com/bpmn-io/variable-outline/pull/103))
 * `DEPS`: add `@bpmn-io/cm-theme` as direct dependency ([#99](https://github.com/bpmn-io/variable-outline/pull/99))
 
 ## 3.2.0
