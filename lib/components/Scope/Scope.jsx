@@ -19,19 +19,23 @@ export default function Scope({ scopeName, scope, variables, defaultExpanded = t
   const element = elementRegistry.get(scope.id);
   const ScopeIcon = element ? getSVGComponent(element) : null;
 
+  // a variable carries no id; within a scope its name identifies it, as the
+  // resolver keeps one record per name and scope
   const rows = variables.map(variable => {
+    const { name } = variable;
+
     const isSelectedOrigin = selectedElementIds.some(id =>
       variable.origin?.some(o => o.id === id)
     );
     return (
       <VariableRow
-        key={ variable.id }
+        key={ name }
         variable={ variable }
         isSelectedOrigin={ isSelectedOrigin }
-        expanded={ expandedIds.has(variable.id) }
+        expanded={ expandedIds.has(name) }
         onToggle={ () => {
-          const willExpand = !expandedIds.has(variable.id);
-          handleToggle(variable.id);
+          const willExpand = !expandedIds.has(name);
+          handleToggle(name);
           track(willExpand ? 'expandVariable' : 'collapseVariable');
         } }
       />
