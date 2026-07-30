@@ -4,8 +4,8 @@ import useElementNavigation from '../../hooks/useElementNavigation';
 import useElementHighlight from '../../hooks/useElementHighlight';
 import { getName } from '../../utils/elementUtil';
 
-export default function ElementEntry({ element: bo, inline = false }) {
-  const { isSelected, navigate } = useElementNavigation(bo);
+export default function ElementEntry({ element: bo, variableName, inline = false }) {
+  const { isSelected, navigate } = useElementNavigation(bo, { variableName });
 
   const elements = useMemo(() => [ bo ], [ bo ]);
   const { highlight, clearHighlight } = useElementHighlight(elements);

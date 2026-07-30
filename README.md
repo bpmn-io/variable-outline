@@ -22,6 +22,14 @@ export function MyComponent(props) {
 }
 ```
 
+### Revealing the Defining Field
+> [!NOTE]
+> Clicking the element that writes a variable also reveals the properties panel field that
+> defines it. The field is resolved through `propertiesPanel#getEntryId(element, path)`, so
+> this requires `bpmn-js-properties-panel@>=5.63.0`; with an older panel the click only
+> selects the element. Fields contributed by element templates additionally need
+> `bpmn-js-element-templates@>=2.29.0`.
+
 ### Using Carbon Styles
 > [!NOTE]
 > This library does not include `@carbon` styles. If you need them, you must import them into your existing SCSS file:

@@ -6,6 +6,8 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: reveal the field defining a variable when navigating to its writer ([#100](https://github.com/bpmn-io/variable-outline/pull/100))
+
 ## 3.2.1
 
 * `FIX`: externalize the React JSX runtime to allow using with React 19 ([#103](https://github.com/bpmn-io/variable-outline/pull/103))

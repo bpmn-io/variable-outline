@@ -28,6 +28,12 @@ export default defineConfig({
     },
     sourcemap: true,
   },
+
+  // pre-bundle the modeler entry the integration specs bootstrap, so a cold run
+  // does not optimize it mid-test and reload
+  optimizeDeps: {
+    include: [ 'camunda-bpmn-js/lib/camunda-cloud/Modeler' ]
+  },
   test: {
     globals: true,
     browser: {
