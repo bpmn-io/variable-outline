@@ -38,6 +38,7 @@
     "@vitest/browser": "^4.1.8",
     "@vitest/browser-playwright": "^4.1.8",
     "bpmn-js": "^18.13.1",
+    "bpmn-js-properties-panel": "^5.63.0",
     "camunda-bpmn-js": "^5.25.0",
     "eslint": "^9.39.3",
     "eslint-plugin-bpmn-io": "^2.2.0",
