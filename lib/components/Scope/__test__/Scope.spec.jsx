@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { act } from 'react';
 
 import CamundaCloudModeler from 'camunda-bpmn-js/dist/camunda-cloud-modeler.development.js';
@@ -85,6 +85,39 @@ describe('#Scope variable tracking', () => {
       name: 'variableOutline:collapseVariable',
       data: undefined
     });
+  }));
+
+});
+
+
+describe('#Scope variable expansion', () => {
+
+  beforeEach(bootstrapModeler(diagramXML));
+
+  it('should expand only the toggled variable row', inject(async (injector, variableResolver, selection) => {
+
+    // given
+    const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+    const [ first, second ] = availableVariables;
+
+    render(
+      <Scope
+        scopeName="TestScope"
+        scope={ first.scope }
+        variables={ availableVariables }
+        defaultExpanded={ true }
+      />,
+      { wrapper: createWrapper(injector, vi.fn()) }
+    );
+
+    // when
+    await act(() => {
+      fireEvent.click(screen.getByRole('button', { name: first.name }));
+    });
+
+    // then
+    expect(screen.getByRole('button', { name: first.name }).getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByRole('button', { name: second.name }).getAttribute('aria-expanded')).toBe('false');
   }));
 
 });

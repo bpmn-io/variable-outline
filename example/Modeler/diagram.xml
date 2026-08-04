@@ -37,18 +37,21 @@
       <bpmn:outgoing>Flow_1lsaytj</bpmn:outgoing>
       <bpmn:outgoing>Flow_0zibli6</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="Activity_ReimburseExpenses" name="Reimburse expenses">
-      <bpmn:incoming>Flow_0j33fwr</bpmn:incoming>
-      <bpmn:outgoing>Flow_07w4wvi</bpmn:outgoing>
-    </bpmn:task>
+    <bpmn:scriptTask id="Activity_ReimburseExpenses" name="Reimburse expenses">
+      <bpmn:extensionElements>
+        <zeebe:script expression="=expenseAmount" resultVariable="reimbursementAmount" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1lsaytj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0j33fwr</bpmn:outgoing>
+    </bpmn:scriptTask>
     <bpmn:exclusiveGateway id="Gateway_0v75kn8">
       <bpmn:incoming>Flow_07hh01v</bpmn:incoming>
       <bpmn:incoming>Flow_0zibli6</bpmn:incoming>
       <bpmn:outgoing>Flow_185jnzm</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:task id="Activity_1l5wj0t" name="Notify about approval">
-      <bpmn:incoming>Flow_1lsaytj</bpmn:incoming>
-      <bpmn:outgoing>Flow_0j33fwr</bpmn:outgoing>
+      <bpmn:incoming>Flow_0j33fwr</bpmn:incoming>
+      <bpmn:outgoing>Flow_07w4wvi</bpmn:outgoing>
     </bpmn:task>
     <bpmn:userTask id="Activity_ReviewExpenseReport_Manager" name="Review report - manager">
       <bpmn:extensionElements>
@@ -86,13 +89,13 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_07hh01v" name="Rejected" sourceRef="Gateway_1wrjn3x" targetRef="Gateway_0v75kn8" />
     <bpmn:sequenceFlow id="Flow_02funv0" sourceRef="Activity_NotifyRejection" targetRef="Event_12u444u" />
-    <bpmn:sequenceFlow id="Flow_07w4wvi" sourceRef="Activity_ReimburseExpenses" targetRef="Event_0hfb7dz" />
+    <bpmn:sequenceFlow id="Flow_07w4wvi" sourceRef="Activity_1l5wj0t" targetRef="Event_0hfb7dz" />
     <bpmn:sequenceFlow id="Flow_0tqbv24" sourceRef="Activity_ReviewExpenseReport_Finance" targetRef="Gateway_18ir29z" />
-    <bpmn:sequenceFlow id="Flow_1lsaytj" name="Approved" sourceRef="Gateway_18ir29z" targetRef="Activity_1l5wj0t">
+    <bpmn:sequenceFlow id="Flow_1lsaytj" name="Approved" sourceRef="Gateway_18ir29z" targetRef="Activity_ReimburseExpenses">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=financeReviewOutcome = "approved"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0zibli6" name="Rejected" sourceRef="Gateway_18ir29z" targetRef="Gateway_0v75kn8" />
-    <bpmn:sequenceFlow id="Flow_0j33fwr" sourceRef="Activity_1l5wj0t" targetRef="Activity_ReimburseExpenses" />
+    <bpmn:sequenceFlow id="Flow_0j33fwr" sourceRef="Activity_ReimburseExpenses" targetRef="Activity_1l5wj0t" />
     <bpmn:sequenceFlow id="Flow_185jnzm" sourceRef="Gateway_0v75kn8" targetRef="Activity_NotifyRejection" />
     <bpmn:sequenceFlow id="Flow_0od82be" sourceRef="Activity_CreateExpenseReport" targetRef="Activity_ReviewExpenseReport_Manager" />
   </bpmn:process>
@@ -135,14 +138,14 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0pm9gw6" bpmnElement="Activity_ReimburseExpenses">
-        <dc:Bounds x="1230" y="200" width="100" height="80" />
+        <dc:Bounds x="1080" y="200" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_09jydn6" bpmnElement="Gateway_0v75kn8" isMarkerVisible="true">
         <dc:Bounds x="935" y="95" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_1t06c0s" bpmnElement="Activity_1l5wj0t">
-        <dc:Bounds x="1080" y="200" width="100" height="80" />
+        <dc:Bounds x="1230" y="200" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0tgdcex" bpmnElement="Activity_NotifyRejection">

@@ -58,7 +58,7 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
             <div className="variable-detail-section variable-detail-section--inline">
               <Edit className="variable-detail-label-icon" />
               <span className="variable-detail-label-text">Written by</span>
-              <ElementEntry element={ writers[0] } inline />
+              <ElementEntry element={ writers[0] } variableName={ variable.name } inline />
             </div>
           ) : (
             <CollapsibleDetailSection
@@ -67,7 +67,7 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
               onMouseLeave={ clearWriters }
             >
               { writers.map(o => (
-                <ElementEntry key={ o.id } element={ o } />
+                <ElementEntry key={ o.id } element={ o } variableName={ variable.name } />
               )) }
             </CollapsibleDetailSection>
           ) }
