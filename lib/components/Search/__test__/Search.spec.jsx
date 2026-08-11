@@ -4,6 +4,9 @@ import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import CamundaCloudModeler from 'camunda-bpmn-js/dist/camunda-cloud-modeler.development.js';
 import { bootstrapBpmnJS, inject } from 'bpmn-js/test/helper';
 
+// the host application provides CDS styles; the outline assertions need them
+import '@carbon/styles/css/styles.css';
+
 import diagramXML from '../../../hooks/__test__/diagram.xml?raw';
 import { FilterProvider } from '../../../context/FilterContext';
 import { InjectorContext } from '../../../context/InjectorContext';
@@ -48,6 +51,68 @@ describe('lib/components/Search', function() {
     await waitFor(() => {
       expect(filterRef.current.search).to.eql('MySearch');
     });
+  }));
+
+});
+
+
+describe('lib/components/Search - focus styles', function() {
+
+  beforeEach(bootstrapModeler(diagramXML));
+
+
+  it('should not paint an outline when focused', inject(function(injector) {
+
+    // given
+    const { getByRole } = render(<TabContentStub />, { wrapper: createWrapper(injector) });
+
+    const searchInput = getByRole('searchbox');
+
+    // when
+    act(() => {
+      searchInput.focus();
+    });
+
+    // then
+    expect(getOutline(searchInput).outlineColor).to.eql(TRANSPARENT);
+  }));
+
+
+  it('should not change the outline on focus', inject(function(injector) {
+
+    // given
+    const { getByRole } = render(<TabContentStub />, { wrapper: createWrapper(injector) });
+
+    const searchInput = getByRole('searchbox');
+
+    const unfocused = getOutline(searchInput);
+
+    // when
+    act(() => {
+      searchInput.focus();
+    });
+
+    // then
+    expect(getOutline(searchInput)).to.eql(unfocused);
+  }));
+
+
+  it('should indicate focus via border', inject(function(injector) {
+
+    // given
+    const { getByRole } = render(<TabContentStub />, { wrapper: createWrapper(injector) });
+
+    const searchInput = getByRole('searchbox');
+
+    const unfocused = getComputedStyle(searchInput).borderColor;
+
+    // when
+    act(() => {
+      searchInput.focus();
+    });
+
+    // then
+    expect(getComputedStyle(searchInput).borderColor).not.to.eql(unfocused);
   }));
 
 });
@@ -190,6 +255,25 @@ describe('lib/components/Search - tracking', function() {
 
 
 // helpers /////////////////////////
+
+const TRANSPARENT = 'rgba(0, 0, 0, 0)';
+
+function TabContentStub() {
+  return <div className="bio-vo-tab-content">
+    <Search />
+  </div>;
+}
+
+function getOutline(element) {
+  const {
+    outlineColor,
+    outlineOffset,
+    outlineStyle,
+    outlineWidth
+  } = getComputedStyle(element);
+
+  return { outlineColor, outlineOffset, outlineStyle, outlineWidth };
+}
 
 function SearchWithFilter({ filterRef }) {
   const filter = useFilter();

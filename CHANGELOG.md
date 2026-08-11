@@ -6,6 +6,8 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FIX`: prevent filter input border from blinking on blur ([#105](https://github.com/bpmn-io/variable-outline/pull/105))
+
 ## 3.3.0
 
 * `FEAT`: reveal the field defining a variable when navigating to its writer ([#100](https://github.com/bpmn-io/variable-outline/pull/100))
