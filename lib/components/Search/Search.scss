@@ -22,6 +22,11 @@
     background-color: var(--input-background-color, white);
     font-size: var(--text-size-base, 14px);
 
+    // focus shows as border + background; keep CDS's outline transparent rather
+    // than `none`, which its `outline` transition animates into a blink on blur
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+
     &::placeholder {
       color: var(--placeholder-color, hsl(225, 10%, 35%));
     }
@@ -29,7 +34,6 @@
     &:focus {
       border-color: var(--input-focus-border-color, hsl(205, 100%, 50%));
       background-color: var(--input-focus-background-color, hsl(205, 100%, 95%));
-      outline: none;
     }
   }
 
