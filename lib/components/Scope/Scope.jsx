@@ -1,5 +1,4 @@
 import { ChevronRight } from '@carbon/icons-react';
-import { Tag } from '@carbon/react';
 
 import VariableRow from '../VariableRow';
 import { getSVGComponent } from '../BpmnIcon';
@@ -54,13 +53,11 @@ export default function Scope({ scopeName, scope, variables, defaultExpanded = t
 
         { ScopeIcon && <ScopeIcon className="variable-section-scope-icon" /> }
         <span className="variable-section-name">{ scopeName }</span>
-        <Tag
-          className="variable-scope-chip"
-          type={ scopeType === 'local' ? 'blue' : 'outline' }
-          size="sm"
+        <span
+          className={ `variable-scope-chip${scopeType === 'local' ? ' variable-scope-chip--local' : ''}` }
         >
           { scopeType === 'root' ? 'Root' : scopeType === 'local' ? 'Local' : 'Parent' }
-        </Tag>
+        </span>
         <span className="variable-section-count">{ variables.length }</span>
       </button>
 
