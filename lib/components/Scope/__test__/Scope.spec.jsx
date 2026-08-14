@@ -123,6 +123,88 @@ describe('#Scope variable expansion', () => {
 });
 
 
+describe('#Scope section header toggling', () => {
+
+  beforeEach(bootstrapModeler(diagramXML));
+
+  it('should render the section header as a native button', inject(async (injector, variableResolver, selection) => {
+
+    // given
+    const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+    const scope = availableVariables[0].scope;
+
+    const { container } = render(
+      <Scope
+        scopeName="TestScope"
+        scope={ scope }
+        variables={ availableVariables }
+        defaultExpanded={ false }
+      />,
+      { wrapper: createWrapper(injector, vi.fn()) }
+    );
+
+    // then
+    const header = container.querySelector('.variable-section-header');
+
+    expect(header.tagName).toBe('BUTTON');
+  }));
+
+
+  it('should not nest an interactive element inside the header button', inject(async (injector, variableResolver, selection) => {
+
+    // given
+    const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+    const scope = availableVariables[0].scope;
+
+    const { container } = render(
+      <Scope
+        scopeName="TestScope"
+        scope={ scope }
+        variables={ availableVariables }
+        defaultExpanded={ false }
+      />,
+      { wrapper: createWrapper(injector, vi.fn()) }
+    );
+
+    const header = container.querySelector('.variable-section-header');
+
+    // then - the scope chip must not introduce a nested button (Carbon Tag would)
+    expect(header.querySelector('button')).toBeNull();
+    expect(header.querySelector('[role="button"]')).toBeNull();
+  }));
+
+
+  it('should toggle expanded state on click', inject(async (injector, variableResolver, selection) => {
+
+    // given
+    const { availableVariables } = await getVariables({ variableResolver, selection, filter: defaultFilter });
+    const scope = availableVariables[0].scope;
+
+    const { container } = render(
+      <Scope
+        scopeName="TestScope"
+        scope={ scope }
+        variables={ availableVariables }
+        defaultExpanded={ true }
+      />,
+      { wrapper: createWrapper(injector, vi.fn()) }
+    );
+
+    const header = container.querySelector('.variable-section-header');
+
+    // assume
+    expect(header.getAttribute('aria-expanded')).toBe('true');
+
+    // when
+    await act(() => { fireEvent.click(header); });
+
+    // then
+    expect(header.getAttribute('aria-expanded')).toBe('false');
+  }));
+
+});
+
+
 // helpers /////////////////////////
 
 function bootstrapModeler(diagram, options) {

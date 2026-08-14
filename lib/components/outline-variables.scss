@@ -97,25 +97,30 @@
   font-size: var(--text-size-small);
 }
 
-// specificity is important; otherwise CDS styles override
-.variable-scope-chip:not(.cds--tag--operational):not(span):not([disabled]) {
-  margin: 0;
+// non-interactive scope badge; intentionally not a Carbon <Tag>, whose
+// truncation tooltip would render a <button> nested inside the header button
+.variable-scope-chip {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 18px;
+  min-inline-size: 32px;
+  max-inline-size: 208px;
+  padding: 0 8px;
+  border-radius: 16px;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.32px;
+  font-weight: 400;
+  white-space: nowrap;
+  background-color: transparent;
+  outline: 1px solid var(--bio-vo-text-muted);
+  color: var(--bio-vo-text-muted);
 
-  &.cds--tag--outline {
-    background-color: transparent;
-    outline: 1px solid var(--bio-vo-text-muted);
-    color: var(--bio-vo-text-muted);
-  }
-
-  &.cds--tag.cds--tag--blue {
-    background-color: transparent;
-    outline: 1px solid var(--cds-tag-color-blue, #0043ce);
+  &--local {
+    outline-color: var(--cds-tag-color-blue, #0043ce);
     color: var(--cds-tag-color-blue, #0043ce);
-
-    .cds--tag__label {
-      color: var(--cds-tag-color-blue, #0043ce);
-      background: transparent;
-    }
   }
 }
 
