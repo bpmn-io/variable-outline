@@ -6,6 +6,10 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+## 3.3.2
+
+* `FIX`: render scope badge as non-interactive span ([#106](https://github.com/bpmn-io/variable-outline/pull/106))
+
 ## 3.3.1
 
 * `FIX`: prevent filter input border from blinking on blur ([#105](https://github.com/bpmn-io/variable-outline/pull/105))
