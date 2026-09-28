@@ -1,25 +1,20 @@
 import { useContext } from 'react';
-import { CollapseAll, ExpandAll } from '@carbon/icons-react';
-import { IconButton } from '@carbon/react';
+import { IconButton } from '@camunda/design-system';
+import { ChevronsDownUp, ChevronsUpDown } from '@camunda/design-system/icons';
 
 import { ScopeExpandContext } from '../../context/ScopeExpandContext';
 
 export default function CollapseAllButton() {
   const { allCollapsed, collapseAll, expandAll } = useContext(ScopeExpandContext);
 
-  const Icon = allCollapsed ? ExpandAll : CollapseAll;
-  const label = allCollapsed ? 'Expand all' : 'Collapse all';
-
   return (
     <IconButton
-      kind="ghost"
+      variant="ghost"
       size="sm"
-      label={ label }
-      aria-label={ label }
-      align="left"
+      label={ allCollapsed ? 'Expand all' : 'Collapse all' }
+      tooltipSide="left"
+      icon={ allCollapsed ? ChevronsUpDown : ChevronsDownUp }
       onClick={ allCollapsed ? expandAll : collapseAll }
-    >
-      <Icon />
-    </IconButton>
+    />
   );
 }

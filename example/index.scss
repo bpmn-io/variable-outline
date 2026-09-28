@@ -1,9 +1,9 @@
-@use '@carbon/styles';
-
 body {
   margin: 0;
   height: 100vh;
   width: 100vw;
+  color: var(--foreground);
+  background-color: var(--background);
 }
 
 #root {

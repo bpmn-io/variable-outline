@@ -4,72 +4,15 @@
   align-items: center;
   gap: 6px;
   box-sizing: border-box;
-  height: 64px;
-  padding: 8px 12px;
-  background-color: var(--bio-vo-header-bg);
-  border-bottom: 1px solid var(--bio-vo-border-color);
+  // same height and fill as the properties panel header, so the two read as one bar
+  min-height: 64px;
+  padding: 8px 16px;
+  background-color: var(--neutral-background-subtle);
+  border-bottom: 1px solid var(--border);
   top: 0;
 
   .bio-vo-search {
     flex: 1;
     min-width: 0;
-  }
-
-  .cds--search-input {
-    block-size: 32px;
-    border: 1px solid var(--input-border-color, hsl(225, 10%, 75%));
-    border-radius: 2px;
-    background-color: var(--input-background-color, white);
-    font-size: var(--text-size-base, 14px);
-
-    // focus shows as border + background; keep CDS's outline transparent rather
-    // than `none`, which its `outline` transition animates into a blink on blur
-    outline: 2px solid transparent;
-    outline-offset: -2px;
-
-    &::placeholder {
-      color: var(--placeholder-color, hsl(225, 10%, 35%));
-    }
-
-    &:focus {
-      border-color: var(--input-focus-border-color, hsl(205, 100%, 50%));
-      background-color: var(--input-focus-background-color, hsl(205, 100%, 95%));
-    }
-  }
-
-  .cds--search-close {
-    block-size: 32px;
-    border-block-end: none;
-
-    &::before {
-      display: none;
-    }
-  }
-
-  .bio-vo-help {
-    flex-shrink: 0;
-
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      block-size: 32px;
-      inline-size: 32px;
-      padding: 0;
-      background: none;
-      border: none;
-      border-radius: 4px;
-      color: var(--cds-icon-secondary, #525252);
-      cursor: pointer;
-
-      &:hover {
-        background-color: var(--cds-layer-hover, #e8e8e8);
-        color: var(--cds-icon-primary, #161616);
-      }
-    }
-
-    .cds--tooltip-content {
-      max-inline-size: 280px;
-    }
   }
 }

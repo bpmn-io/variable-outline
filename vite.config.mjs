@@ -22,6 +22,7 @@ export default defineConfig({
       external: [
         ...Object.keys(pkg.dependencies),
         ...Object.keys(pkg.peerDependencies),
+        '@camunda/design-system/icons',
         'react/jsx-runtime',
         'react/jsx-dev-runtime'
       ],

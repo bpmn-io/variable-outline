@@ -5,9 +5,9 @@
   gap: 12px;
   box-sizing: border-box;
   height: 32px;
-  padding: 0 4px 0 12px;
-  border-bottom: 1px solid var(--bio-vo-border-color);
-  background-color: var(--bio-vo-header-bg);
+  padding: 0 4px 0 16px;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--neutral-background-subtle);
   flex-shrink: 0;
 
   .bio-vo-filter-bar-actions {
@@ -22,12 +22,6 @@
     display: flex;
     align-items: center;
     gap: 6px;
-
-    .cds--toggle__text {
-      text-decoration: underline;
-      text-decoration-style: dotted;
-      text-underline-offset: 2px;
-    }
   }
 
 }
