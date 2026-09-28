@@ -45,10 +45,10 @@ describe('ValueDisplay', () => {
 
       // then
       await waitFor(() => {
-        const menu = document.body.querySelector('.vd-context-menu');
+        const menu = document.body.querySelector('[role="menu"]');
         expect(menu).to.exist;
 
-        const items = menu.querySelectorAll('.vd-context-menu-item');
+        const items = menu.querySelectorAll('[role="menuitem"]');
         expect(items).to.have.lengthOf(2);
         expect(items[0].textContent).to.eql('Copy path');
         expect(items[1].textContent).to.eql('Copy value');

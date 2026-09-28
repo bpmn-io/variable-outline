@@ -15,7 +15,7 @@
 .variable-scope-group {
 
   &--expanded {
-    border-bottom: 1px solid var(--cds-border-subtle, hsl(225, 10%, 75%));
+    border-bottom: 1px solid var(--border);
   }
 
   .bio-va-element-icon {
@@ -34,22 +34,22 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 8px 16px;
   font-size: 14px;
   line-height: 20px;
   font-weight: 500;
   user-select: none;
   cursor: pointer;
   transition: background-color 0.15s ease;
-  background-color: var(--bio-vo-bg);
-  box-shadow: inset 0 -1px 0 0 var(--cds-border-subtle, hsl(225, 10%, 75%));
+  background-color: var(--neutral-background-subtle);
+  box-shadow: inset 0 -1px 0 0 var(--border);
 
   &:focus-visible {
-    outline: 2px solid var(--cds-focus, #0f62fe);
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--ring);
   }
   &:hover {
-    background-color: var(--cds-layer-hover, #e8e8e8);
+    background-color: var(--neutral-background-medium);
   }
 
 
@@ -57,16 +57,22 @@
     box-shadow: none;
   }
 
-  &--local {
-    background-color: var(--cds-layer-hover, #e8e8e8);
-    border-left: 3px solid var(--cds-border-interactive, #0f62fe);
+  // selected row of the design system TreeView: the selected element's own scope
+  &--local,
+  &--local:hover {
+    background-color: var(--accent-background-subtle);
+
+    .variable-section-name,
+    .variable-section-scope-icon {
+      color: var(--accent-foreground-strong);
+    }
   }
 }
 
 .variable-section-chevron {
   width: 14px;
   height: 14px;
-  color: var(--cds-text-secondary, #6f6f6f);
+  color: var(--neutral-foreground-subtle);
   flex-shrink: 0;
   transition: transform 0.15s ease;
 
@@ -79,7 +85,7 @@
   width: 16px;
   height: 16px;
   flex-shrink: 0;
-  color: var(--cds-text-secondary, #6f6f6f);
+  color: var(--neutral-foreground-subtle);
 }
 
 .variable-section-name {
@@ -88,40 +94,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--bio-vo-text-primary);
+  color: var(--foreground);
 }
 
 .variable-section-count {
-  color: var(--cds-text-secondary, #6f6f6f);
+  color: var(--neutral-foreground-subtle);
   font-weight: 400;
-  font-size: var(--text-size-small);
+  font-size: 12px;
 }
 
-// non-interactive scope badge; intentionally not a Carbon <Tag>, whose
-// truncation tooltip would render a <button> nested inside the header button
 .variable-scope-chip {
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-block-size: 18px;
-  min-inline-size: 32px;
-  max-inline-size: 208px;
-  padding: 0 8px;
-  border-radius: 16px;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: 0.32px;
-  font-weight: 400;
-  white-space: nowrap;
-  background-color: transparent;
-  outline: 1px solid var(--bio-vo-text-muted);
-  color: var(--bio-vo-text-muted);
-
-  &--local {
-    outline-color: var(--cds-tag-color-blue, #0043ce);
-    color: var(--cds-tag-color-blue, #0043ce);
-  }
+  flex-shrink: 0;
 }
 
 .variable-row {
@@ -131,20 +114,20 @@
 
   &--expanded {
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--cds-border-subtle, hsl(225, 10%, 75%));
+    border-bottom: 1px solid var(--border);
   }
 }
 
 .variable-row-header {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--cds-border-subtle, hsl(225, 10%, 75%));
+  border-bottom: 1px solid var(--border);
   cursor: pointer;
   user-select: none;
-  background-color: var(--bio-vo-bg);
+  background-color: var(--neutral-background-subtle);
 
   &:hover {
-    background-color: var(--cds-layer-hover, #e8e8e8);
+    background-color: var(--neutral-background-medium);
 
     .variable-copy-button {
       opacity: 1;
@@ -153,7 +136,7 @@
 
   .variable-row--expanded & {
     position: sticky;
-    top: 32px;
+    top: 36px;
     z-index: 1;
     border-bottom: none;
   }
@@ -167,21 +150,21 @@
   gap: 8px;
   flex: 1;
   min-width: 0;
-  padding: 10px 0 10px 24px;
+  padding: 9px 0 9px 28px;
   margin: 0;
   cursor: pointer;
   text-align: left;
 
   &:focus-visible {
-    outline: 2px solid var(--cds-focus, #0f62fe);
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--ring);
   }
 }
 
 .variable-row-chevron {
   width: 14px;
   height: 14px;
-  color: var(--cds-text-secondary, #6f6f6f);
+  color: var(--neutral-foreground-subtle);
   flex-shrink: 0;
   transition: transform 0.15s ease;
 
@@ -207,18 +190,17 @@
   padding: 4px 12px 4px 10px;
   font-size: 13px;
   margin-top: 10px;
-  margin-left: 30px;
-  background-color: var(--bio-vo-bg);
-  border-left: 2px solid var(--cds-border-subtle, #e0e0e0);
+  margin-left: 34px;
+  border-left: 2px solid var(--border);
 }
 
 .variable-name {
   display: block;
-  font-family: var(--font-family-monospace);
+  font-family: var(--font-mono);
   font-size: 13px;
   line-height: 18px;
   font-weight: 400;
-  color: var(--bio-vo-text-primary);
+  color: var(--foreground);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -230,48 +212,33 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--bio-vo-text-muted);
-  border-radius: 9999px;
-  padding: 2px;
-  height: 16px;
-  width: 16px;
   flex-shrink: 0;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  padding: 2px;
+  border: 1px solid var(--neutral-foreground-subtle);
+  border-radius: 9999px;
+  color: var(--neutral-foreground-subtle);
 
   svg {
     width: 10px;
     height: 10px;
-    fill: var(--bio-vo-text-muted);
   }
 }
 
-.variable-copy-button.cds--btn--icon-only {
-  position: relative;
+// revealed on row hover; stays visible while focused or just copied
+.variable-copy-button {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
+  flex-shrink: 0;
+  margin-right: 4px;
   opacity: 0;
   transition: opacity 0.15s ease;
-  cursor: pointer;
-  flex-shrink: 0;
-  padding: 0;
 
-  &:focus-visible {
-    opacity: 1;
-    outline: 2px solid var(--cds-focus, #0f62fe);
-    outline-offset: -1px;
-  }
-
+  &:focus-within,
   &--copied {
     opacity: 1;
-    color: var(--cds-support-success, #198038);
   }
-}
-
-.variable-copy-icon {
-  width: 16px;
-  height: 16px;
 }
 
 
@@ -284,13 +251,16 @@
 
   &--inline {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 4px;
 
+    .variable-detail-label-icon {
+      flex-shrink: 0;
+    }
+
     .variable-detail-label-text {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--bio-vo-text-secondary);
+      flex-shrink: 0;
+      white-space: nowrap;
     }
   }
 }
@@ -300,12 +270,13 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--bio-vo-text-secondary);
+  color: var(--neutral-foreground-subtle);
   margin-bottom: 6px;
 
   &--collapsible {
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    font-weight: var(--font-weight-normal);
     text-align: left;
     width: 100%;
     cursor: pointer;
@@ -314,12 +285,13 @@
     margin-bottom: 0;
 
     &:hover {
-      color: var(--bio-vo-text-primary);
+      color: var(--foreground);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--cds-focus, #0f62fe);
-      outline-offset: 2px;
+      outline: none;
+      border-radius: var(--radius-xs);
+      box-shadow: 0 0 0 2px var(--ring);
     }
   }
 }
@@ -346,69 +318,60 @@
 }
 
 
+// the design system Link is always blue; these entries stay neutral until hovered
 .variable-element-entry {
-  all: unset;
   display: block;
   width: 100%;
-  padding: 5px 10px;
-  font-size: 13px;
-  cursor: pointer;
-  box-sizing: border-box;
-  background-color: var(--bio-vo-bg);
+  padding: 5px 10px 5px 13px;
   margin-bottom: 2px;
-  color: var(--bio-vo-text-primary);
+  box-sizing: border-box;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  color: var(--foreground);
   text-decoration: underline;
-  transition: background-color 0.1s ease;
-  border-left: 3px solid transparent;
+  cursor: pointer;
 
   &:hover {
-    background-color: var(--cds-layer-hover, #e0e0e0);
-    color: var(--cds-link-primary, #0f62fe);
+    background-color: var(--neutral-background-medium);
+    color: var(--info-action-default);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--cds-focus, #0f62fe);
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--ring);
   }
 
-  &--selected {
-    background-color: var(--cds-layer-hover, #e0e0e0);
-    border-left-color: var(--cds-focus, #0f62fe);
+  // selected row of the design system TreeView
+  &--selected,
+  &--selected:hover {
+    background-color: var(--accent-background-subtle);
+    color: var(--accent-foreground-strong);
     text-decoration: none;
     cursor: default;
-
-    &:hover {
-      color: var(--bio-vo-text-primary);
-    }
   }
 
   &--inline {
     display: inline;
     width: auto;
-    background-color: transparent;
     padding: 0;
     margin-bottom: 0;
-    border-left: none;
 
     &:hover {
       background-color: transparent;
-      color: var(--cds-link-primary, #0f62fe);
     }
 
     &.variable-element-entry--selected {
-      text-decoration: none;
-      cursor: default;
-
-      &:hover {
-        color: var(--bio-vo-text-primary);
-      }
+      background-color: transparent;
     }
   }
 }
 
 
 .vd-root {
-  color: var(--bio-vo-text-primary);
+  color: var(--foreground);
 }
 
 .vd-codemirror {
@@ -427,13 +390,13 @@
 .vd-fold-placeholder {
   display: inline;
   padding: 0 4px;
-  border-radius: 2px;
-  color: var(--cds-text-helper, #a8a8a8);
-  background-color: var(--bio-vo-bg);
+  border-radius: var(--radius-xs);
+  color: var(--neutral-foreground-subtle);
+  background-color: var(--background);
   cursor: pointer;
 
   &:hover {
-    background-color: var(--cds-layer-hover, #e8e8e8);
+    background-color: var(--neutral-background-medium);
   }
 }
 
@@ -441,7 +404,7 @@
   display: inline-flex;
   align-items: center;
   margin-right: 4px;
-  color: var(--cds-text-secondary, #525252);
+  color: var(--neutral-foreground-subtle);
   vertical-align: middle;
 
   svg {
@@ -464,74 +427,33 @@
   justify-content: center;
   width: 20px;
   height: 20px;
-  color: var(--cds-icon-secondary, #525252);
+  color: var(--neutral-foreground-subtle);
   font-size: 16px;
   line-height: 1;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 
   &:hover, &--active {
-    color: var(--bio-vo-text-primary);
-    background: var(--cds-layer-hover, #e8e8e8);
+    color: var(--foreground);
+    background: var(--neutral-background-medium);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--cds-focus, #0f62fe);
-  }
-}
-
-.vd-context-menu {
-  --bio-vo-context-menu-background-color: #ffffff;
-  --bio-vo-context-menu-item-hover-background-color: hsl(225, 10%, 95%);
-  --bio-vo-context-menu-separator-background-color: hsl(225, 10%, 75%);
-  --bio-vo-context-menu-shadow-color-1: hsl(225, 10%, 85%);
-  --bio-vo-context-menu-shadow-color-2: hsl(225, 10%, 75%);
-  --text-size-small: 12px;
-  --text-size-base: 14px;
-  --bio-vo-text-primary: #22242A;
-
-  position: fixed;
-  z-index: 9999;
-  background-color: var(--bio-vo-context-menu-background-color);
-  box-shadow:
-    0 1px 4px 0 var(--bio-vo-context-menu-shadow-color-1),
-    0 2px 16px 0 var(--bio-vo-context-menu-shadow-color-2);
-  padding: 8px 0;
-  min-width: 140px;
-  font-family: inherit;
-  font-size: var(--text-size-small);
-}
-
-.vd-context-menu-item {
-  all: unset;
-  display: block;
-  width: 100%;
-  padding: 4px 12px;
-  cursor: pointer;
-  color: var(--bio-vo-text-primary);
-  box-sizing: border-box;
-  font-size: var(--text-size-base);
-
-  &:hover {
-    background-color: var(--bio-vo-context-menu-item-hover-background-color);
-  }
-
-  &:focus {
-    background-color: var(--bio-vo-context-menu-item-hover-background-color);
     outline: none;
+    box-shadow: 0 0 0 2px var(--ring);
   }
 }
 
 .vd-foldable-key {
   cursor: pointer;
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
 
   &:hover {
-    background: var(--cds-layer-hover, #e8e8e8);
+    background: var(--neutral-background-medium);
   }
 }
 
 .vd-active-token {
-  background: var(--cds-highlight, #e5f6ff);
-  border-radius: 2px;
-  outline: 1px solid var(--cds-focus, #0f62fe);
+  background: var(--accent-background-subtle);
+  border-radius: var(--radius-xs);
+  outline: 1px solid var(--accent-action-default);
 }

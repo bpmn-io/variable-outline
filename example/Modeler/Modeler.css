@@ -8,12 +8,12 @@
 }
 
 .modeler {
-  border-right: 1px solid #ccc;
+  border-right: 1px solid var(--border);
 }
 
 .VerticalResizeHandle {
   height: 100%;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
 }
 
 .properties {

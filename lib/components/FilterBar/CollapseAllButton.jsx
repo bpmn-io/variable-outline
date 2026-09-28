@@ -1,25 +1,29 @@
 import { useContext } from 'react';
-import { CollapseAll, ExpandAll } from '@carbon/icons-react';
-import { IconButton } from '@carbon/react';
+import { IconButton } from '@camunda/design-system';
+import { FoldVertical, UnfoldVertical } from '@camunda/design-system/icons';
 
 import { ScopeExpandContext } from '../../context/ScopeExpandContext';
 
 export default function CollapseAllButton() {
   const { allCollapsed, collapseAll, expandAll } = useContext(ScopeExpandContext);
 
-  const Icon = allCollapsed ? ExpandAll : CollapseAll;
-  const label = allCollapsed ? 'Expand all' : 'Collapse all';
-
   return (
     <IconButton
-      kind="ghost"
-      size="sm"
-      label={ label }
-      aria-label={ label }
-      align="left"
+      variant="ghost"
+      size="xs"
+      label={ allCollapsed ? 'Expand all' : 'Collapse all' }
+      tooltipSide="left"
+      icon={ allCollapsed ? UnfoldIcon : FoldIcon }
       onClick={ allCollapsed ? expandAll : collapseAll }
-    >
-      <Icon />
-    </IconButton>
+    />
   );
+}
+
+// `xs` buttons shrink icons to 12px, too small for the fold icon's detail
+function FoldIcon(props) {
+  return <FoldVertical { ...props } className="size-4" />;
+}
+
+function UnfoldIcon(props) {
+  return <UnfoldVertical { ...props } className="size-4" />;
 }

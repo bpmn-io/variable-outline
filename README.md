@@ -11,6 +11,7 @@ Simply add the component to your existing React application and pass the bpmn-js
 
 ```js
 import VariableOutline from '@bpmn-io/variable-outline';
+import '@camunda/design-system/styles.css';
 import '@bpmn-io/variable-outline/dist/variable-outline.css';
 
 export function MyComponent(props) {
@@ -30,13 +31,9 @@ export function MyComponent(props) {
 > selects the element. Fields contributed by element templates additionally need
 > `bpmn-js-element-templates@>=2.29.0`.
 
-### Using Carbon Styles
+### Design System
 > [!NOTE]
-> This library does not include `@carbon` styles. If you need them, you must import them into your existing SCSS file:
-
-```scss
-@use '@carbon/styles';
-```
+> The component is built on [`@camunda/design-system`](https://github.com/camunda/design-system), a required peer dependency. The host application loads its stylesheet, `@camunda/design-system/styles.css`, once.
 
 ## Development
 

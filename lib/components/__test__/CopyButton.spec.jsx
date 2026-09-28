@@ -18,14 +18,14 @@ describe('#CopyButton tracking', () => {
       configurable: true
     });
 
-    const { container } = render(
+    const { getByRole } = render(
       <CopyButton text="myVariable" />,
       { wrapper: createWrapper(trackSpy) }
     );
 
     // when
     await act(async () => {
-      fireEvent.click(container.querySelector('.variable-copy-button'));
+      fireEvent.click(getByRole('button', { name: 'Copy variable name' }));
     });
 
     // then

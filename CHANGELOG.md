@@ -6,6 +6,13 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: re-build on `@camunda/design-system` components and style tokens
+
+### Breaking Changes
+
+* Requires `@camunda/design-system@>=0.63.0` as a peer dependency. The host must load `@camunda/design-system/styles.css`.
+* The package's own CSS variables are removed; use the design system tokens instead.
+
 ## 3.3.2
 
 * `FIX`: render scope badge as non-interactive span ([#106](https://github.com/bpmn-io/variable-outline/pull/106))
