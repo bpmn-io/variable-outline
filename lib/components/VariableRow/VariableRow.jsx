@@ -1,6 +1,7 @@
-import { ChevronRight, Code, Edit, View } from '@carbon/icons-react';
-import { Tooltip } from '@carbon/react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger, Text } from '@camunda/design-system';
+import { ChevronRight, Code, Eye, PencilLine } from '@camunda/design-system/icons';
 
+import Tooltip from '../Tooltip';
 import CopyButton from '../CopyButton';
 import ValueDisplay from './ValueDisplay';
 import ElementEntry from './ElementEntry';
@@ -26,87 +27,84 @@ export default function VariableRow({ variable, isSelectedOrigin, expanded, onTo
     ? `Written by ${singleWriterName}`
     : `Written by ${writeCount} elements`;
   return (
-    <div className={ `variable-row${expanded ? ' variable-row--expanded' : ''}` }>
+    <Collapsible
+      open={ expanded }
+      onOpenChange={ onToggle }
+      className={ `variable-row${expanded ? ' variable-row--expanded' : ''}` }
+    >
       <div className="variable-row-header">
-        <button
-          className="variable-row-toggle"
-          type="button"
-          onClick={ onToggle }
-          aria-expanded={ expanded }
-        >
+        <CollapsibleTrigger className="variable-row-toggle">
           <ChevronRight className={ `variable-row-chevron${expanded ? ' variable-row-chevron--expanded' : ''}` } />
           <div className="variable-row-content">
             <div className="variable-row-info">
               <span className="variable-name">{ variable.name }</span>
 
               { isSelectedOrigin && (
-                <Tooltip label="This variable is written by current selection." align="bottom" autoAlign>
+                <Tooltip label="This variable is written by current selection.">
                   <span className="variable-written-tag">
-                    <Edit />
+                    <PencilLine aria-hidden="true" />
                   </span>
                 </Tooltip>
               ) }
             </div>
           </div>
-        </button>
+        </CollapsibleTrigger>
 
         <CopyButton text={ variable.name } />
       </div>
-      { expanded && (
-        <div className="variable-row-details">
-          { writeCount === 1 ? (
-            <div className="variable-detail-section variable-detail-section--inline">
-              <Edit className="variable-detail-label-icon" />
-              <span className="variable-detail-label-text">Written by</span>
-              <ElementEntry element={ writers[0] } variableName={ variable.name } inline />
+      <CollapsibleContent className="variable-row-details">
+        { writeCount === 1 ? (
+          <div className="variable-detail-section variable-detail-section--inline">
+            <PencilLine className="variable-detail-label-icon" />
+            <Text variant="helper" className="variable-detail-label-text">Written by</Text>
+            <ElementEntry element={ writers[0] } variableName={ variable.name } inline />
+          </div>
+        ) : (
+          <CollapsibleDetailSection
+            label={ writtenByTitle }
+            onMouseEnter={ highlightWriters }
+            onMouseLeave={ clearWriters }
+          >
+            { writers.map(o => (
+              <ElementEntry key={ o.id } element={ o } variableName={ variable.name } />
+            )) }
+          </CollapsibleDetailSection>
+        ) }
+        { readCount > 0 && (readCount === 1 ? (
+          <div className="variable-detail-section variable-detail-section--inline">
+            <Eye className="variable-detail-label-icon" />
+            <Text variant="helper" className="variable-detail-label-text">Used by</Text>
+            <ElementEntry element={ readers[0] } inline />
+          </div>
+        ) : (
+          <CollapsibleDetailSection
+            label={ `Used by ${readCount} elements` }
+            onMouseEnter={ highlightReaders }
+            onMouseLeave={ clearReaders }
+          >
+            { readers.map(r => (
+              <ElementEntry key={ r.id } element={ r } />
+            )) }
+          </CollapsibleDetailSection>
+        )) }
+        { (variable.type || variable.info || variable.entries?.length > 0) && (
+          <div className="variable-detail-section">
+            <div className="variable-detail-label">
+              <Code className="variable-detail-label-icon" />
+              <Tooltip label="This is a merged representation.">
+                <Text variant="helper" className="bio-vo-has-tooltip">Value</Text>
+              </Tooltip>
             </div>
-          ) : (
-            <CollapsibleDetailSection
-              label={ writtenByTitle }
-              onMouseEnter={ highlightWriters }
-              onMouseLeave={ clearWriters }
-            >
-              { writers.map(o => (
-                <ElementEntry key={ o.id } element={ o } variableName={ variable.name } />
-              )) }
-            </CollapsibleDetailSection>
-          ) }
-          { readCount > 0 && (readCount === 1 ? (
-            <div className="variable-detail-section variable-detail-section--inline">
-              <View className="variable-detail-label-icon" />
-              <span className="variable-detail-label-text">Used by</span>
-              <ElementEntry element={ readers[0] } inline />
-            </div>
-          ) : (
-            <CollapsibleDetailSection
-              label={ `Used by ${readCount} elements` }
-              onMouseEnter={ highlightReaders }
-              onMouseLeave={ clearReaders }
-            >
-              { readers.map(r => (
-                <ElementEntry key={ r.id } element={ r } />
-              )) }
-            </CollapsibleDetailSection>
-          )) }
-          { (variable.type || variable.info || variable.entries?.length > 0) && (
-            <div className="variable-detail-section">
-              <div className="variable-detail-label">
-                <Code className="variable-detail-label-icon" />
-                <Tooltip className="bio-vo-tooltip-wrapper" label="This is a merged representation." align="bottom" autoAlign>
-                  <span>Value</span>
-                </Tooltip>
-              </div>
-              <ValueDisplay
-                info={ variable.info }
-                type={ variable.type }
-                entries={ variable.entries }
-                isList={ variable.isList }
-                variableName={ variable.name }
-              />
-            </div>
-          ) }
-        </div>
-      ) }
-    </div>
+            <ValueDisplay
+              info={ variable.info }
+              type={ variable.type }
+              entries={ variable.entries }
+              isList={ variable.isList }
+              variableName={ variable.name }
+            />
+          </div>
+        ) }
+      </CollapsibleContent>
+    </Collapsible>
   );
 }

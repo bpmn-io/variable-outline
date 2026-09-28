@@ -1,32 +1,32 @@
 .bio-vo-filter-bar {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
   box-sizing: border-box;
-  height: 32px;
-  padding: 0 4px 0 12px;
-  border-bottom: 1px solid var(--bio-vo-border-color);
-  background-color: var(--bio-vo-header-bg);
+  height: 37px;
+  padding: 0 4px 0 16px;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--neutral-background-subtle);
   flex-shrink: 0;
 
   .bio-vo-filter-bar-actions {
     display: flex;
     align-items: center;
     gap: 6px;
-    flex: 1 0 auto;
-    min-width: fit-content;
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .bio-vo-written-only-toggle {
     display: flex;
     align-items: center;
     gap: 6px;
+    min-width: 0;
 
-    .cds--toggle__text {
-      text-decoration: underline;
-      text-decoration-style: dotted;
-      text-underline-offset: 2px;
+    label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 

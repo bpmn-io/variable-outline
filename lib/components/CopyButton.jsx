@@ -1,5 +1,6 @@
-import { Copy, Checkmark } from '@carbon/icons-react';
-import { IconButton } from '@carbon/react';
+import { IconButton } from '@camunda/design-system';
+import { Check, Copy } from '@camunda/design-system/icons';
+
 import useClipboardCopy from '../hooks/useClipboardCopy';
 import useTracking from '../hooks/useTracking';
 
@@ -13,23 +14,19 @@ export default function CopyButton({ text }) {
   };
 
   return (
-    <IconButton
-      kind="ghost"
-      size="sm"
-      label="Copy variable name"
-      aria-label="Copy variable name"
-      align="left"
-      className={ `variable-copy-button${ copied ? ' variable-copy-button--copied' : '' }` }
-      onClick={ handleClick }
-    >
-      <span aria-live="polite" className="visually-hidden">
+    <span className={ `variable-copy-button${ copied ? ' variable-copy-button--copied' : '' }` }>
+      <span aria-live="polite" className="sr-only">
         { copied ? 'Copied to clipboard!' : '' }
       </span>
 
-      { copied
-        ? <Checkmark className="variable-copy-icon" />
-        : <Copy className="variable-copy-icon" />
-      }
-    </IconButton>
+      <IconButton
+        variant="ghost"
+        size="xs"
+        label="Copy variable name"
+        tooltipSide="left"
+        icon={ copied ? Check : Copy }
+        onClick={ handleClick }
+      />
+    </span>
   );
 }

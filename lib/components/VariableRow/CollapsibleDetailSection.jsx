@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { ChevronRight } from '@carbon/icons-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@camunda/design-system';
+import { ChevronRight } from '@camunda/design-system/icons';
 
 export default function CollapsibleDetailSection({
   label,
@@ -11,25 +12,23 @@ export default function CollapsibleDetailSection({
 
   const [ expanded, setExpanded ] = useState(defaultExpanded);
 
-  const toggleExpanded = () => setExpanded(!expanded);
-
   return (
-    <div className={ `variable-detail-section${!expanded ? ' variable-detail-section--collapsed' : ''}` }>
-      <button
-        type="button"
+    <Collapsible
+      open={ expanded }
+      onOpenChange={ setExpanded }
+      className={ `variable-detail-section${!expanded ? ' variable-detail-section--collapsed' : ''}` }
+    >
+      <CollapsibleTrigger
         className="variable-detail-label variable-detail-label--collapsible"
-        onClick={ toggleExpanded }
         onMouseEnter={ onMouseEnter }
         onMouseLeave={ onMouseLeave }
       >
         <ChevronRight className={ `variable-detail-chevron${!expanded ? '' : ' variable-detail-chevron--expanded'}` } />
         { label }
-      </button>
-      { expanded && (
-        <div className="variable-detail-content">
-          { children }
-        </div>
-      ) }
-    </div>
+      </CollapsibleTrigger>
+      <CollapsibleContent className="variable-detail-content">
+        { children }
+      </CollapsibleContent>
+    </Collapsible>
   );
 }

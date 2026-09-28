@@ -28,10 +28,9 @@ describe('#useContextMenuBehavior tracking', () => {
 
     const menuState = { anchorPos: 0, rect: { bottom: 0, right: 0 } };
     const view = createMockView();
-    const onClose = vi.fn();
 
     const { result } = renderHook(
-      () => useContextMenuBehavior({ menuState, view, rootVariableName: 'myVar', onClose }),
+      () => useContextMenuBehavior({ menuState, view, rootVariableName: 'myVar' }),
       { wrapper: createWrapper(trackSpy) }
     );
 
@@ -60,10 +59,9 @@ describe('#useContextMenuBehavior tracking', () => {
 
     const menuState = { anchorPos: 0, rect: { bottom: 0, right: 0 } };
     const view = createMockView();
-    const onClose = vi.fn();
 
     const { result } = renderHook(
-      () => useContextMenuBehavior({ menuState, view, rootVariableName: 'myVar', onClose }),
+      () => useContextMenuBehavior({ menuState, view, rootVariableName: 'myVar' }),
       { wrapper: createWrapper(trackSpy) }
     );
 
