@@ -53,6 +53,12 @@ export default [
       files: files.jsx
     };
   }),
+  {
+    settings: {
+      react: { version: 'detect' }
+    },
+    files: files.jsx
+  },
 
   // test
   ...bpmnIoPlugin.configs.mocha.map(config => {
