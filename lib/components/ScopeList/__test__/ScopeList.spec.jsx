@@ -260,7 +260,7 @@ describe('lib/components/ScopeList', () => {
 
       // when
       await act(async () => {
-        fireEvent.click(copyButton);
+        fireEvent.click(copyButton.querySelector('button'));
       });
 
       // then

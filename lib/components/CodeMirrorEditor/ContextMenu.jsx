@@ -1,38 +1,34 @@
-import ReactDOM from 'react-dom';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@camunda/design-system';
+
 import useContextMenuBehavior from '../../hooks/useContextMenuBehavior';
 
 export function ContextMenu({ menuState, view, rootVariableName, onClose }) {
-  const { menuRef, firstItemRef, copyPath, copyValue, style } = useContextMenuBehavior({
-    menuState, view, rootVariableName, onClose
+  const { copyPath, copyValue, style } = useContextMenuBehavior({
+    menuState, view, rootVariableName
   });
 
   if (!menuState) return null;
 
-  return ReactDOM.createPortal(
-    <div
-      className="vd-context-menu"
-      style={ style }
-      ref={ menuRef }
-      role="menu"
-    >
-      <button
-        className="vd-context-menu-item"
-        onClick={ copyPath }
-        role="menuitem"
-        type="button"
-        ref={ firstItemRef }
+  return (
+    <DropdownMenu open onOpenChange={ open => !open && onClose() }>
+      <DropdownMenuTrigger asChild>
+        <span aria-hidden="true" style={ style } />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        onCloseAutoFocus={ event => {
+          event.preventDefault();
+          view.focus();
+        } }
       >
-        Copy path
-      </button>
-      <button
-        className="vd-context-menu-item"
-        onClick={ copyValue }
-        role="menuitem"
-        type="button"
-      >
-        Copy value
-      </button>
-    </div>,
-    document.body
+        <DropdownMenuItem onSelect={ copyPath }>Copy path</DropdownMenuItem>
+        <DropdownMenuItem onSelect={ copyValue }>Copy value</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

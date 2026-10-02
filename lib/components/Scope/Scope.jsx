@@ -1,4 +1,5 @@
-import { ChevronRight } from '@carbon/icons-react';
+import { Badge, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@camunda/design-system';
+import { ChevronRight } from '@camunda/design-system/icons';
 
 import VariableRow from '../VariableRow';
 import { getSVGComponent } from '../BpmnIcon';
@@ -42,30 +43,30 @@ export default function Scope({ scopeName, scope, variables, defaultExpanded = t
   });
 
   return (
-    <div className={ `variable-scope-group${expanded ? ' variable-scope-group--expanded' : ''}${isLocal ? ' variable-scope-group--local' : ''}` }>
-      <button
-        type="button"
+    <Collapsible
+      open={ expanded }
+      onOpenChange={ toggleExpanded }
+      className={ `variable-scope-group${expanded ? ' variable-scope-group--expanded' : ''}${isLocal ? ' variable-scope-group--local' : ''}` }
+    >
+      <CollapsibleTrigger
         className={ `variable-section-header${expanded ? ' variable-section-header--expanded' : ' variable-section-header--collapsed'}${isLocal ? ' variable-section-header--local' : ''}` }
-        onClick={ toggleExpanded }
-        aria-expanded={ expanded }
       >
         <ChevronRight className={ `variable-section-chevron${!expanded ? '' : ' variable-section-chevron--expanded'}` } />
 
         { ScopeIcon && <ScopeIcon className="variable-section-scope-icon" /> }
         <span className="variable-section-name">{ scopeName }</span>
-        <span
-          className={ `variable-scope-chip${scopeType === 'local' ? ' variable-scope-chip--local' : ''}` }
+        <Badge
+          className="variable-scope-chip"
+          variant={ scopeType === 'local' ? 'info' : 'neutral' }
         >
           { scopeType === 'root' ? 'Root' : scopeType === 'local' ? 'Local' : 'Parent' }
-        </span>
+        </Badge>
         <span className="variable-section-count">{ variables.length }</span>
-      </button>
+      </CollapsibleTrigger>
 
-      { expanded && (
-        <div className={ `variable-scope-rows${isLocal ? ' variable-scope-rows--local' : ''}` }>
-          { rows }
-        </div>
-      ) }
-    </div>
+      <CollapsibleContent className={ `variable-scope-rows${isLocal ? ' variable-scope-rows--local' : ''}` }>
+        { rows }
+      </CollapsibleContent>
+    </Collapsible>
   );
 }
