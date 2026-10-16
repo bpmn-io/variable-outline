@@ -6,6 +6,10 @@ All notable changes to the [@bpmn-io/variable-outline](https://github.com/bpmn-i
 
 ___Note:__ Yet to be released changes appear here._
 
+# 4.0.1
+
+* `FIX`: show the variable groups as white surfaces on the page background ([#108](https://github.com/bpmn-io/variable-outline/pull/108))
+
 # 4.0.0
 
 * `FEAT`: re-build on `@camunda/design-system` components and style tokens
