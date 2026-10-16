@@ -2,6 +2,9 @@ import BpmnJS from 'camunda-bpmn-js/lib/camunda-cloud/Modeler';
 
 import 'camunda-bpmn-js/dist/assets/camunda-cloud-modeler.css';
 
+// after the library styles it adapts
+import '@bpmn-io/c4-theme/assets/all.css';
+
 import { useEffect, useRef } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import './Modeler.css';
